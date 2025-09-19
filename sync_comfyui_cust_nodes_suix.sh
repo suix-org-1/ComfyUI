@@ -40,8 +40,8 @@ else
 fi
 
 # === 运行主程序 ===
-if [ -f "sync_comfyui_cust_nodes.py" ]; then
-    echo "🚀 开始执行 sync_comfyui_cust_nodes.py ..."
+if [ -f "sync_comfyui_cust_nodes_suix.py" ]; then
+    echo "🚀 开始执行 sync_comfyui_cust_nodes_suix.py ..."
     python3 sync_comfyui_cust_nodes_suix.py
     EXIT_CODE=$?
     if [ $EXIT_CODE -eq 0 ]; then
@@ -51,6 +51,6 @@ if [ -f "sync_comfyui_cust_nodes.py" ]; then
         exit $EXIT_CODE
     fi
 else
-    echo "❌ 找不到 Python 脚本: sync_comfyui_cust_nodes.py"
+    echo "❌ 找不到 Python 脚本: sync_comfyui_cust_nodes_suix.py"
     exit 1
 fi
