@@ -42,7 +42,7 @@ fi
 # === 运行主程序 ===
 if [ -f "sync_comfyui_cust_nodes.py" ]; then
     echo "🚀 开始执行 sync_comfyui_cust_nodes.py ..."
-    python3 sync_comfyui_cust_nodes.py
+    python3 sync_comfyui_cust_nodes_suix.py
     EXIT_CODE=$?
     if [ $EXIT_CODE -eq 0 ]; then
         echo "🎉 脚本执行成功！"
