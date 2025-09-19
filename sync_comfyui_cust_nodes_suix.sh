@@ -2,7 +2,7 @@
 
 # === 获取脚本所在目录 ===
 export COMFYUI_REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CUSTOM_NODES_DIR="$COMFYUI_REPO_DIR/custom_nodes"
+export CUSTOM_NODES_DIR="$COMFYUI_REPO_DIR/custom_nodes"
 
 # === 参数解析 ===
 CLEAN_NODES=false
