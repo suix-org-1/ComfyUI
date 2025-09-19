@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Loader</title>
+    <link rel="stylesheet" href="./static/css/index.css" />
+    <link rel="stylesheet" href="./static/css/iconfont.css" />
+    <script src="./static/js/vue.js"></script>
+    <script src="./static/js/vuex.js"></script>
+    <script src="./static/js/vue-router.js"></script>
+    <script src="./static/js/vue-i18n.js"></script>
+    <script src="./components/left/index.js"></script>
+  </head>
+  <body>
+    <div id="loader_page" class="loader_page">
+      <Left></Left>
+      <router-view></router-view>
+    </div>
+    <script type="module">
+      import router from "./router/index.js";
+      import message from "./static/js/i18n.js";
+      import store from "./store/index.js";
+      import "./static/js/message.js";
+      import "./static/js/confirm.js";
+      let waitForParent = async () => {
+        while (window.parent?.graph === undefined || window.parent?.graph === null) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+      };
+      await waitForParent();
+      
+      Vue.use(VueI18n);
+      Vue.mixin({
+        computed: {
+          graph() {
+            return window.parent.graph;
+          },
+          nodeId: {
+            get() {
+              return this.$store.state.prop.nodeId;
+            },
+            set(nodeId) {
+              this.$store.commit("prop/setNodeId", nodeId);
+            },
+          },
+          node: {
+            get() {
+              return this.graph.getNodeById(this.nodeId);
+            },
+            set(node) {
+              if (node && node.id) this.nodeId = node.id;
+              else this.nodeId = null;
+            },
+          },
+          renderer: {
+            get() {
+              return this.$store.state.prop.renderer;
+            },
+            set(renderer) {
+              this.$store.commit("prop/setRenderer", renderer);
+            },
+          },
+        },
+      });
+      var i18n = new VueI18n({
+        locale: "cn",
+        fallbackLocale: "cn",
+        messages: message,
+      });
+      const vm = new Vue({ i18n, router, store }).$mount("#loader_page");
+      // for litegraph btn translate
+      window.parent.CSvm = vm;
+      window.CSvm = vm;
+      window.onload = () => {
+        const isWindowing = localStorage.getItem("windowing");
+        if (isWindowing === "noFull") {
+          document.getElementById("loader_page").classList.add("windowing");
+        }
+      };
+    </script>
+  </body>
+</html>

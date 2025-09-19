@@ -1,0 +1,288 @@
+.workflow {
+  padding: 0.5vw;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #1f1f1f;
+  border-radius: 0.5vw;
+  margin-bottom: 0.3vw;
+}
+.workflow .workflow_content {
+  display: flex;
+  height: 50%;
+  flex-direction: column;
+  flex: 1;
+}
+.workflow .workflow_content .search_area {
+  position: relative;
+}
+.workflow .workflow_content .search_area .search {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: #383838;
+  height: 1.6vw;
+  min-height: 32px;
+  border-radius: 5px;
+}
+.workflow .workflow_content .search_area .search input {
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  outline: none;
+  border: none;
+  color: #c4c4c4;
+  padding: 0 0.5vw;
+}
+.workflow .workflow_content .search_area .search span {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.3vw;
+  height: 100%;
+  cursor: pointer;
+}
+.workflow .workflow_content .search_area .search span em {
+  color: #c4c4c4;
+}
+.workflow .workflow_content .search_area .search span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(-100%, -50%);
+  width: 0.2vw;
+  height: 70%;
+  background: #1f1f1f;
+  border-radius: 1vw;
+}
+.workflow .workflow_content .search_area .search span:hover em {
+  color: #2a82e4;
+}
+.workflow .workflow_content .search_area .search_key {
+  width: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 0;
+  top: 0;
+  height: 1.6vw;
+  min-height: 32px;
+  background: #808080;
+  border-radius: 5px;
+  padding: 0 0.5vw;
+  transition: 0.3s;
+}
+.workflow .workflow_content .search_area .search_key p {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.8rem;
+}
+.workflow .workflow_content .search_area:hover .search_key {
+  visibility: hidden;
+  opacity: 0;
+}
+.workflow .workflow_content .workflow_list {
+  margin-top: 0.5vw;
+  flex: 1;
+  display: grid;
+  grid-gap: 0.3vw;
+  grid-auto-rows: 2.4vw;
+  overflow-y: auto;
+  padding: 0 4px 5px 0;
+}
+.workflow .workflow_content .workflow_list .workflow_item {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #3d3d3d;
+  background: #262626;
+  border-radius: 0.3vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ffffff;
+  padding: 0 1vw;
+  transition: 0.3s;
+}
+.workflow .workflow_content .workflow_list .workflow_item .name {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.workflow .workflow_content .workflow_list .workflow_item .option {
+  display: none;
+}
+.workflow .workflow_content .workflow_list .workflow_item .option em {
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-left: 0.1vw;
+}
+.workflow .workflow_content .workflow_list .workflow_item:hover {
+  background: #383838;
+}
+.workflow .workflow_content .workflow_list .workflow_item:hover .option {
+  display: block;
+}
+.workflow .workflow_content .workflow_list::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+.workflow .workflow_content .workflow_list::-webkit-scrollbar-thumb:vertical {
+  border-radius: 20px;
+  background: #808080;
+}
+.workflow .workflow_content .empty_list {
+  margin-top: 0.5vw;
+  flex: 1;
+}
+.workflow .workflow_content button {
+  margin-top: 5px;
+  width: 100%;
+  height: 2.1vw;
+  border-radius: 0.3vw;
+  font-weight: bold;
+  font-size: 1.1rem;
+  background: #383838;
+  transition: 0.3s;
+  color: #ffffff;
+}
+.workflow .workflow_content button:hover {
+  background: #2a82e4;
+}
+.workflow .form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: #181818a2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.workflow .form .form_content {
+  width: 100%;
+  height: 13.9vw;
+  background: #1a1b1c;
+  border-radius: 0.5vw;
+  box-shadow: 0 0 5px 1px #60606084;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.workflow .form .form_content p {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+.workflow .form .form_content .input_area {
+  margin: 1vw 0 2.2vw 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.workflow .form .form_content .input_area input {
+  width: 18vw;
+  height: 1.6vw;
+  min-height: 32px;
+  color: #ffffff;
+  font-weight: bold;
+  background: #383838;
+  font-size: 1.2rem;
+  border-radius: 2vw;
+  padding: 0 0.7vw;
+}
+.workflow .form .form_content .input_area .show_clear {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.workflow .form .form_content .input_area .clear {
+  position: absolute;
+  right: -0.3vw;
+  transform: translateX(100%);
+  width: 1.6vw;
+  height: 1.6vw;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
+  background: #383838;
+  opacity: 0;
+  visibility: hidden;
+}
+.workflow .form .form_content .input_area .clear em {
+  font-size: 0.8rem;
+}
+.workflow .form .form_content .input_area .clear:hover {
+  background: #ff5733;
+}
+.workflow .form .form_content .button_group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.workflow .form .form_content .button_group .button_item {
+  height: 2.2vw;
+  min-height: 40px;
+  background: #383838;
+  transition: 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.workflow .form .form_content .button_group .button_item .icon {
+  width: 1.5vw;
+  height: 1.5vw;
+  min-height: 23px;
+  min-width: 23px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s;
+  border-radius: 50%;
+}
+.workflow .form .form_content .button_group .button_item .icon em {
+  font-size: 1rem;
+}
+.workflow .form .form_content .button_group .button_item .text {
+  font-size: 1rem;
+}
+.workflow .form .form_content .button_group .accept {
+  border-radius: 2vw 0 0 2vw;
+  padding: 0 1vw 0 0.5vw;
+}
+.workflow .form .form_content .button_group .accept .icon {
+  margin-right: 1.5vw;
+  background: #43cf7c;
+}
+.workflow .form .form_content .button_group .accept:hover {
+  background: #43cf7c;
+  color: #ffffff;
+}
+.workflow .form .form_content .button_group .accept:hover .icon {
+  background: #383838;
+}
+.workflow .form .form_content .button_group .refuse {
+  border-radius: 0 2vw 2vw 0;
+  padding: 0 0.5vw 0 1vw;
+}
+.workflow .form .form_content .button_group .refuse .icon {
+  margin-left: 1.5vw;
+  background: #ff5733;
+}
+.workflow .form .form_content .button_group .refuse:hover {
+  background: #ff5733;
+  color: #ffffff;
+}
+.workflow .form .form_content .button_group .refuse:hover .icon {
+  background: #383838;
+}
