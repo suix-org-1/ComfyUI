@@ -48,7 +48,7 @@ jobs:
 
           mkdir -p custom_nodes
 
-          source venv/bin/activate
+          chmod +x ./sync_comfyui_cust_nodes_suix.sh
           ./sync_comfyui_cust_nodes_suix.sh --clean
 
 
