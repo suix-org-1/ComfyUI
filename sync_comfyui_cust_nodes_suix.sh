@@ -4,7 +4,6 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # === 配置路径（全部基于 SCRIPT_DIR，不再写死）===
-MANAGER_REPO_DIR="$SCRIPT_DIR/ComfyUI-Manager"
 COMFYUI_REPO_DIR="$SCRIPT_DIR"
 CUSTOM_NODES_DIR="$COMFYUI_REPO_DIR/custom_nodes"
 
