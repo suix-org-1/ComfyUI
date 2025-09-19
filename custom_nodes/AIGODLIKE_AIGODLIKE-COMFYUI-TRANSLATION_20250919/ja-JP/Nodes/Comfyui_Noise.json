@@ -1,0 +1,97 @@
+{
+    "BNK_Unsampler": {
+        "title": "逆Kサンプラー",
+        "inputs": {
+            "model": "モデル",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "latent_image": "Latent"
+        },
+        "widgets": {
+            "steps": "ステップ数",
+            "cfg": "CFGスケール",
+            "end_at_step": "終了ステップ",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "normalize": "正規化"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+    "BNK_NoisyLatentImage": {
+        "title": "ノイジーLatent",
+        "widgets": {
+            "source": "生成デバイス",
+            "seed": "乱数シード",
+            "control_after_generate": "生成後制御",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "width": "幅",
+            "height": "高さ",
+            "batch_size": "バッチサイズ"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+    "BNK_GetSigma": {
+        "title": "シグマ取得",
+        "inputs": {
+            "model": "モデル"
+        },
+        "widgets": {
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "steps": "ステップ数",
+            "start_at_step": "開始ステップ",
+            "end_at_step": "終了ステップ"
+        },
+        "outputs": {
+            "FLOAT": "浮動小数点数"
+        }
+    },
+    "BNK_InjectNoise": {
+        "title": "ノイズ注入",
+        "inputs": {
+            "latents": "Latent",
+            "noise": "ノイズLatent",
+            "mask": "マスク"
+        },
+        "widgets": {
+            "strength": "強度"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+    "BNK_DuplicateBatchIndex": {
+        "title": "バッチインデックス複製",
+        "inputs": {
+            "latents": "Latent"
+        },
+        "widgets": {
+            "batch_index": "バッチインデックス",
+            "batch_size": "バッチサイズ"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+    "BNK_SlerpLatent": {
+        "title": "Latentスラープ",
+        "inputs": {
+            "latents1": "Latent1",
+            "latents2": "Latent2",
+            "mask": "マスク"
+        },
+        "widgets": {
+            "factor": "係数"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    }
+}

@@ -1,0 +1,685 @@
+{
+    "SeargeSDXLSampler2": {
+        "title": "SearSDXLサンプラーv2",
+        "inputs": {
+            "base_model": "基本モデル",
+            "base_positive": "基本ポジティブ",
+            "base_negative": "基本ネガティブ",
+            "refiner_model": "リファイナーモデル",
+            "refiner_positive": "リファイナーポジティブ",
+            "refiner_negative": "リファイナーネガティブ",
+            "latent_image": "Latent画像",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ"
+        },
+        "widgets": {
+            "noise_seed": "ノイズシード",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "base_ratio": "基本比率",
+            "denoise": "ノイズ除去",
+            "refiner_prep_steps": "リファイナー準備ステップ数",
+            "noise_offset": "ノイズオフセット",
+            "refiner_strength": "リファイナー強度"
+        },
+        "outputs": {
+            "LATENT": "LATENT"
+        }
+    },
+    "SeargeSDXLImage2ImageSampler2": {
+        "title": "SearSDXL画像から画像サンプラーv2",
+        "inputs": {
+            "base_model": "基本モデル",
+            "base_positive": "基本ポジティブ",
+            "base_negative": "基本ネガティブ",
+            "refiner_model": "リファイナーモデル",
+            "refiner_positive": "リファイナーポジティブ",
+            "refiner_negative": "リファイナーネガティブ",
+            "image": "画像",
+            "vae": "VAE",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "upscale_model": "アップスケールモデル"
+        },
+        "widgets": {
+            "noise_seed": "ノイズシード",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "base_ratio": "基本比率",
+            "denoise": "ノイズ除去",
+            "scaled_width": "幅スケール",
+            "scaled_height": "高さスケール",
+            "refiner_prep_steps": "リファイナー準備ステップ数",
+            "noise_offset": "ノイズオフセット",
+            "refiner_strength": "リファイナー強度",
+            "softness": "柔らかさ"
+        },
+        "outputs": {
+            "IMAGE": "画像"
+        }
+    },
+    "SeargeSamplerInputs": {
+        "title": "Searサンプラー入力",
+        "widgets": {
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ"
+        },
+        "outputs": {
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ"
+        }
+    },
+    "SeargeEnablerInputs": {
+        "title": "Sear有効/無効切替",
+        "widgets": {
+            "state": "状態",
+            "disabled": "無効",
+            "enabled": "有効"
+        },
+        "outputs": {
+            "state": "状態"
+        }
+    },
+    "SeargeSaveFolderInputs": {
+        "title": "Sear保存パス",
+        "widgets": {
+            "save_to": "保存先",
+            "output folder": "出力フォルダ",
+            "input folder": "入力フォルダ"
+        },
+        "outputs": {
+            "save_to": "保存先"
+        }
+    },
+    "SeargeSDXLPromptEncoder": {
+        "title": "SearSDXLテキストエンコーダ",
+        "inputs": {
+            "base_clip": "基本CLIP",
+            "refiner_clip": "リファイナーCLIP"
+        },
+        "widgets": {
+            "pos_g": "ポジティブbigGテキスト",
+            "pos_l": "ポジティブLテキスト",
+            "pos_r": "ポジティブリファイナーテキスト",
+            "neg_g": "ネガティブbigGテキスト",
+            "neg_l": "ネガティブLテキスト",
+            "neg_r": "ネガティブリファイナーテキスト",
+            "base_width": "幅",
+            "base_height": "高さ",
+            "pos_ascore": "ポジティブ美的スコア",
+            "neg_ascore": "ネガティブ美的スコア",
+            "refiner_width": "リファイナー幅",
+            "refiner_height": "リファイナー高さ"
+        },
+        "outputs": {
+            "base_positive": "基本ポジティブ",
+            "base_negative": "基本ネガティブ",
+            "refiner_positive": "リファイナーポジティブ",
+            "refiner_negative": "リファイナーネガティブ"
+        }
+    },
+    "SeargeSDXLBasePromptEncoder": {
+        "title": "SearSDXL基本テキストエンコーダ",
+        "inputs": {
+            "base_clip": "基本CLIP"
+        },
+        "widgets": {
+            "pos_g": "ポジティブbigGテキスト",
+            "pos_l": "ポジティブLテキスト",
+            "neg_g": "ネガティブbigGテキスト",
+            "neg_l": "ネガティブLテキスト",
+            "base_w": "基本幅",
+            "base_h": "基本高さ",
+            "crop_w": "クロップ幅",
+            "crop_h": "クロップ高さ",
+            "target_width": "目標幅",
+            "target_height": "目標高さ"
+        },
+        "outputs": {
+            "base_positive": "基本ポジティブ",
+            "base_negative": "基本ネガティブ"
+        }
+    },
+    "SeargeSDXLRefinerPromptEncoder": {
+        "title": "SearSDXLリファイナーテキストエンコーダ",
+        "inputs": {
+            "refiner_clip": "リファイナーCLIP"
+        },
+        "widgets": {
+            "pos_r": "ポジティブリファイナーテキスト",
+            "neg_r": "ネガティブリファイナーテキスト",
+            "pos_ascore": "ポジティブ美的スコア",
+            "neg_ascore": "ネガティブ美的スコア",
+            "refiner_width": "リファイナー幅",
+            "refiner_height": "リファイナー高さ"
+        },
+        "outputs": {
+            "pos_r": "ポジティブリファイナーテキスト",
+            "neg_r": "ネガティブリファイナーテキスト"
+        }
+    },
+    "SeargePromptText": {
+        "title": "Searプロンプトテキスト",
+        "widgets": {
+            "prompt": "プロンプト"
+        },
+        "outputs": {
+            "prompt": "プロンプト"
+        }
+    },
+    "SeargePromptCombiner": {
+        "title": "Searプロンプトコンビナー",
+        "widgets": {
+            "prompt1": "プロンプト1",
+            "separatoor": "区切り文字",
+            "prompt2": "プロンプト2"
+        },
+        "outputs": {
+            "combined prompt": "結合プロンプト"
+        }
+    },
+    "SeargeIntegerConstant": {
+        "title": "Sear整数値",
+        "widgets": {
+            "value": "値"
+        },
+        "outputs": {
+            "value": "値"
+        }
+    },
+    "SeargeIntegerPair": {
+        "title": "Sear整数ペア",
+        "widgets": {
+            "value1": "値1",
+            "value2": "値2"
+        },
+        "outputs": {
+            "value1": "値1",
+            "value2": "値2"
+        }
+    },
+    "SeargeIntegerMath": {
+        "title": "Sear整数演算",
+        "widgets": {
+            "op": "操作"
+        },
+        "outputs": {
+            "result": "結果"
+        }
+    },
+    "SeargeIntegerScaler": {
+        "title": "Sear整数スケーラー",
+        "widgets": {
+            "value": "値",
+            "factor": "係数",
+            "multiple_of": "倍数"
+        },
+        "outputs": {
+            "value": "値"
+        }
+    },
+    "SeargeFloatConstant": {
+        "title": "Sear浮動小数点値",
+        "widgets": {
+            "value": "値"
+        },
+        "outputs": {
+            "value": "値"
+        }
+    },
+    "SeargeFloatPair": {
+        "title": "Sear浮動小数点ペア",
+        "widgets": {
+            "value1": "値1",
+            "value2": "値2"
+        },
+        "outputs": {
+            "value1": "値1",
+            "value2": "値2"
+        }
+    },
+    "SeargeFloatMath": {
+        "title": "Sear浮動小数点演算",
+        "widgets": {
+            "op": "操作"
+        },
+        "outputs": {
+            "result": "結果"
+        }
+    },
+    "SeargeImageSave": {
+        "title": "Sear画像保存",
+        "inputs": {
+            "filename_prefix": "ファイル名プレフィックス"
+        },
+        "widgets": {
+            "state": "状態",
+            "save_to": "保存先",
+            "output folder": "出力フォルダ",
+            "input folder": "入力フォルダ"
+        }
+    },
+    "SeargeCheckpointLoader": {
+        "title": "SearCheckpointローダー",
+        "inputs": {
+            "ckpt_name": "CKPTモデル名"
+        },
+        "outputs": {
+            "MODEL": "モデル",
+            "CLIP": "CLIP",
+            "VAE": "VAE"
+        }
+    },
+    "SeargeVAELoader": {
+        "title": "SearVAEローダー",
+        "inputs": {
+            "vae_name": "VAE名"
+        },
+        "outputs": {
+            "VAE": "VAE"
+        }
+    },
+    "SeargeUpscaleModelLoader": {
+        "title": "Searアップスケールモデルローダー",
+        "inputs": {
+            "upscaler_name": "アップスケールモデル名"
+        },
+        "outputs": {
+            "UPSCALE_MODEL": "アップスケールモデル"
+        }
+    },
+    "SeargeLoraLoader": {
+        "title": "SearLoRAローダー",
+        "inputs": {
+            "model": "モデル",
+            "clip": "CLIP",
+            "lora_name": "LoRA名"
+        },
+        "widgets": {
+            "strength_model": "モデル強度",
+            "strength_clip": "CLIP強度"
+        },
+        "outputs": {
+            "MODEL": "モデル",
+            "CLIP": "CLIP"
+        }
+    },
+    "SeargeLatentMuxer3": {
+        "title": "SearLatent3切替",
+        "inputs": {
+            "input0": "入力0",
+            "input1": "入力1",
+            "input2": "入力2"
+        },
+        "widgets": {
+            "input_selector": "選択"
+        },
+        "outputs": {
+            "output": "出力"
+        }
+    },
+    "SeargeConditioningMuxer2": {
+        "title": "Sear条件切替2",
+        "inputs": {
+            "input0": "入力0",
+            "input1": "入力1"
+        },
+        "widgets": {
+            "input_selector": "選択"
+        },
+        "outputs": {
+            "output": "出力"
+        }
+    },
+    "SeargeConditioningMuxer5": {
+        "title": "Sear条件切替5",
+        "inputs": {
+            "input0": "入力0",
+            "input1": "入力1",
+            "input2": "入力2",
+            "input3": "入力3",
+            "input4": "入力4"
+        },
+        "widgets": {
+            "input_selector": "選択"
+        },
+        "outputs": {
+            "output": "出力"
+        }
+    },
+    "SeargeInput1": {
+        "title": "Searテキスト",
+        "inputs": {
+            "inputs": "入力セット",
+            "image": "画像",
+            "mask": "マスク"
+        },
+        "widgets": {
+            "main_prompt": "主提示語",
+            "secondary_prompt": "副提示語",
+            "style_prompt": "スタイル提示語",
+            "negative_prompt": "ネガティブ",
+            "negative_style": "ネガティブスタイル"
+        },
+        "outputs": {
+            "inputs": "入力セット"
+        }
+    },
+    "SeargeInput2": {
+        "title": "Searサンプリング",
+        "inputs": {
+            "inputs": "入力セット"
+        },
+        "widgets": {
+            "seed": "シード値",
+            "image_width": "幅",
+            "image_height": "高さ",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "save_image": "画像を保存",
+            "disabled": "無効",
+            "enabled": "有効",
+            "save_directory": "保存ディレクトリ",
+            "output folder": "出力フォルダ",
+            "input folder": "入力フォルダ"
+        },
+        "outputs": {
+            "inputs": "入力セット"
+        }
+    },
+    "SeargeInput3": {
+        "title": "SearSDXL",
+        "inputs": {
+            "inputs": "入力セット"
+        },
+        "widgets": {
+            "base_ratio": "基準比率",
+            "refiner_strength": "リファイナー強度",
+            "refiner_intensity": "リファイナー強度",
+            "hard": "強い",
+            "soft": "柔らかい",
+            "precondition_steps": "前処理ステップ数",
+            "upscale_resolution_factor": "アップスケール解像度係数",
+            "save_upscaled_image": "アップスケール画像を保存",
+            "disabled": "無効",
+            "enabled": "有効",
+            "denoise": "ノイズ除去"
+        },
+        "outputs": {
+            "inputs": "入力セット"
+        }
+    },
+    "SeargeInput4": {
+        "title": "Searモデル",
+        "inputs": {
+            "model_settings": "モデル設定セット"
+        },
+        "widgets": {
+            "base_model": "基準モデル",
+            "refiner_model": "リファイナーモデル",
+            "vae_model": "VAEモデル",
+            "main_upscale_model": "主アップスケールモデル",
+            "support_upscale_model": "補助アップスケールモデル",
+            "lora_model": "LoRAモデル"
+        },
+        "outputs": {
+            "model_names": "モデル名"
+        }
+    },
+    "SeargeInput5": {
+        "title": "Sear条件ウェイト",
+        "inputs": {
+            "inputs": "入力セット"
+        },
+        "widgets": {
+            "base_conditioning_scale": "基準条件スケール",
+            "refiner_conditioning_scale": "リファイナー条件スケール",
+            "style_prompt_power": "スタイル強度",
+            "negative_prompt_power": "ネガティブスタイル強度",
+            "style_template": "スタイルテンプレート",
+            "none": "なし",
+            "from preprocessor": "前処理から",
+            "test": "テスト"
+        },
+        "outputs": {
+            "inputs": "入力セット"
+        }
+    },
+    "SeargeInput6": {
+        "title": "Sear高解像度修復",
+        "inputs": {
+            "inputs": "入力セット"
+        },
+        "widgets": {
+            "hires_fix": "高解像度修復",
+            "disabled": "無効",
+            "enabled": "有効",
+            "hrf_steps": "ステップ数",
+            "hrf_denoise": "ノイズ除去",
+            "hrf_upscale_factor": "アップスケール係数",
+            "hrf_intensity": "強度",
+            "hard": "強い",
+            "soft": "柔らかい",
+            "hrf_seed_offset": "シード値オフセット",
+            "same": "同じ",
+            "distinct": "異なる",
+            "hrf_smoothness": "滑らかさ"
+        },
+        "outputs": {
+            "inputs": "入力セット"
+        }
+    },
+    "SeargeInput7": {
+        "title": "SearLoRA",
+        "inputs": {
+            "inputs": "入力セット"
+        },
+        "widgets": {
+            "lora_strength": "強度",
+            "operation_mode": "操作モード",
+            "text to image": "テキストから画像へ",
+            "image to image": "画像から画像へ",
+            "inpainting": "インペインティング",
+            "prompt_style": "プロンプトスタイル"
+        },
+        "outputs": {
+            "inputs": "入力セット"
+        }
+    },
+    "SeargeOutput1": {
+        "title": "Searテキスト",
+        "inputs": {
+            "parameters": "パラメータ群"
+        },
+        "outputs": {
+            "parameters": "パラメータ群",
+            "main_prompt": "メインプロンプト",
+            "secondary_prompt": "セカンダリプロンプト",
+            "style_prompt": "スタイルプロンプト",
+            "negative_prompt": "ネガティブプロンプト",
+            "negative_style": "ネガティブスタイル",
+            "image": "画像",
+            "mask": "マスク"
+        }
+    },
+    "SeargeOutput2": {
+        "title": "Searサンプリング",
+        "inputs": {
+            "parameters": "パラメータ群"
+        },
+        "outputs": {
+            "parameters": "パラメータ群",
+            "seed": "乱数シード",
+            "image_width": "幅",
+            "image_height": "高さ",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "save_image": "画像を保存",
+            "save_directory": "保存先"
+        }
+    },
+    "SeargeOutput3": {
+        "title": "SearSDXL",
+        "inputs": {
+            "parameters": "パラメータ群"
+        },
+        "outputs": {
+            "parameters": "パラメータ群",
+            "denoise": "ノイズ除去",
+            "base_ratio": "基本比率",
+            "refiner_strength": "リファイナ強度",
+            "precondition_steps": "前処理ステップ数",
+            "batch_size": "バッチサイズ",
+            "upscale_resolution_factor": "解像度拡大係数",
+            "save_upscaled_image": "拡大画像を保存"
+        }
+    },
+    "SeargeOutput4": {
+        "title": "Searモデル",
+        "inputs": {
+            "model_names": "モデル名群"
+        },
+        "outputs": {
+            "model_names": "モデル名群",
+            "base_model": "基本モデル",
+            "refiner_model": "リファイナモデル",
+            "vae_model": "VAEモデル",
+            "main_upscale_model": "メイン拡大モデル",
+            "support_upscale_model": "サポート拡大モデル",
+            "lora_model": "LoRAモデル"
+        }
+    },
+    "SeargeOutput5": {
+        "title": "Sear条件ウェイト",
+        "inputs": {
+            "parameters": "パラメータ群"
+        },
+        "outputs": {
+            "parameters": "パラメータ群",
+            "base_conditioning_scale": "基本条件スケール",
+            "refiner_conditioning_scale": "リファイナ条件スケール",
+            "style_prompt_power": "スタイル強度",
+            "negative_prompt_power": "ネガティブスタイル強度"
+        }
+    },
+    "SeargeOutput6": {
+        "title": "Sear高解像度修復",
+        "inputs": {
+            "parameters": "パラメータ群"
+        },
+        "outputs": {
+            "parameters": "パラメータ群",
+            "hrf_steps": "ステップ数",
+            "hrf_denoise": "ノイズ除去",
+            "hrf_upscale_factor": "拡大係数",
+            "hrf_noise_offset": "ノイズオフセット",
+            "hrf_seed": "乱数シード",
+            "hires_fix": "高解像度修復",
+            "hrf_smoothness": "滑らかさ"
+        }
+    },
+    "SeargeOutput7": {
+        "title": "SearLoRA",
+        "inputs": {
+            "parameters": "パラメータ群"
+        },
+        "outputs": {
+            "parameters": "パラメータ群",
+            "lora_strength": "強度"
+        }
+    },
+    "SeargeGenerated1": {
+        "title": "Sear生成",
+        "inputs": {
+            "parameters": "パラメータ群"
+        },
+        "outputs": {
+            "parameters": "パラメータ群",
+            "operation_selector": "操作選択",
+            "style_selector": "スタイル選択",
+            "prompt_style_group": "プロンプトスタイル群"
+        }
+    },
+    "SeargeParameterProcessor": {
+        "title": "Searパラメータ処理器",
+        "inputs": {
+            "inputs": "入力群"
+        },
+        "outputs": {
+            "parameters": "パラメータ群"
+        }
+    },
+    "SeargeStylePreprocessor": {
+        "title": "Searスタイル処理器",
+        "inputs": {
+            "inputs": "入力群"
+        },
+        "widgets": {
+            "active_style_name": "アクティブスタイル",
+            "style_definitions": "スタイル定義"
+        },
+        "outputs": {
+            "inputs": "入力群"
+        }
+    },
+    "SeargeSDXLSampler": {
+        "title": "SearSDXLサンプラー",
+        "inputs": {
+            "base_model": "基本モデル",
+            "base_positive": "基本ポジティブ",
+            "base_negative": "基本ネガティブ",
+            "refiner_model": "リファイナモデル",
+            "refiner_positive": "リファイナポジティブ",
+            "refiner_negative": "リファイナネガティブ",
+            "latent_image": "Latent画像"
+        },
+        "widgets": {
+            "noise_seed": "乱数シード",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "base_ratio": "基本比率",
+            "denoise": "ノイズ除去"
+        },
+        "outputs": {
+            "LATENT": "LATENT"
+        }
+    },
+    "SeargeSDXLImage2ImageSampler": {
+        "title": "SearSDXL画像生成画像サンプラー",
+        "inputs": {
+            "base_model": "基本モデル",
+            "base_positive": "基本ポジティブ",
+            "base_negative": "基本ネガティブ",
+            "refiner_model": "リファイナモデル",
+            "refiner_positive": "リファイナポジティブ",
+            "refiner_negative": "リファイナネガティブ",
+            "image": "画像",
+            "vae": "VAE",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "upscale_model": "拡大モデル"
+        },
+        "widgets": {
+            "noise_seed": "乱数シード",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "base_ratio": "基本比率",
+            "denoise": "ノイズ除去",
+            "scaled_width": "幅をスケール",
+            "scaled_height": "高さをスケール",
+            "refiner_prep_steps": "前リファイナステップ数",
+            "noise_offset": "ノイズオフセット",
+            "refiner_strength": "リファイナ強度",
+            "softness": "柔らかさ"
+        },
+        "outputs": {
+            "IMAGE": "画像"
+        }
+    }
+}

@@ -1,0 +1,102 @@
+{
+    "PreviewTextNode": {
+        "title": "テキストプレビュー",
+        "inputs": {
+            "text": "テキスト"
+        },
+        "widgets": {
+            "text": "テキスト"
+        }
+    },
+    "PainterNode": {
+        "title": "ペイント",
+        "widgets": {
+            "image": "画像"
+        },
+        "outputs": {
+            "IMAGE": "画像"
+        }
+    },
+    "PoseNode": {
+        "title": "ポーズ設定",
+        "widgets": {
+            "image": "画像"
+        },
+        "outputs": {
+            "IMAGE": "画像"
+        }
+    },
+    "TranslateCLIPTextEncodeNode": {
+        "title": "CLIPテキストエンコーダー（翻訳）",
+        "inputs": {
+            "clip": "CLIP"
+        },
+        "widgets": {
+            "from_translate": "翻訳元",
+            "to_translate": "翻訳先",
+            "text": "テキスト"
+        },
+        "outputs": {
+            "CONDITIONING": "生成条件"
+        }
+    },
+    "DeepTranslatorCLIPTextEncodeNode": {
+        "title": "CLIPテキストエンコーダー（高度な翻訳）",
+        "inputs": {
+            "clip": "CLIP"
+        },
+        "widgets": {
+            "from_translate": "翻訳元",
+            "to_translate": "翻訳先",
+            "add_proxies": "プロキシ追加",
+            "proxies": "プロキシ",
+            "auth_data": "認証情報",
+            "service": "翻訳サービス",
+            "BaiduTranslator [api-key]": "Baidu [APIキー]",
+            "ChatGptTranslator [api-key]": "ChatGPT [APIキー]",
+            "DeeplTranslator": "DeepL",
+            "GoogleTranslator": "Google",
+            "LibreTranslator": "Libre",
+            "LingueeTranslator [word(s) only]": "Linguee [単語のみ]",
+            "MyMemoryTranslator": "MyMemory",
+            "MicrosoftTranslator [api-key]": "Microsoft [APIキー]",
+            "PapagoTranslator [client_id, secret_key]": "Papago [クライアントID, 秘密キー]",
+            "PonsTranslator [word(s) only]": "Pons [単語のみ]",
+            "QcriTranslator [api-key]": "QCRI [APIキー]",
+            "YandexTranslator [api-key]": "Yandex [APIキー]",
+            "text": "テキスト"
+        },
+        "outputs": {
+            "text": "テキスト"
+        }
+    },
+    "TranslateTextNode": {
+        "title": "テキスト翻訳",
+        "widgets": {
+            "from_translate": "翻訳元",
+            "to_translate": "翻訳先",
+            "text": "テキスト"
+        },
+        "outputs": {
+            "text": "テキスト"
+        }
+    },
+    "DeepTranslatorTextNode": {
+        "title": "高度テキスト翻訳",
+        "inputs": {
+            "clip": "CLIP"
+        },
+        "widgets": {
+            "from_translate": "翻訳元",
+            "to_translate": "翻訳先",
+            "add_proxies": "プロキシ追加",
+            "proxies": "プロキシ",
+            "auth_data": "認証情報",
+            "service": "翻訳サービス",
+            "text": "テキスト"
+        },
+        "outputs": {
+            "text": "テキスト"
+        }
+    }
+}

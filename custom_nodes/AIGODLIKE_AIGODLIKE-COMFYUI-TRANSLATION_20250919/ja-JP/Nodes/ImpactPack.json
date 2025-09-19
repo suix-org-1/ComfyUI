@@ -1,0 +1,1875 @@
+{
+    "ImpactKSamplerBasicPipe": {
+        "title": "Kサンプラー（基本ノードパイプ）",
+        "inputs": {
+            "basic_pipe": "基本ノードパイプ",
+            "latent_image": "Latent画像"
+        },
+        "widgets": {
+            "seed": "シード値",
+            "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去"
+        },
+        "outputs": {
+            "BASIC_PIPE": "基本ノードパイプ",
+            "LATENT": "Latent",
+            "VAE": "VAE"
+        }
+    },
+    "ImpactKSamplerAdvancedBasicPipe": {
+        "title": "Kサンプラー（高度なノードパイプ）",
+        "inputs": {
+            "basic_pipe": "基本ノードパイプ",
+            "latent_image": "Latent画像"
+        },
+        "widgets": {
+            "add_noise": "ノイズ追加",
+            "noise_seed": "シード値",
+            "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "start_at_step": "ノイズ除去開始ステップ数",
+            "end_at_step": "ノイズ除去終了ステップ数",
+            "return_with_leftover_noise": "残りのノイズを返す"
+        },
+        "outputs": {
+            "BASIC_PIPE": "基本ノードパイプ",
+            "LATENT": "Latent",
+            "VAE": "VAE"
+        }
+    },
+
+
+
+
+    "CLIPSegDetectorProvider": {
+        "title": "CLIPSeg検出器",
+        "widgets": {
+            "text": "テキスト",
+            "blur": "ぼかし",
+            "threshold": "閾値",
+            "dilation_factor": "膨張係数"
+        },
+        "outputs": {
+            "BBOX_DETECTOR": "BBox検出器"
+        }
+    },
+    "EmptySegs": {
+        "title": "空のSeg",
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "ImpactControlNetApplySEGS": {
+        "title": "ControlNet適用Seg",
+        "inputs": {
+            "segs": "Seg",
+            "control_net": "ControlNet",
+            "segs_preprocessor": "Seg前処理"
+        },
+        "widgets": {
+            "strength": "強度"
+        },
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "PreviewBridge": {
+        "title": "プレビュー橋接",
+        "inputs": {
+            "images": "画像"
+        },
+        "widgets": {
+            "image": "画像"
+        },
+        "outputs": {
+            "IMAGE": "画像",
+            "MASK": "マスク"
+        }
+    },
+    "ImageSender": {
+        "title": "画像送信",
+        "inputs": {
+            "images": "画像"
+        },
+        "widgets": {
+            "filename_prefix": "ファイル名プレフィックス",
+            "link_id": "リンクID"
+        }
+    },
+    "ImageReceiver": {
+        "title": "画像受信",
+        "widgets": {
+            "image": "画像",
+            "link_id": "リンクID"
+        },
+        "outputs": {
+            "IMAGE": "画像",
+            "MASK": "マスク"
+        }
+    },
+    "LatentSender": {
+        "title": "Latent送信",
+        "inputs": {
+            "samples": "Latent"
+        },
+        "widgets": {
+            "filename_prefix": "ファイル名プレフィックス",
+            "link_id": "リンクID"
+        }
+    },
+    "LatentReceiver": {
+        "title": "Latent受信",
+        "widgets": {
+            "latent": "Latent",
+            "link_id": "リンクID"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+    "ImageMaskSwitch": {
+        "title": "画像マスク切り替え",
+        "inputs": {
+            "images1": "画像1",
+            "mask1": "マスク1",
+            "images2": "画像2",
+            "mask2": "マスク2",
+            "images3": "画像3",
+            "mask3": "マスク3",
+            "images4": "画像4",
+            "mask4": "マスク4",
+            "select": "選択"
+        },
+        "outputs": {
+            "IMAGE": "画像",
+            "MASK": "マスク"
+        }
+    },
+    "LatentSwitch": {
+        "title": "Latent切り替え",
+        "inputs": {
+            "latent1": "Latent1",
+            "latent2_opt": "Latent2",
+            "latent3_opt": "Latent3",
+            "latent4_opt": "Latent4"
+        },
+        "widgets": {
+            "select": "選択"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+    "SEGSSwitch": {
+        "title": "Seg切り替え",
+        "inputs": {
+            "Seg": "Seg1",
+            "segs2_opt": "Seg2",
+            "segs3_opt": "Seg3",
+            "segs4_opt": "Seg4"
+        },
+        "widgets": {
+            "select": "選択"
+        },
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "ImpactSwitch": {
+        "title": "切り替え",
+        "inputs": {
+            "input1": "入力1",
+            "input2": "入力2",
+            "input3": "入力3",
+            "input4": "入力4"
+        },
+        "widgets": {
+            "select": "選択",
+            "sel_mode": "選択モード",
+                "select_on_execution": "実行時に選択",
+                "select_on_prompt": "プロンプトで選択"
+        },
+        "outputs": {
+            "*": "出力"
+        }
+    },
+    "ImpactInversedSwitch": {
+        "title": "反転切り替え",
+        "inputs": {
+            "input": "入力"
+        },
+        "widgets": {
+            "select": "選択"
+        },
+        "outputs": {
+            "*": "出力"
+        }
+    },
+    "ImpactInversedSwtich": {
+        "title": "反転切り替え",
+        "inputs": {
+            "input": "入力"
+        },
+        "widgets": {
+            "select": "選択"
+        },
+        "outputs": {
+            "*": "出力"
+        }
+    },
+    "SEGSToImageList": {
+        "title": "Segから画像リスト",
+        "inputs": {
+            "segs": "Seg",
+            "fallback_image_opt": "フォールバック画像"
+        },
+        "outputs": {
+            "IMAGE": "画像"
+        }
+    },
+    "ImpactSEGSToMaskList": {
+        "title": "Segからマスクリスト",
+        "inputs": {
+            "segs": "Seg"
+        },
+        "outputs": {
+            "MASK": "マスク"
+        }
+    },
+    "ImpactSEGSConcat": {
+        "title": "Seg連結",
+        "inputs": {
+            "segs1": "Seg1",
+            "segs2": "Seg2"
+        },
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "ReencodeLatent": {
+        "title": "Latent再エンコード",
+        "inputs": {
+            "samples": "Latent",
+            "input_vae": "デコードVAE",
+            "output_vae": "エンコードVAE"
+        },
+        "widgets": {
+            "tile_mode": "デコードモード",
+                "Decode(input) only": "入力のみデコード",
+                "Encode(output) only": "出力のみエンコード"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+    "ReencodeLatentPipe": {
+        "title": "Latent再エンコード（ノードパイプ）",
+        "inputs": {
+            "samples": "Latent",
+            "input_basic_pipe": "デコードノードパイプ",
+            "output_basic_pipe": "エンコードノードパイプ"
+        },
+        "widgets": {
+            "tile_mode": "デコードモード",
+                "Decode(input) only": "入力のみデコード",
+                "Encode(output) only": "出力のみエンコード"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+    "ImpactImageBatchToImageList": {
+        "title": "画像バッチから画像リスト",
+        "inputs": {
+            "image": "画像"
+        },
+        "outputs": {
+            "IMAGE": "画像"
+        }
+    },
+    "ImpactMakeImageList": {
+        "title": "画像リストを作成",
+        "inputs": {
+            "image1": "画像"
+        },
+        "outputs": {
+            "IMAGE": "画像"
+        }
+    },
+    "ImpactSEGSLabelFilter": {
+        "title": "Segラベルフィルター",
+        "inputs": {
+            "segs": "Seg"
+        },
+        "widgets": {
+            "preset": "プリセット",
+            "labels": "ラベル"
+        },
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "ImpactSEGSRangeFilter": {
+        "title": "Seg範囲フィルター",
+        "inputs": {
+            "segs": "Seg"
+        },
+        "widgets": {
+            "target": "ターゲット",
+            "min_value": "最小値",
+            "max_value": "最大値"
+        },
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "ImpactSEGSOrderedFilter": {
+        "title": "Seg順序フィルター",
+        "inputs": {
+            "segs": "Seg"
+        },
+        "widgets": {
+            "take_start": "開始番号",
+            "take_count": "数"
+        },
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "ImpactStringSelector": {
+        "title": "文字列選択",
+        "widgets": {
+            "strings": "文字列",
+            "multiline": "複数行テキスト",
+            "select": "選択"
+        },
+        "outputs": {
+            "STRING": "文字列"
+        }
+    },
+
+
+
+
+
+"BitwiseAndMaskForEach": {
+        "title": "Seg交集",
+        "inputs": {
+            "base_segs": "基本Seg",
+            "mask_segs": "マスクseg"
+        },
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "SubtractMaskForEach": {
+        "title": "Seg相減",
+        "inputs": {
+            "base_segs": "基本Seg",
+            "mask_segs": "マスクseg"
+        },
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "BitwiseAndMask": {
+        "title": "マスク交集",
+        "inputs": {
+            "mask1": "マスク1",
+            "mask2": "マスク2"
+        },
+        "outputs": {
+            "MASK": "マスク"
+        }
+    },
+    "SubtractMask": {
+        "title": "マスク相減",
+        "inputs": {
+            "mask1": "マスク1",
+            "mask2": "マスク2"
+        },
+        "outputs": {
+            "MASK": "マスク"
+        }
+    },
+    "AddMask": {
+        "title": "マスク相加",
+        "inputs": {
+            "mask1": "マスク1",
+            "mask2": "マスク2"
+        },
+        "outputs": {
+            "MASK": "マスク"
+        }
+    },
+    "Segs & Mask": {
+        "title": "Segマスク",
+        "inputs": {
+            "segs": "Seg",
+            "mask": "マスク"
+        },
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "Segs & Mask ForEach": {
+        "title": "Segマスク(バッチ処理)",
+        "inputs": {
+            "segs": "Seg",
+            "mask": "マスク"
+        },
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "MediaPipeFaceMeshToSEGS": {
+        "title": "MediaPipe顔面メッシュからSegへ",
+        "inputs": {
+            "image": "画像"
+        },
+        "widgets": {
+            "crop_factor": "クロップ係数",
+            "bbox_fill": "BBoxを塗りつぶす",
+            "crop_min_size": "クロップ最小サイズ",
+            "drop_size": "最小サイズ",
+            "dilation": "膨張",
+            "face": "顔",
+            "mouth": "口",
+            "left_eyebrow": "左眉",
+            "left_eye": "左目",
+            "left_pupil": "左瞳孔",
+            "right_eyebrow": "右眉",
+            "right_eye": "右目",
+            "right_pupil": "右瞳孔"
+        },
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "MaskToSEGS": {
+        "title": "マスクからSegへ",
+        "inputs": {
+            "mask": "マスク"
+        },
+        "widgets": {
+            "crop_factor": "クロップ係数",
+            "combined": "結合するか",
+                "False": "いいえ",
+                "True": "はい",
+            "bbox_fill": "BBoxを塗りつぶす",
+                "disabled": "無効",
+                "enabled": "有効",
+            "drop_size": "最小サイズ"
+        },
+        "outputs": {
+            "SEGS": "Seg"
+        }
+    },
+    "ToBinaryMask": {
+        "title": "マスクの二値化",
+        "inputs": {
+            "mask": "マスク"
+        },
+        "widgets": {
+            "threshold": "閾値"
+        },
+        "outputs": {
+            "MASK": "マスク"
+        }
+    },
+    "MasksToMaskList": {
+        "title": "マスクグループをマスクリストに",
+        "inputs": {
+            "mask": "マスク"
+        },
+        "widgets": {
+            "threshold": "閾値"
+        },
+        "outputs": {
+            "MASK": "マスク"
+        }
+    },
+    "SegsToCombinedMask": {
+        "title": "Segからマスクへ",
+        "inputs": {
+            "segs": "Seg"
+        },
+        "outputs": {
+            "MASK": "マスク"
+        }
+    },
+    "RemoveNoiseMask": {
+        "title": "ノイズマスクを削除",
+        "inputs": {
+            "samples": "Latent"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+
+
+
+
+    "DetailerForEach": {
+        "title": "局部細化",
+        "inputs": {
+            "image": "画像",
+            "segs": "セグメント",
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ"
+        },
+        "widgets": {
+            "guide_size": "ガイドサイズ",
+            "guide_size_for": "ガイド対象",
+                "bbox": "バウンディングボックス",
+                "crop_region": "クロップ領域",
+            "seed": "乱数シード",
+            "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "feather": "フェザリング",
+            "noise_mask": "マスクのみ生成",
+            "force_inpaint": "強制インペイント",
+            "wildcard": "ワイルドカード"
+        },
+        "outputs": {
+            "IMAGE": "画像"
+        }
+    },
+    "DetailerForEachPipe": {
+        "title": "局部細化(ノードバンドル)",
+        "inputs": {
+            "image": "画像",
+            "segs": "セグメント",
+            "basic_pipe": "基本ノードバンドル"
+        },
+        "widgets": {
+            "guide_size": "ガイドサイズ",
+            "guide_size_for": "ガイド対象",
+                "bbox": "バウンディングボックス",
+                "crop_region": "クロップ領域",
+            "seed": "乱数シード",
+            "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "feather": "フェザリング",
+            "noise_mask": "マスクのみ生成",
+            "force_inpaint": "強制インペイント",
+            "wildcard": "ワイルドカード"
+        },
+        "outputs": {
+            "IMAGE": "画像"
+        }
+    },
+    "DetailerForEachDebug": {
+        "title": "局部細化(デバッグ)",
+        "inputs": {
+            "image": "画像",
+            "segs": "セグメント",
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "detailer_hook": "細化フック"
+        },
+        "widgets": {
+            "guide_size": "ガイドサイズ",
+            "guide_size_for": "ガイド対象",
+                "bbox": "バウンディングボックス",
+                "crop_region": "クロップ領域",
+            "seed": "乱数シード",
+            "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "feather": "フェザリング",
+            "noise_mask": "マスクのみ生成",
+            "force_inpaint": "強制インペイント",
+            "wildcard": "ワイルドカード"
+        },
+        "outputs": {
+            "image": "画像",
+            "cropped": "クロップ画像",
+            "cropped_refined": "細化された画像",
+            "cropped_refined_alpha": "細化されたアルファチャンネル"
+        }
+    },
+    "DetailerForEachDebugPipe": {
+        "title": "局部細化(デバッグノードバンドル)",
+        "inputs": {
+            "image": "画像",
+            "segs": "セグメント",
+            "basic_pipe": "基本ノードバンドル"
+        },
+        "widgets": {
+            "guide_size": "ガイドサイズ",
+            "guide_size_for": "ガイド対象",
+                "bbox": "バウンディングボックス",
+                "crop_region": "クロップ領域",
+            "seed": "乱数シード",
+            "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "feather": "フェザリング",
+            "noise_mask": "マスクのみ生成",
+            "force_inpaint": "強制インペイント",
+            "wildcard": "ワイルドカード"
+        },
+        "outputs": {
+            "image": "画像",
+            "cropped": "クロップ画像",
+            "cropped_refined": "細化された画像",
+            "cropped_refined_alpha": "細化されたアルファチャンネル"
+        }
+    },
+    "NoiseInjectionDetailerHookProvider": {
+        "title": "ノイズ挿入細化フックプロバイダー",
+        "widgets": {
+            "source": "生成デバイス",
+            "seed": "乱数シード",
+            "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "strength": "強度"
+        },
+        "outputs": {
+            "DETAILER_HOOK": "細化フック"
+        }
+    },
+    "NoiseInjectionHookProvider": {
+        "title": "ノイズ挿入フックプロバイダー",
+        "widgets": {
+            "scheduler": "スケジューラ",
+            "source": "生成デバイス",
+            "seed": "乱数シード",
+            "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "start_strength": "初期強度",
+            "end_strength": "最終強度"
+        },
+        "outputs": {
+            "PK_HOOK": "フック"
+        }
+    },
+    "SEGSDetailer": {
+        "title": "セグメント細化",
+        "inputs": {
+            "image": "画像",
+            "segs": "セグメント",
+            "basic_pipe": "基本ノードバンドル"
+        },
+        "widgets": {
+            "guide_size": "ガイドサイズ",
+            "max_size": "最大ガイド",
+            "seed": "乱数シード",
+                "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去"
+        },
+        "outputs": {
+            "SEGS": "セグメント"
+        }
+    },
+    "SEGSPaste": {
+        "title": "セグメントペースト",
+        "inputs": {
+            "image": "画像",
+            "segs": "セグメント",
+            "ref_image_opt": "参考画像"
+        },
+        "widgets": {
+            "feather": "フェザリング"
+        },
+        "outputs": {
+            "IMAGE": "画像"
+        }
+    },
+    "SEGSPreview": {
+        "title": "セグメントプレビュー",
+        "inputs": {
+            "segs": "セグメント",
+            "fallback_image_opt": "代替画像"
+        }
+    },
+
+
+
+
+
+    "SAMDetectorCombined": {
+        "title": "SAM発見結合",
+        "inputs": {
+            "sam_model": "SAMモデル",
+            "segs": "セグメント",
+            "images": "画像"
+        },
+        "widgets": {
+            "detection_hint": "発見のヒント",
+                "center-1": "中心",
+                "horizontal-2": "横型",
+                "vertical-2": "縦型",
+                "rect-4": "斜角",
+                "diamond-4": "菱形",
+                "mask-area": "マスクエリア",
+                "mask-points": "マスク点",
+                "mask-point-bbox": "マスク点BBox",
+            "dilation": "膨張",
+            "bbox_expansion": "BBox拡大",
+            "mask_hint_threshold": "マスク発見閾値",
+            "mask_hint_use_negative": "ネガティブマスクヒント"
+        },
+        "outputs": {
+            "MASK": "マスク"
+        }
+    },
+    "SAMDetectorSegmented": {
+        "title": "SAM発見分割",
+        "inputs": {
+            "sam_model": "SAMモデル",
+            "segs": "セグメント",
+            "images": "画像"
+        },
+        "widgets": {
+            "detection_hint": "発見のヒント",
+                "center-1": "中心",
+                "horizontal-2": "横型",
+                "vertical-2": "縦型",
+                "rect-4": "斜角",
+                "diamond-4": "菱形",
+                "mask-area": "マスクエリア",
+                "mask-points": "マスク点",
+                "mask-point-bbox": "マスク点BBox",
+            "dilation": "膨張",
+            "bbox_expansion": "BBox拡大",
+            "mask_hint_threshold": "マスク発見閾値",
+            "mask_hint_use_negative": "ネガティブマスクヒント"
+        },
+        "outputs": {
+            "combined_mask": "マスク",
+            "batch_masks": "マスク群"
+        }
+    },
+    "BboxDetectorSEGS": {
+        "title": "BBox発見からセグメントへ",
+        "inputs": {
+            "bbox_detector": "BBox発見",
+            "image": "画像"
+        },
+        "widgets": {
+            "threshold": "閾値",
+            "dilation": "膨張",
+            "crop_factor": "裁剪係数",
+            "drop_size": "最小サイズ"
+        },
+        "outputs": {
+            "SEGS": "セグメント"
+        }
+    },
+    "SegmDetectorSEGS": {
+        "title": "Segm発見からセグメントへ",
+        "inputs": {
+            "segm_detector": "Segm発見",
+            "image": "画像"
+        },
+        "widgets": {
+            "threshold": "閾値",
+            "dilation": "膨張",
+            "crop_factor": "裁剪係数",
+            "drop_size": "最小サイズ"
+        },
+        "outputs": {
+            "SEGS": "セグメント"
+        }
+    },
+    "ONNXDetectorSEGS": {
+        "title": "ONNX発見からセグメントへ",
+        "inputs": {
+            "onnx_detector": "ONNX発見",
+            "image": "画像"
+        },
+        "widgets": {
+            "threshold": "閾値",
+            "dilation": "膨張",
+            "crop_factor": "裁剪係数",
+            "drop_size": "最小サイズ"
+        },
+        "outputs": {
+            "SEGS": "セグメント"
+        }
+    },
+    "ImpactSimpleDetectorSEGS": {
+        "title": "簡易セグメント発見",
+        "inputs": {
+            "bbox_detector": "BBox発見",
+            "image": "画像",
+            "sam_model_opt": "SAMモデル",
+            "segm_detector_opt": "Segm発見"
+        },
+        "widgets": {
+            "bbox_threshold": "BBox閾値",
+            "bbox_dilation": "BBox膨張",
+            "crop_factor": "裁剪係数",
+            "drop_size": "最小サイズ",
+            "sub_threshold": "次要閾値",
+            "sub_dilation": "次要膨張",
+            "sub_bbox_expansion": "次要BBox拡大",
+            "sam_mask_hint_threshold": "SAMマスク発見閾値"
+        },
+        "outputs": {
+            "SEGS": "セグメント"
+        }
+    },
+    "ImpactSimpleDetectorSEGSPipe": {
+        "title": "簡易セグメント発見(ノードパイプ)",
+        "inputs": {
+            "detailer_pipe": "細化ノードパイプ",
+            "image": "画像"
+        },
+        "widgets": {
+            "bbox_threshold": "BBox閾値",
+            "bbox_dilation": "BBox膨張",
+            "crop_factor": "裁剪係数",
+            "drop_size": "最小サイズ",
+            "sub_threshold": "次要閾値",
+            "sub_dilation": "次要膨張",
+            "sub_bbox_expansion": "次要BBox拡大",
+            "sam_mask_hint_threshold": "SAMマスク発見閾値"
+        },
+        "outputs": {
+            "SEGS": "セグメント"
+        }
+    },
+    "BboxDetectorCombined_v2": {
+        "title": "BBox発見器v2",
+        "inputs": {
+            "bbox_detector": "BBox発見",
+            "image": "画像"
+        },
+        "widgets": {
+            "threshold": "閾値",
+            "dilation": "膨張"
+        },
+        "outputs": {
+            "MASK": "マスク"
+        }
+    },
+    "SegmDetectorCombined_v2": {
+        "title": "Segm発見器v2",
+        "inputs": {
+            "segm_detector": "Segm発見",
+            "image": "画像"
+        },
+        "widgets": {
+            "threshold": "閾値",
+            "dilation": "膨張"
+        },
+        "outputs": {
+            "MASK": "マスク"
+        }
+    },
+
+
+
+
+
+    "FaceDetailer": {
+        "title": "顔面細化",
+        "inputs": {
+            "image": "画像",
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "bbox_detector": "BBox検出器",
+            "sam_model_opt": "SAMモデル",
+            "segm_detector_opt": "セグメンテーション検出器",
+            "detailer_hook": "細化フック"
+        },
+        "widgets": {
+            "guide_size": "ガイドサイズ",
+            "max_size": "最大ガイド",
+            "guide_size_for": "ガイド対象",
+                "bbox": "BBox",
+                "crop_region": "クロップ領域",
+            "seed": "シード値",
+            "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム化",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "feather": "フェザリング",
+            "noise_mask": "マスクのみ生成",
+            "force_inpaint": "強制インペイント",
+            "bbox_threshold": "BBox閾値",
+            "bbox_dilation": "BBox膨張",
+            "bbox_crop_factor": "BBoxクロップ係数",
+            "sam_detection_hint": "SAM検出ヒント",
+                "center-1": "中心",
+                "horizontal-2": "横型",
+                "vertical-2": "縦型",
+                "rect-4": "斜角",
+                "diamond-4": "ひし形",
+                "mask-area": "マスクエリア",
+                "mask-points": "マスク点",
+                "mask-point-bbox": "マスク点BBox",
+            "sam_dilation": "SAM膨張",
+            "sam_threhold": "SAM閾値",
+            "sam_bbox_expansion": "SAM BBox拡張",
+            "sam_mask_hint_threshold": "SAMマスク検出閾値",
+            "sam_mask_hint_use_negative": "SAMネガティブマスクヒント",
+            "drop_size": "最小サイズ"
+        },
+        "outputs": {
+            "image": "画像",
+            "cropped_refined": "細化された画像",
+            "cropped_enhanced_alpha": "細化部分",
+            "mask": "マスク",
+            "detailer_pipe": "細化ノードパイプ"
+        }
+    },
+    "FaceDetailerPipe": {
+        "title": "顔面細化(ノードパイプ)",
+        "inputs": {
+            "image": "画像",
+            "detailer_pipe": "細化ノードパイプ"
+        },
+        "widgets": {
+            "guide_size": "ガイドサイズ",
+            "max_size": "最大ガイド",
+            "guide_size_for": "ガイド対象",
+                "bbox": "BBox",
+                "crop_region": "クロップ領域",
+            "seed": "シード値",
+            "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム化",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "feather": "フェザリング",
+            "noise_mask": "マスクのみ生成",
+            "force_inpaint": "強制インペイント",
+            "bbox_threshold": "BBox閾値",
+            "bbox_dilation": "BBox膨張",
+            "bbox_crop_factor": "BBoxクロップ係数",
+            "sam_detection_hint": "SAM検出ヒント",
+                "center-1": "中心",
+                "horizontal-2": "横型",
+                "vertical-2": "縦型",
+                "rect-4": "斜角",
+                "diamond-4": "ひし形",
+                "mask-area": "マスクエリア",
+                "mask-points": "マスク点",
+                "mask-point-bbox": "マスク点BBox",
+            "sam_dilation": "SAM膨張",
+            "sam_bbox_expansion": "SAM BBox拡張",
+            "sam_mask_hint_threshold": "SAMマスク検出閾値",
+            "sam_mask_hint_use_negative": "SAMネガティブマスクヒント",
+            "drop_size": "最小サイズ"
+        },
+        "outputs": {
+            "image": "画像",
+            "cropped_refined": "細化された画像",
+            "cropped_enhanced_alpha": "細化部分",
+            "mask": "マスク",
+            "detailer": "細化ノードパイプ"
+        }
+    },
+
+
+
+    
+
+    "ToDetailerPipe": {
+        "title": "詳細化パイプへ",
+        "inputs": {
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "bbox_detector": "BBox検出器",
+            "sam_model_opt": "SAMモデル",
+            "segm_detector_opt": "セグメンテーション検出器",
+            "detailer_hook": "詳細化フック"
+        },
+        "outputs": {
+            "detailer_pipe":"詳細化ノードパイプ"
+        }
+    },
+    "ToDetailerPipeSDXL": {
+        "title": "詳細化パイプ(SDXL)へ",
+        "inputs": {
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "refiner_model": "リファイナーモデル",
+            "refiner_clip": "リファイナークリップ",
+            "refiner_positive": "リファイナーポジティブ",
+            "refiner_negative": "リファイナーネガティブ",
+            "bbox_detector": "BBox検出器",
+            "sam_model_opt": "SAMモデル",
+            "segm_detector_opt": "セグメンテーション検出器",
+            "detailer_hook": "詳細化フック"
+        },
+        "widgets": {
+            "wildcard": "ワイルドカード",
+            "Select the LoRA to add to the text": "テキストに追加するLoRAを選択"
+        },
+        "outputs": {
+            "detailer_pipe": "詳細化ノードパイプ"
+        }
+    },
+    "FromDetailerPipe": {
+        "title": "詳細化パイプから",
+        "inputs": {
+            "detailer_pipe": "詳細化ノードパイプ"
+        },
+        "outputs": {
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "bbox_detector": "BBox検出器",
+            "sam_model_opt": "SAMモデル",
+            "segm_detector_opt": "セグメンテーション検出器",
+            "detailer_hook": "詳細化フック"
+        }
+    },
+    "FromDetailerPipe_v2": {
+        "title": "詳細化パイプ_v2から",
+        "inputs": {
+            "detailer_pipe": "詳細化ノードパイプ"
+        },
+        "outputs": {
+            "detailer_pipe": "詳細化ノードパイプ",
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "bbox_detector": "BBox検出器",
+            "sam_model_opt": "SAMモデル",
+            "segm_detector_opt": "セグメンテーション検出器"
+        }
+    },
+    "FromDetailerPipeSDXL": {
+        "title": "詳細化パイプ(SDXL)から",
+        "inputs": {
+            "detailer_pipe": "詳細化ノードパイプ"
+        },
+        "outputs": {
+            "detailer_pipe": "詳細化ノードパイプ",
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "bbox_detector": "BBox検出器",
+            "sam_model_opt": "SAMモデル",
+            "segm_detector_opt": "セグメンテーション検出器",
+            "detailer_hook": "詳細化フック",
+            "refiner_model": "リファイナーモデル",
+            "refiner_clip": "リファイナークリップ",
+            "refiner_positive": "リファイナーポジティブ",
+            "refiner_negative": "リファイナーネガティブ"
+        }
+    },
+    "EditDetailerPipe": {
+        "title": "詳細化パイプを編集",
+        "inputs": {
+            "detailer_pipe": "詳細化ノードパイプ",
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "bbox_detector": "BBox検出器",
+            "sam_model_opt": "SAMモデル",
+            "segm_detector_opt": "セグメンテーション検出器",
+            "detailer_hook": "詳細化フック"
+        },
+        "outputs": {
+            "detailer_pipe": "詳細化ノードパイプ"
+        }
+    },
+    "DetailerPipeToBasicPipe": {
+        "title": "詳細化パイプから基本パイプへ",
+        "inputs": {
+            "detailer_pipe": "詳細化ノードパイプ"
+        },
+        "outputs": {
+            "BASIC_PIPE": "基本ノードパイプ"
+        }
+    },
+    "ToBasicPipe": {
+        "title": "基本パイプへ",
+        "inputs": {
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ"
+        },
+        "outputs": {
+            "BASIC_PIPE": "基本ノードパイプ",
+            "basic_pipe": "基本ノードパイプ"
+        }
+    },
+    "FromBasicPipe": {
+        "title": "基本パイプから",
+        "inputs": {
+            "basic_pipe": "基本ノードパイプ"
+        },
+        "outputs": {
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ"
+        }
+    },
+    "FromBasicPipe_v2": {
+        "title": "基本パイプv2から",
+        "inputs": {
+            "BASIC_PIPE": "基本ノードパイプ"
+        },
+        "outputs": {
+            "BASIC_PIPE": "基本ノードパイプ",
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ"
+        }
+    },
+    "EditBasicPipe": {
+        "title": "基本パイプを編集",
+        "inputs": {
+            "BASIC_PIPE": "基本ノードパイプ",
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ"
+        },
+        "outputs": {
+            "BASIC_PIPE": "基本ノードパイプ"
+        }
+    },
+    "BasicPipeToDetailerPipe": {
+        "title": "基本パイプから詳細化パイプへ",
+        "inputs": {
+            "BASIC_PIPE": "基本ノードパイプ",
+            "bbox_detector": "BBox検出器",
+            "sam_model_opt": "SAMモデル",
+            "segm_detector_opt": "セグメンテーション検出器",
+            "detailer_hook": "詳細化フック"
+        },
+        "outputs": {
+            "DETAILER_PIPE": "詳細化ノードパイプ"
+        }
+    },
+    "BasicPipeToDetailerPipeSDXL": {
+        "title": "基本パイプから詳細化パイプ(SDXL)へ",
+        "inputs": {
+            "base_basic_pipe": "基本基礎ノードパイプ",
+            "refiner_basic_pipe": "リファイナーベーシックノードパイプ",
+            "bbox_detector": "BBox検出器",
+            "sam_model_opt": "SAMモデル",
+            "segm_detector_opt": "セグメンテーション検出器",
+            "detailer_hook": "詳細化フック"
+        },
+        "widgets": {
+            "wildcard": "ワイルドカード",
+            "Select the LoRA to add to the text": "テキストに追加するLoRAを選択"
+        },
+        "outputs": {
+            "DETAILER_PIPE": "詳細化ノードパイプ"
+        }
+    },
+    "EditDetailerPipeSDXL": {
+        "title": "詳細化パイプ(SDXL)を編集",
+        "inputs": {
+            "detailer_pipe": "詳細化ノードパイプ",
+            "model": "モデル",
+            "clip": "CLIP",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "bbox_detector": "BBox検出器",
+            "sam_model_opt": "SAMモデル",
+            "segm_detector_opt": "セグメンテーション検出器",
+            "detailer_hook": "詳細化フック",
+            "refiner_model": "リファイナーモデル",
+            "refiner_clip": "リファイナークリップ",
+            "refiner_positive": "リファイナーポジティブ",
+            "refiner_negative": "リファイナーネガティブ"
+        },
+        "widgets": {
+            "wildcard": "ワイルドカード",
+            "Select the LoRA to add to the text": "テキストに追加するLoRAを選択"
+        },
+        "outputs": {
+            "detailer_pipe": "詳細化ノードパイプ"
+        }
+    },
+
+    
+
+
+
+    "LatentPixelScale": {
+        "title": "Latentピクセルスケール",
+        "inputs": {
+            "samples": "Latent",
+            "vae": "VAE",
+            "upscale_model_opt": "アップスケールモデル"
+        },
+        "widgets": {
+            "scale_method": "スケール方法",
+                "nearest-exact": "ニアレストネイバー-正確",
+                "bilinear": "バイリニア補間",
+                "area": "エリア",
+            "scale_factor": "スケール係数",
+            "use_tiled_vae": "タイルデコードVAEを使用"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+    "PixelKSampleUpscalerProvider": {
+        "title": "Kサンプリングピクセルスケーラー",
+        "inputs": {
+            "model": "モデル",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "upscale_model_opt": "アップスケールモデル",
+            "pk_hook_opt": "制約"
+        },
+        "widgets": {
+            "scale_method": "スケール方法",
+                "nearest-exact": "ニアレストネイバー-正確",
+                "bilinear": "バイリニア補間",
+                "area": "エリア",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "use_tiled_vae": "タイルデコードVAEを使用"
+        },
+        "outputs": {
+            "UPSCALER": "スケール"
+        }
+    },
+    "PixelKSampleUpscalerProviderPipe": {
+        "title": "Kサンプリングピクセルスケーラー(ノードバンドル)",
+        "inputs": {
+            "basic_pipe": "基本ノードバンドル",
+            "upscale_model_opt": "アップスケールモデル",
+            "pk_hook_opt": "制約"
+        },
+        "widgets": {
+            "scale_method": "スケール方法",
+                "nearest-exact": "ニアレストネイバー-正確",
+                "bilinear": "バイリニア補間",
+                "area": "エリア",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "use_tiled_vae": "タイルデコードVAEを使用"
+        },
+        "outputs": {
+            "UPSCALER": "スケール"
+        }
+    },
+    "IterativeLatentUpscale": {
+        "title": "Latent反復スケーリング",
+        "inputs": {
+            "samples": "Latent",
+            "upscaler": "スケール"
+        },
+        "widgets": {
+            "upscale_factor": "スケール係数",
+            "steps": "ステップ数",
+            "temp_prefix": "プレフィックス"
+        },
+        "outputs": {
+            "latent": "Latent"
+        }
+    },
+    "IterativeImageUpscale": {
+        "title": "画像反復スケーリング",
+        "inputs": {
+            "pixels": "画像",
+            "upscaler": "スケール",
+            "vae": "VAE"
+        },
+        "widgets": {
+            "upscale_factor": "スケール係数",
+            "steps": "ステップ数",
+            "temp_prefix": "プレフィックス"
+        },
+        "outputs": {
+            "image": "画像"
+        }
+    },
+    "PixelTiledKSampleUpscalerProvider": {
+        "title": "Kサンプリングピクセルスケーラー(デコード)",
+        "inputs": {
+            "model": "モデル",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "upscale_model_opt": "アップスケールモデル",
+            "pk_hook_opt": "制約"
+        },
+        "widgets": {
+            "scale_method": "スケール方法",
+                "nearest-exact": "ニアレストネイバー-正確",
+                "bilinear": "バイリニア補間",
+                "area": "エリア",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "tile_width": "デコード幅",
+            "tile_height": "デコード高さ",
+            "tiling_strategy": "デコード戦略",
+                "random": "ランダム",
+                "padded": "パディング",
+                "simple": "シンプル"
+        },
+        "outputs": {
+            "UPSCALER": "スケール"
+        }
+    },
+    "PixelTiledKSampleUpscalerProviderPipe": {
+        "title": "Kサンプリングピクセルスケーラー(デコードノードバンドル)",
+        "inputs": {
+            "model": "モデル",
+            "vae": "VAE",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "upscale_model_opt": "アップスケールモデル",
+            "pk_hook_opt": "制約"
+        },
+        "widgets": {
+            "scale_method": "スケール方法",
+                "nearest-exact": "ニアレストネイバー-正確",
+                "bilinear": "バイリニア補間",
+                "area": "エリア",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "tile_width": "デコード幅",
+            "tile_height": "デコード高さ",
+            "tiling_strategy": "デコード戦略",
+                "random": "ランダム",
+                "padded": "パディング",
+                "simple": "シンプル"
+        },
+        "outputs": {
+            "UPSCALER": "スケール"
+        }
+    },
+    "TwoSamplersForMaskUpscalerProvider": {
+        "title": "二重サンプリングスケーラー",
+        "inputs": {
+            "base_sampler": "基本サンプリング器",
+            "mask_sampler": "マスクサンプリング器",
+            "mask": "マスク",
+            "vae": "VAE",
+            "full_sampler_opt": "全体サンプリング器",
+            "upscale_model_opt": "アップスケールモデル",
+            "pk_hook_base_opt": "基本制約",
+            "pk_hook_mask_opt": "マスク制約",
+            "pk_hook_full_opt": "全体制約"
+        },
+        "widgets": {
+            "scale_method": "スケール方法",
+                "nearest-exact": "ニアレストネイバー-正確",
+                "bilinear": "バイリニア補間",
+                "area": "エリア",
+            "full_sample_schedule": "サンプリングスケジューラ",
+                "interleave1": "インターリーブ1",
+                "interleave2": "インターリーブ2",
+                "interleave3": "インターリーブ3",
+                "last1": "連続1",
+                "last2": "連続2",
+                "interleave1+last1": "インターリーブ1+連続1",
+                "interleave2+last1": "インターリーブ2+連続1",
+                "interleave3+last1": "インターリーブ3+連続1",
+            "use_tiled_vae": "タイルデコードVAEを使用"
+        },
+        "outputs": {
+            "UPSCALER": "スケール"
+        }
+    },
+    "TwoSamplersForMaskUpscalerProviderPipe": {
+        "title": "二つのサンプラーによるマスクアップスケーラー",
+        "inputs": {
+            "base_sampler": "基本サンプラー",
+            "mask_sampler": "マスクサンプラー",
+            "mask": "マスク",
+            "basic_pipe": "基本ノード束",
+            "full_sampler_opt": "全体サンプラー",
+            "upscale_model_opt": "アップスケールモデル",
+            "pk_hook_base_opt": "基本制約",
+            "pk_hook_mask_opt": "マスク制約",
+            "pk_hook_full_opt": "全体制約"
+        },
+        "widgets": {
+            "scale_method": "スケーリング方法",
+                "nearest-exact": "最近傍-正確",
+                "bilinear": "バイリニア補間",
+                "area": "エリア",
+            "full_sample_schedule": "サンプルスケジュール",
+                "interleave1": "交互1",
+                "interleave2": "交互2",
+                "interleave3": "交互3",
+                "last1": "最後1",
+                "last2": "最後2",
+                "interleave1+last1": "交互1+最後1",
+                "interleave2+last1": "交互2+最後1",
+                "interleave3+last1": "交互3+最後1",
+            "use_tiled_vae": "タイルVAEを使用"
+        },
+        "outputs": {
+            "UPSCALER": "アップスケール"
+        }
+    },
+    "PixelKSampleHookCombine": {
+        "title": "制約の組み合わせ",
+        "inputs": {
+            "hook1": "制約1",
+            "hook2": "制約2"
+        },
+        "outputs": {
+            "PK_HOOK": "制約"
+        }
+    },
+    "DenoiseScheduleHookProvider": {
+        "title": "ノイズ除去制約器",
+        "widgets": {
+            "scheduler_for_iteration": "スケジュール補間",
+            "target_denoise": "目標ノイズ除去"
+        },
+        "outputs": {
+            "PK_HOOK": "制約"
+        }
+    },
+    "CfgScheduleHookProvider": {
+        "title": "CFG制約器",
+        "widgets": {
+            "scheduler_for_iteration": "スケジュール補間",
+            "target_cfg": "目標CFG"
+        },
+        "outputs": {
+            "PK_HOOK": "制約"
+        }
+    },
+
+
+
+
+
+    "KSamplerProvider": {
+        "title": "Kサンプリングプロバイダー(ノードバンドル)",
+        "inputs": {
+            "basic_pipe": "ベーシックノードバンドル"
+        },
+        "widgets": {
+            "seed": "乱数シード",
+                "control_after_generate": "生成後の制御",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラー",
+            "denoise": "ノイズ除去"
+        },
+        "outputs": {
+            "KSAMPLER": "Kサンプラー"
+        }
+    },
+    "TwoSamplersForMask": {
+        "title": "デュアルサンプラー",
+        "inputs": {
+            "latent_image": "Latent",
+            "base_sampler": "ベースサンプラー",
+            "mask_sampler": "マスクサンプラー",
+            "mask": "マスク"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+    "TiledKSamplerProvider": {
+        "title": "Kサンプリングプロバイダー(デコーディングノードバンドル)",
+        "inputs": {
+            "basic_pipe": "ベーシックノードバンドル"
+        },
+        "widgets": {
+            "seed": "乱数シード",
+                "control_after_generate": "生成後の制御",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラー",
+            "denoise": "ノイズ除去",
+            "tile_width": "タイル幅",
+            "tile_height": "タイル高さ",
+            "tiling_strategy": "タイル戦略",
+                "random": "ランダム",
+                "padded": "パディング",
+                "simple": "シンプル"
+        },
+        "outputs": {
+            "KSAMPLER": "Kサンプラー"
+        }
+    },
+    "KSamplerAdvancedProvider": {
+        "title": "Kサンプリングプロバイダー(ハイトノードバンドル)",
+        "inputs": {
+            "basic_pipe": "ベーシックノードバンドル"
+        },
+        "widgets": {
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラー"
+        },
+        "outputs": {
+            "KSAMPLER_ADVANCED": "Kサンプラー(ハイト)"
+        }
+    },
+    "TwoAdvancedSamplersForMask": {
+        "title": "デュアルサンプラー(ハイト)",
+        "inputs": {
+            "samples": "Latent",
+            "base_sampler": "ベースサンプラー",
+            "mask_sampler": "マスクサンプラー",
+            "mask": "マスク"
+        },
+        "widgets": {
+            "seed": "乱数シード",
+            "control_after_generate": "生成後の制御",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "denoise": "ノイズ除去",
+            "overlap_factor": "オーバーラップ係数"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+
+
+
+    "ImpactWildcardProcessor": {
+        "title": "ワイルドカードプロセッサ",
+        "widgets": {
+            "wildcard_text": "ワイルドカードテキスト",
+            "populated_text": "入力テキスト",
+            "mode": "入力モード"
+        },
+        "outputs": {
+            "STRING": "文字列"
+        }
+    },
+    "ImpactWildcardEncode": {
+        "title": "ワイルドカードエンコード",
+        "inputs": {
+            "model": "モデル",
+            "clip": "CLIP"
+        },
+        "widgets": {
+            "wildcard_text": "ワイルドカードテキスト",
+            "populated_text": "入力テキスト",
+            "mode": "入力モード",
+            "Select to add LoRA": "LoRAを追加"
+        },
+        "outputs": {
+            "MODEL": "モデル",
+            "CLIP": "CLIP",
+            "CONDITIONING": "生成条件設定"
+        }
+    },
+
+
+
+
+    "RegionalPrompt": {
+        "title": "エリアプロンプト",
+        "inputs": {
+            "mask": "マスク",
+            "advanced_sampler": "Kサンプラー（高さ）"
+        },
+        "outputs": {
+            "regional_prompts": "エリアプロンプト"
+        }
+    },
+    "CombineRegionalPrompts": {
+        "title": "結合エリアプロンプト",
+        "inputs": {
+            "regional_prompts1": "エリアプロンプト1",
+            "regional_prompts2": "エリアプロンプト2"
+        },
+        "outputs": {
+            "REGIONAL_PROMPTS": "エリアプロンプト"
+        }
+    },
+    "RegionalSampler": {
+        "title": "エリアサンプリング",
+        "inputs": {
+            "samples": "Latent",
+            "base_sampler": "Kサンプラー（高さ）",
+            "regional_prompts": "エリアプロンプト"
+        },
+        "widgets": {
+            "seed": "シード値",
+            "control_after_generate": "生成後の制御",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム化",
+            "steps": "ステップ数",
+            "denoise": "ノイズ除去",
+            "overlap_factor": "オーバーラップ係数"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    },
+
+
+
+
+
+    "ImpactImageInfo": {
+        "title": "画像情報",
+        "inputs": {
+            "value": "画像"
+        },
+        "outputs": {
+            "batch": "バッチサイズ",
+            "height": "高さ",
+            "width": "幅",
+            "channel": "チャンネル"
+        }
+    },
+    "ImpactMinMax": {
+        "title": "極値計算",
+        "inputs": {
+            "mode": "モード",
+            "a": "A",
+            "b": "B"
+        },
+        "outputs": {
+            "INT": "整数"
+        }
+    },
+
+    "ImpactCompare": {
+        "title": "比較",
+        "inputs": {
+            "a": "A",
+            "b": "B"
+        },
+        "widgets": {
+            "cmp": "比較方法"
+        },
+        "outputs": {
+            "BOOLEAN": "真偽"
+        }
+    },
+    "ImpactConditionalBranch": {
+        "title": "生成条件分岐",
+        "inputs": {
+            "cond": "生成条件",
+            "tt_value": "真の値",
+            "ff_value": "偽の値"
+        },
+        "outputs": {
+            "*": "出力"
+        }
+    },
+    "ImpactInt": {
+        "title": "整数",
+        "widgets": {
+            "value": "値"
+        },
+        "outputs": {
+            "INT": "整数"
+        }
+    },
+    "ImpactValueSender": {
+        "title": "値送信",
+        "inputs": {
+            "value": "値"
+        },
+        "widgets": {
+            "link_id": "接続ID"
+        }
+    },
+    "ImpactValueReceiver": {
+        "title": "値受信",
+        "widgets": {
+            "typ": "タイプ",
+            "value": "値",
+            "link_id": "接続ID"
+        },
+        "outputs": {
+            "*": "出力"
+        }
+    },
+    "ImpactNeg": {
+        "title": "値の反転",
+        "inputs": {
+            "value": "値"
+        },
+        "outputs": {
+            "BOOLEAN": "真偽"
+        }
+    },
+    "ImpactConditionalStopIteration": {
+        "title": "生成条件による反復停止",
+        "inputs": {
+            "cond": "生成条件"
+        }
+    },
+
+    "ImpactLogger": {
+        "title": "出力ログ",
+        "inputs": {
+            "data": "データ"
+        }
+    },
+    "ImpactDummyInput": {
+        "title": "ダミー入力",
+        "outputs": {
+            "*": "出力"
+        }
+    },
+
+    "SAMLoader": {
+        "title": "SAMローダー",
+        "widgets": {
+            "model_name": "モデル名",
+            "device_mode": "デバイスモード"
+        },
+        "outputs": {
+            "SAM_MODEL": "SAMモデル"
+        }
+    },
+    "ONNXDetectorProvider": {
+        "title": "ONNXローダー",
+        "widgets": {
+            "model_name": "モデル名"
+        },
+        "outputs": {
+            "ONNX_DETECTOR": "ONNX検出器"
+        }
+    },
+    "UltralyticsDetectorProvider": {
+        "title": "Ultralytics検出器",
+        "widgets": {
+            "model_name": "モデル名"
+        },
+        "outputs": {
+            "BBOX_DETECTOR": "BBox検出器",
+            "SEGM_DETECTOR": "SEGM検出器"
+        }
+    }
+
+}

@@ -1,0 +1,71 @@
+{
+    "BNK_CLIPTextEncodeAdvanced": {
+        "title": "CLIPテキストエンコーダー(BNK)",
+        "inputs": {
+            "clip": "CLIP"
+        },
+        "widgets": {
+            "text": "テキスト",
+            "token_normalization": "トークン正規化",
+                "none": "なし",
+                "length": "長さ",
+                "mean": "平均",
+                "length+mean": "混合",
+            "weight_interpretation": "重みの解釈方法"
+        },
+        "outputs": {
+            "CONDITIONING": "生成条件"
+        }
+    },
+    "BNK_CLIPTextEncodeSDXLAdvanced": {
+        "title": "CLIPテキストエンコーダー(BNK-SDXL)",
+        "inputs": {
+            "clip": "CLIP"
+        },
+        "widgets": {
+            "text_l": "L条件",
+            "text_g": "G条件",
+            "token_normalization": "トークン正規化",
+                "none": "なし",
+                "length": "長さ",
+                "mean": "平均",
+                "length+mean": "混合",
+            "weight_interpretation": "重みの解釈方法",
+            "balance": "バランス"
+        },
+        "outputs": {
+            "CONDITIONING": "生成条件"
+        }
+    },
+    "BNK_AddCLIPSDXLParams": {
+        "title": "SDXLパラメータ追加",
+        "inputs": {
+            "conditioning": "生成条件"
+        },
+        "widgets": {
+            "width": "幅",
+            "height": "高さ",
+            "crop_w": "切り取り幅",
+            "crop_h": "切り取り高さ",
+            "target_width": "目標幅",
+            "target_height": "目標高さ"
+        },
+        "outputs": {
+            "CONDITIONING": "生成条件"
+        }
+    },
+    "BNK_AddCLIPSDXLRParams": {
+        "title": "SDXL最適化パラメータ追加",
+        "inputs": {
+            "conditioning": "生成条件"
+        },
+        "widgets": {
+            "width": "幅",
+            "height": "高さ",
+            "ascore": "美的スコア"
+        },
+        "outputs": {
+            "CONDITIONING": "生成条件"
+        }
+    }
+}

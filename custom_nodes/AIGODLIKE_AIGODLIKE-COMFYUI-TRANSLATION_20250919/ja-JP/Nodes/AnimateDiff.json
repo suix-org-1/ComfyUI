@@ -1,0 +1,87 @@
+{
+    "AnimateDiffLoader": {
+        "title": "アニメーション拡散ローダー",
+        "inputs": {
+            "model": "モデル",
+            "init_latent": "初期Latent"
+        },
+        "widgets": {
+            "model_name": "モデル名",
+            "width": "幅",
+            "height": "高さ",
+            "frame_number": "フレーム数"
+        },
+        "outputs": {
+            "MODEL": "モデル",
+            "LATENT": "Latent"
+        }
+    },
+    "AnimateDiffLoader_v2": {
+        "title": "アニメーション拡散ローダーv2",
+        "inputs": {
+            "model": "モデル",
+            "init_latent": "初期Latent"
+        },
+        "widgets": {
+            "model_name": "モデル名",
+            "frame_number": "フレーム数"
+        },
+        "outputs": {
+            "MODEL": "モデル",
+            "LATENT": "Latent"
+        }
+    },
+    "AnimateDiffUnload": {
+        "title": "アニメーション拡散のアンロード",
+        "inputs": {
+            "model": "モデル"
+        },
+        "outputs": {
+            "MODEL": "モデル"
+        }
+    },
+    "AnimateDiffCombine": {
+        "title": "GIFとして結合",
+        "inputs": {
+            "images": "画像"
+        },
+        "widgets": {
+            "frame_rate": "フレームレート",
+            "loop_count": "ループ回数",
+            "save_image": "画像を保存",
+                "Enabled": "はい",
+                "Disabled": "いいえ",
+            "filename_prefix": "ファイル名の接頭辞"
+        }
+    },
+    "AnimateDiffSampler": {
+        "title": "アニメーション拡散サンプラー",
+        "inputs": {
+            "motion_module": "モーションモジュール",
+            "model": "モデル",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "latent_image": "Latent"
+        },
+        "widgets": {
+            "inject_method": "インジェクト方式",
+                "default": "デフォルト",
+                "legacy": "旧バージョン",
+            "frame_number": "フレーム数",
+            "seed": "シード値",
+            "control_after_generate": "生成後の制御",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去"
+        },
+        "outputs": {
+            "LATENT": "Latent"
+        }
+    }
+}

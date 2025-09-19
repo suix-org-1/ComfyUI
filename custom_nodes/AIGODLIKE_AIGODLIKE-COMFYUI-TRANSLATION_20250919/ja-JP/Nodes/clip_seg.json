@@ -1,0 +1,39 @@
+{
+    "CLIPSeg": {
+        "title": "CLIPセグメント",
+        "inputs": {
+            "image": "画像"
+        },
+        "widgets": {
+            "text": "テキスト",
+            "blur": "ぼかし",
+            "threshold": "しきい値",
+            "dilation_factor": "拡張率"
+        },
+        "outputs": {
+            "Mask": "マスク",
+            "Heatmap Mask": "ヒートマップマスク",
+            "BW Mask": "白黒マスク"
+        }
+    },
+    "CombineSegMasks": {
+        "title": "分割マスクの結合",
+        "inputs": {
+            "input_image": "画像",
+            "mask_1": "マスク1",
+            "mask_2": "マスク2",
+            "mask_3": "マスク3"
+        },
+        "widgets": {
+            "text": "テキスト",
+            "blur": "ぼかし",
+            "threshold": "しきい値",
+            "dilation_factor": "拡張率"
+        },
+        "outputs": {
+            "Combined Mask": "結合マスク",
+            "Heatmap Mask": "ヒートマップマスク",
+            "BW Mask": "白黒マスク"
+        }
+    }
+}

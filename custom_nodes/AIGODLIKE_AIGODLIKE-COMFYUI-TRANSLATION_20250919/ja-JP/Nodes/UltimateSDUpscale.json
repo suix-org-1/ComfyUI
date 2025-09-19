@@ -1,0 +1,91 @@
+{
+    "UltimateSDUpscale": {
+        "title": "SDアップスケール",
+        "inputs": {
+            "image": "画像",
+            "model": "モデル",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "vae": "VAE",
+            "upscale_model": "アップスケールモデル"
+        },
+        "widgets": {
+            "upscale_by": "アップスケール倍率",
+            "seed": "シード",
+            "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "mode_type": "モードタイプ",
+                "Linear": "線形",
+                "Chess": "チェスボード",
+                "None": "なし",
+            "tile_width": "タイル幅",
+            "tile_height": "タイル高さ",
+            "mask_blur": "マスクぼかし",
+            "tile_padding": "タイルパディング",
+            "seam_fix_mode": "接合部修正モード",
+                "Band Pass": "バンドパス",
+                "Half Tile": "半タイルオフセット",
+                "Half Tile + Intersections": "半タイルオフセット + 交差",
+            "seam_fix_denoise": "接合部修正ノイズ除去",
+            "seam_fix_width": "接合部修正幅",
+            "seam_fix_mask_blur": "接合部修正ぼかし",
+            "seam_fix_padding": "接合部修正パディング",
+            "force_uniform_tiles": "タイルを均一に強制"
+        },
+        "outputs": {
+            "IMAGE": "画像"
+        }
+    },
+    "UltimateSDUpscaleNoUpscale": {
+        "title": "SDアップスケール（非アップスケール）",
+        "inputs": {
+            "upscaled_image": "アップスケールされた画像",
+            "model": "モデル",
+            "positive": "ポジティブ",
+            "negative": "ネガティブ",
+            "vae": "VAE"
+        },
+        "widgets": {
+            "seed": "シード",
+            "control_after_generate": "生成後の操作",
+                "fixed": "固定",
+                "increment": "増加",
+                "decrement": "減少",
+                "randomize": "ランダム",
+            "steps": "ステップ数",
+            "cfg": "CFG",
+            "sampler_name": "サンプラー名",
+            "scheduler": "スケジューラ",
+            "denoise": "ノイズ除去",
+            "mode_type": "モードタイプ",
+                "Linear": "線形",
+                "Chess": "チェスボード",
+                "None": "なし",
+            "tile_width": "タイル幅",
+            "tile_height": "タイル高さ",
+            "mask_blur": "マスクぼかし",
+            "tile_padding": "タイルパディング",
+            "seam_fix_mode": "接合部修正モード",
+                "Band Pass": "バンドパス",
+                "Half Tile": "半タイルオフセット",
+                "Half Tile + Intersections": "半タイルオフセット + 交差",
+            "seam_fix_denoise": "接合部修正ノイズ除去",
+            "seam_fix_width": "接合部修正幅",
+            "seam_fix_mask_blur": "接合部修正ぼかし",
+            "seam_fix_padding": "接合部修正パディング",
+            "force_uniform_tiles": "タイルを均一に強制"
+        },
+        "outputs": {
+            "IMAGE": "画像"
+        }
+    }
+
+}

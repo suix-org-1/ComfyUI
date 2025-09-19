@@ -1,0 +1,62 @@
+{
+    "BNK_CutoffBasePrompt": {
+        "title": "Cutoff基本プロンプト",
+        "inputs": {
+            "clip": "CLIP"
+        },
+        "widgets": {
+            "text": "テキスト"
+        },
+        "outputs": {
+            "CLIPREGION": "CLIP領域"
+        }
+    },
+    "BNK_CutoffSetRegions": {
+        "title": "Cutoff領域設定",
+        "inputs": {
+            "clip_regions": "CLIP領域"
+        },
+        "widgets": {
+            "region_text": "領域テキスト",
+            "target_text": "対象テキスト",
+            "weight": "重み"
+        },
+        "outputs": {
+            "CLIPREGION": "CLIP領域"
+        }
+    },
+    "BNK_CutoffRegionsToConditioning": {
+        "title": "Cutoff領域を生成条件に変換",
+        "inputs": {
+            "clip_regions": "CLIP領域"
+        },
+        "widgets": {
+            "mask_token": "マスクトークン",
+            "strict_mask": "厳密マスク",
+            "start_from_masked": "マスク領域から開始"
+        },
+        "outputs": {
+            "CONDITIONING": "生成条件"
+        }
+    },
+    "BNK_CutoffRegionsToConditioning_ADV": {
+        "title": "Cutoff領域を生成条件に変換（詳細）",
+        "inputs": {
+            "clip_regions": "CLIP領域"
+        },
+        "widgets": {
+            "mask_token": "マスクトークン",
+            "strict_mask": "厳密マスク",
+            "start_from_masked": "マスク領域から開始",
+            "token_normalization": "トークン正規化",
+            "none": "なし",
+            "length": "長さ",
+            "mean": "平均",
+            "length+mean": "混合",
+            "weight_interpretation": "重み付け方式"
+        },
+        "outputs": {
+            "CONDITIONING": "生成条件"
+        }
+    }
+}

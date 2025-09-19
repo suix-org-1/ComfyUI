@@ -1,0 +1,22 @@
+{
+    "IPAdapter": {
+        "title": "IPアダプタ",
+        "inputs": {
+            "model": "モデル",
+            "image": "画像",
+            "clip_vision": "CLIPビジョン",
+            "mask": "マスク"
+        },
+        "widgets": {
+            "weight": "重み",
+            "model_name": "モデル名",
+                "undefined": "未定義",
+            "dtype": "データ型"
+        },
+        "outputs": {
+            "MODEL": "モデル",
+            "CLIP_VISION_OUTPUT": "CLIPビジョン出力"
+        }
+    }
+
+}
