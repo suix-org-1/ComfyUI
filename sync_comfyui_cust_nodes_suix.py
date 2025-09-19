@@ -7,10 +7,9 @@ import math
 from datetime import datetime
 
 # === 配置 ===
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-GITHUB_STATS_FILE = os.path.join(SCRIPT_DIR, "github-stats.json")
-CUSTOM_NODES_DIR = os.path.join(SCRIPT_DIR, "custom_nodes")
-GIT_REPO_DIR = SCRIPT_DIR
+GIT_REPO_DIR = os.path.dirname(os.path.abspath(__file__))
+CUSTOM_NODES_DIR = os.path.join(GIT_REPO_DIR, "custom_nodes")
+GITHUB_STATS_FILE = os.path.join(os.getenv("MANAGER_REPO_DIR"), "github-stats.json")
 
 # 修复：统一去除空格，避免匹配失败
 SKIP_REPOS = {
