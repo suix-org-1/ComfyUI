@@ -1,0 +1,14 @@
+[project]
+name = "bizyair"
+description = "[a/BizyAir](https://github.com/siliconflow/BizyAir) Comfy Nodes that can run in any environment."
+license = { file = "LICENSE" }
+version = "1.2.8"
+
+[project.urls]
+Repository = "https://github.com/siliconflow/BizyAir"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = "siliconflow"
+DisplayName = "☁️BizyAir"
+Icon = "https://bizy-air.oss-cn-beijing.aliyuncs.com/examples_asset/siliconflow_logo.png"

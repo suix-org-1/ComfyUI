@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+/.vs
+.vscode/
+.idea/
+venv/
+*.log
+api_key.ini
+profile.ini
+.DS_Store
+*.egg-info
+dist/
+js/
+bizyair_frontend/
