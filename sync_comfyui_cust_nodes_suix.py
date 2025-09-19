@@ -7,6 +7,8 @@ import math
 from datetime import datetime
 
 # === 配置 ===
+COMFYUI_REPO_DIR = os.getenv("COMFYUI_REPO_DIR")
+CUSTOM_NODES_DIR = os.getenv("CUSTOM_NODES_DIR")
 GITHUB_STATS_FILE = os.path.join(os.getenv("MANAGER_REPO_DIR"), "github-stats.json")
 
 # 修复：统一去除空格，避免匹配失败
