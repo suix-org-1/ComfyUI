@@ -49,7 +49,6 @@ jobs:
 
           python -m venv venv
           source venv/bin/activate
-          pip install --upgrade pip
           pip install requests
 
           mkdir -p custom_nodes
