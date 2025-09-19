@@ -1,0 +1,8 @@
+huggingface_hub
+diffusers
+transformers
+torch>=2.4.1
+xformers>=0.0.27.post2
+gradio>=4.44.1
+scepter
+ms_swift

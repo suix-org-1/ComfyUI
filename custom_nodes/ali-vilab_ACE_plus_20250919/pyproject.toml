@@ -1,0 +1,15 @@
+[project]
+name = "ace_plus"
+description = "Custom nodes for various visual generation and editing tasks using ACE_Plus FFT Model."
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/ali-vilab/ACE_plus"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ACE_plus"
+Icon = ""

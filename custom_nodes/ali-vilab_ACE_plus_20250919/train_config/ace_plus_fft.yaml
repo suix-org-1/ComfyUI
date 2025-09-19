@@ -1,0 +1,296 @@
+ENV:
+  BACKEND: nccl
+  SEED: 1999
+SOLVER:
+  # NAME DESCRIPTION:  TYPE:  default: 'LatentUfitSolver'
+  NAME: FormalACEPlusSolver
+  # MAX_STEPS DESCRIPTION: The total steps for training. TYPE: int default: 100000
+  MAX_STEPS: 100000
+  # USE_AMP DESCRIPTION: Use amp to surpport mix precision or not, default is False. TYPE: bool default: False
+  USE_AMP: True
+  # DTYPE DESCRIPTION: The precision for training. TYPE: str default: 'float32'
+  DTYPE: bfloat16
+  ENABLE_GRADSCALER: False
+  # USE_FAIRSCALE DESCRIPTION: Use fairscale as the backend of ddp, default False. TYPE: bool default: False
+  USE_FAIRSCALE: False
+  USE_ORIG_PARAMS: True
+  USE_FSDP: True  # lora use ddp(USE_FSDP=False), else use fsdp(USE_FSDP=True)
+  # LOAD_MODEL_ONLY DESCRIPTION: Only load the model rather than the optimizer and schedule, default is False. TYPE: bool default: False
+  LOAD_MODEL_ONLY: False
+  # RESUME_FROM DESCRIPTION: Resume from some state of training! TYPE: str default: ''
+  RESUME_FROM:
+  # WORK_DIR DESCRIPTION: Save dir of the training log or model. TYPE: str default: ''
+  WORK_DIR: ./examples/exp_example/
+  # LOG_FILE DESCRIPTION: Save log path. TYPE: str default: ''
+  LOG_FILE: std_log.txt
+  # LOG_TRAIN_NUM DESCRIPTION: The number samples used to log in training phase. TYPE: int default: -1
+  LOG_TRAIN_NUM: 16
+  # FSDP_REDUCE_DTYPE DESCRIPTION: The dtype of reduce in FSDP. TYPE: str default: 'float16'
+  FSDP_REDUCE_DTYPE: float32
+  # FSDP_BUFFER_DTYPE DESCRIPTION: The dtype of buffer in FSDP. TYPE: str default: 'float16'
+  FSDP_BUFFER_DTYPE: float32
+  # FSDP_SHARD_MODULES DESCRIPTION: The modules to be sharded in FSDP. TYPE: list default: ['model']
+  FSDP_SHARD_MODULES:
+    - MODULE: 'model'
+      FSDP_GROUP: [ 'single_blocks', 'double_blocks']
+    - MODULE: 'cond_stage_model.t5_model.hf_module.encoder'
+      FSDP_GROUP: [ 'block' ] #
+  SAVE_MODULES: [ 'model'] #
+  TRAIN_MODULES: ['model']
+
+  #
+  FILE_SYSTEM:
+    - NAME: HuggingfaceFs
+      TEMP_DIR: ./cache
+    - NAME: ModelscopeFs
+      TEMP_DIR: ./cache
+  #
+  MODEL:
+    NAME: LatentDiffusionACEPlus
+    PARAMETERIZATION: rf
+    TIMESTEPS: 1000
+    GUIDE_SCALE: 1.0
+    PRETRAINED_MODEL:
+    IGNORE_KEYS: [ ]
+    USE_EMA: False
+    EVAL_EMA: False
+    SIZE_FACTOR: 8
+    DIFFUSION:
+      NAME: DiffusionFluxRF
+      PREDICTION_TYPE: raw
+      NOISE_NORM: True
+      # NOISE_SCHEDULER DESCRIPTION:  TYPE:  default: ''
+      NOISE_SCHEDULER:
+        NAME: FlowMatchFluxShiftScheduler
+        SHIFT: False
+        PRE_T_SAMPLE: True
+        PRE_T_SAMPLE_FOLD: 1
+        SIGMOID_SCALE: 1
+        BASE_SHIFT: 0.5
+        MAX_SHIFT: 1.15
+      SAMPLER_SCHEDULER:
+        NAME: FlowMatchFluxShiftScheduler
+        SHIFT: True
+        PRE_T_SAMPLE: False
+        SIGMOID_SCALE: 1
+        BASE_SHIFT: 0.5
+        MAX_SHIFT: 1.15
+
+    #
+    DIFFUSION_MODEL:
+      # NAME DESCRIPTION:  TYPE:  default: 'Flux'
+      NAME: FluxMRModiACEPlus
+      PRETRAINED_MODEL: ${ACE_PLUS_FFT_MODEL}
+      # IN_CHANNELS DESCRIPTION: model's input channels. TYPE: int default: 64
+      IN_CHANNELS: 448
+      # OUT_CHANNELS DESCRIPTION: model's input channels. TYPE: int default: 64
+      OUT_CHANNELS: 64
+      # HIDDEN_SIZE DESCRIPTION: model's hidden size. TYPE: int default: 1024
+      HIDDEN_SIZE: 3072
+      REDUX_DIM: 1152
+      # NUM_HEADS DESCRIPTION: number of heads in the transformer. TYPE: int default: 16
+      NUM_HEADS: 24
+      # AXES_DIM DESCRIPTION: dimensions of the axes of the positional encoding. TYPE: list default: [16, 56, 56]
+      AXES_DIM: [ 16, 56, 56 ]
+      # THETA DESCRIPTION: theta for positional encoding. TYPE: int default: 10000
+      THETA: 10000
+      # VEC_IN_DIM DESCRIPTION: dimension of the vector input. TYPE: int default: 768
+      VEC_IN_DIM: 768
+      # GUIDANCE_EMBED DESCRIPTION: whether to use guidance embedding. TYPE: bool default: False
+      GUIDANCE_EMBED: True
+      # CONTEXT_IN_DIM DESCRIPTION: dimension of the context input. TYPE: int default: 4096
+      CONTEXT_IN_DIM: 4096
+      # MLP_RATIO DESCRIPTION: ratio of mlp hidden size to hidden size. TYPE: float default: 4.0
+      MLP_RATIO: 4.0
+      # QKV_BIAS DESCRIPTION: whether to use bias in qkv projection. TYPE: bool default: True
+      QKV_BIAS: True
+      # DEPTH DESCRIPTION: number of transformer blocks. TYPE: int default: 19
+      DEPTH: 19
+      # DEPTH_SINGLE_BLOCKS DESCRIPTION: number of transformer blocks in the single stream block. TYPE: int default: 38
+      DEPTH_SINGLE_BLOCKS: 38
+      # ATTN_BACKEND：setting 'flash_attn' to use flash_attn2, if the version of pytorch > 2.4.0, using 'pytorch' to use pytorch's implementation
+      ATTN_BACKEND: flash_attn
+      # USE_GRAD_CHECKPOINT: setting gc to true can decrease the memory usage.
+      USE_GRAD_CHECKPOINT: True
+
+    #
+    FIRST_STAGE_MODEL:
+      NAME: AutoencoderKLFlux
+      EMBED_DIM: 16
+      PRETRAINED_MODEL: ${FLUX_FILL_PATH}/ae.safetensors
+      IGNORE_KEYS: [ ]
+      BATCH_SIZE: 8
+      USE_CONV: False
+      SCALE_FACTOR: 0.3611
+      SHIFT_FACTOR: 0.1159
+      #
+      ENCODER:
+        NAME: Encoder
+        CH: 128
+        OUT_CH: 3
+        NUM_RES_BLOCKS: 2
+        IN_CHANNELS: 3
+        ATTN_RESOLUTIONS: [ ]
+        CH_MULT: [ 1, 2, 4, 4 ]
+        Z_CHANNELS: 16
+        DOUBLE_Z: True
+        DROPOUT: 0.0
+        RESAMP_WITH_CONV: True
+      #
+      DECODER:
+        NAME: Decoder
+        CH: 128
+        OUT_CH: 3
+        NUM_RES_BLOCKS: 2
+        IN_CHANNELS: 3
+        ATTN_RESOLUTIONS: [ ]
+        CH_MULT: [ 1, 2, 4, 4 ]
+        Z_CHANNELS: 16
+        DROPOUT: 0.0
+        RESAMP_WITH_CONV: True
+        GIVE_PRE_END: False
+        TANH_OUT: False
+    #
+    COND_STAGE_MODEL:
+      # NAME DESCRIPTION:  TYPE:  default: 'T5PlusClipFluxEmbedder'
+      NAME: T5ACEPlusClipFluxEmbedder
+      # T5_MODEL DESCRIPTION:  TYPE:  default: ''
+      T5_MODEL:
+        # NAME DESCRIPTION:  TYPE:  default: 'HFEmbedder'
+        NAME: ACEHFEmbedder
+        # HF_MODEL_CLS DESCRIPTION: huggingface cls in transfomer TYPE: NoneType default: None
+        HF_MODEL_CLS: T5EncoderModel
+        # MODEL_PATH DESCRIPTION: model folder path TYPE: NoneType default: None
+        MODEL_PATH: ${FLUX_FILL_PATH}/text_encoder_2/
+        # HF_TOKENIZER_CLS DESCRIPTION: huggingface cls in transfomer TYPE: NoneType default: None
+        HF_TOKENIZER_CLS: T5Tokenizer
+        # TOKENIZER_PATH DESCRIPTION: tokenizer folder path TYPE: NoneType default: None
+        TOKENIZER_PATH: ${FLUX_FILL_PATH}/tokenizer_2/
+        ADDED_IDENTIFIER: [ '<img>','{image}', '{caption}', '{mask}', '{ref_image}', '{image1}', '{image2}', '{image3}', '{image4}', '{image5}', '{image6}', '{image7}', '{image8}', '{image9}' ]
+        # MAX_LENGTH DESCRIPTION: max length of input TYPE: int default: 77
+        MAX_LENGTH: 512
+        # OUTPUT_KEY DESCRIPTION: output key TYPE: str default: 'last_hidden_state'
+        OUTPUT_KEY: last_hidden_state
+        # D_TYPE DESCRIPTION: dtype TYPE: str default: 'bfloat16'
+        D_TYPE: bfloat16
+        # BATCH_INFER DESCRIPTION: batch infer TYPE: bool default: False
+        BATCH_INFER: False
+        CLEAN: whitespace
+      # CLIP_MODEL DESCRIPTION:  TYPE:  default: ''
+      CLIP_MODEL:
+        # NAME DESCRIPTION:  TYPE:  default: 'HFEmbedder'
+        NAME: ACEHFEmbedder
+        # HF_MODEL_CLS DESCRIPTION: huggingface cls in transfomer TYPE: NoneType default: None
+        HF_MODEL_CLS: CLIPTextModel
+        # MODEL_PATH DESCRIPTION: model folder path TYPE: NoneType default: None
+        MODEL_PATH: ${FLUX_FILL_PATH}/text_encoder/
+        # HF_TOKENIZER_CLS DESCRIPTION: huggingface cls in transfomer TYPE: NoneType default: None
+        HF_TOKENIZER_CLS: CLIPTokenizer
+        # TOKENIZER_PATH DESCRIPTION: tokenizer folder path TYPE: NoneType default: None
+        TOKENIZER_PATH: ${FLUX_FILL_PATH}/tokenizer/
+        # MAX_LENGTH DESCRIPTION: max length of input TYPE: int default: 77
+        MAX_LENGTH: 77
+        # OUTPUT_KEY DESCRIPTION: output key TYPE: str default: 'last_hidden_state'
+        OUTPUT_KEY: pooler_output
+        # D_TYPE DESCRIPTION: dtype TYPE: str default: 'bfloat16'
+        D_TYPE: bfloat16
+        # BATCH_INFER DESCRIPTION: batch infer TYPE: bool default: False
+        BATCH_INFER: True
+        CLEAN: whitespace
+      #
+  SAMPLE_ARGS:
+    SAMPLE_STEPS: 28
+    SAMPLER: flow_euler
+    SEED: 42
+    IMAGE_SIZE: [ 1024, 1024 ]
+    GUIDE_SCALE: 50
+
+  LR_SCHEDULER:
+    NAME: StepAnnealingLR
+    WARMUP_STEPS: 0
+    TOTAL_STEPS: 100000
+    DECAY_MODE: 'cosine'
+  #
+  OPTIMIZER:
+    NAME: AdamW
+    LEARNING_RATE: 5e-5
+    BETAS: [ 0.9, 0.999 ]
+    EPS: 1e-6
+    WEIGHT_DECAY: 1e-2
+    AMSGRAD: False
+  #
+  TRAIN_DATA:
+    NAME: ACEPlusDataset
+    MODE: train
+    DATA_LIST: data/train.csv
+    MODIFY_MODE: True
+    DELIMITER: "#;#"
+    # input_image, input_mask, input_reference_image, target_image, instruction, task_type
+    FIELDS: ["edit_image", "edit_mask", "ref_image", "target_image", "prompt", "data_type"]
+    PATH_PREFIX: ""
+    EDIT_TYPE_LIST: []
+    MAX_SEQ_LEN: 2048
+    D: 16
+    PIN_MEMORY: True
+    BATCH_SIZE: 1
+    NUM_WORKERS: 0
+    SAMPLER:
+      NAME: LoopSampler
+
+  EVAL_DATA:
+    NAME: ACEPlusDataset
+    MODE: eval
+    DATA_LIST: data/train.csv
+    MODIFY_MODE: True
+    DELIMITER: "#;#"
+    # input_image, input_mask, input_reference_image, target_image, instruction, task_type
+    FIELDS: [ "edit_image", "edit_mask", "ref_image", "target_image", "prompt", "data_type" ]
+    PATH_PREFIX: ""
+    EDIT_TYPE_LIST: [ ]
+    MAX_SEQ_LEN: 2048
+    D: 16
+    PIN_MEMORY: True
+    BATCH_SIZE: 1
+    NUM_WORKERS: 4
+
+  TRAIN_HOOKS:
+    - NAME: ACEBackwardHook
+      GRADIENT_CLIP: 1.0
+      PRIORITY: 10
+    - NAME: LogHook
+      LOG_INTERVAL: 20
+    - NAME: ACECheckpointHook
+      INTERVAL: 250
+      PRIORITY: 200
+
+    - NAME: ValLossHook
+      VAL_INTERVAL: 250
+      VAL_LIMITATION_SIZE: 1000000
+      VAL_SEED: 42
+      META_FIELD: [ 'edit_key' ]
+      PRIORITY: 5
+      DATA:
+        NAME: ACEPlusDataset
+        MODE: eval
+        PIN_MEMORY: True
+        BATCH_SIZE: 1
+        USE_NUM: -1
+        NUM_WORKERS: 4
+        DATA_LIST: data/train.csv
+        MODIFY_MODE: True
+        DELIMITER: "#;#"
+        # input_image, input_mask, input_reference_image, target_image, instruction, task_type
+        FIELDS: [ "edit_image", "edit_mask", "ref_image", "target_image", "prompt", "data_type" ]
+        PATH_PREFIX: ""
+        EDIT_TYPE_LIST: [ ]
+        MAX_SEQ_LEN: 2048
+        D: 16
+    - NAME: ProbeDataHook
+      PROB_INTERVAL: 50
+      PRIORITY: 0
+    - NAME: TensorboardLogHook
+      LOG_INTERVAL: 50
+  EVAL_HOOKS:
+    - NAME: ProbeDataHook
+      PROB_INTERVAL: 50
+      PRIORITY: 0
