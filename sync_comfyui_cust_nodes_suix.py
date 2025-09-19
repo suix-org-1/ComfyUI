@@ -7,8 +7,6 @@ import math
 from datetime import datetime
 
 # === 配置 ===
-GIT_REPO_DIR = os.path.dirname(os.path.abspath(__file__))
-CUSTOM_NODES_DIR = os.path.join(GIT_REPO_DIR, "custom_nodes")
 GITHUB_STATS_FILE = os.path.join(os.getenv("MANAGER_REPO_DIR"), "github-stats.json")
 
 # 修复：统一去除空格，避免匹配失败
@@ -224,7 +222,7 @@ def git_commit_and_push(message):
     """提交并推送 Git 仓库（静默模式，不打印文件列表）"""
     original_dir = os.getcwd()
     try:
-        os.chdir(GIT_REPO_DIR)
+        os.chdir(COMFYUI_REPO_DIR)
         result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
         if not result.stdout.strip():
             print("📭 无更改，跳过提交")
