@@ -1,9 +1,9 @@
 name: 同步ComfyUI自定义节点
 
-# 触发条件：每天 UTC 2:00（北京时间 10:00） + 手动触发
+# 每小时跑一次
 on:
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 # 授予 push 权限
