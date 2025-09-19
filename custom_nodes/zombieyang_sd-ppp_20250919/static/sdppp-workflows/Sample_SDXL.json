@@ -1,0 +1,3342 @@
+{
+  "id": "37b426ec-6858-4b89-9129-b53866a7d0b8",
+  "revision": 0,
+  "last_node_id": 131,
+  "last_link_id": 293,
+  "nodes": [
+    {
+      "id": 3,
+      "type": "KSampler",
+      "pos": [
+        1194,
+        -134
+      ],
+      "size": [
+        315,
+        358
+      ],
+      "flags": {},
+      "order": 41,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 12
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 105
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 108
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 89
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 169
+        },
+        {
+          "name": "steps",
+          "type": "INT",
+          "widget": {
+            "name": "steps"
+          },
+          "link": 52
+        },
+        {
+          "name": "cfg",
+          "type": "FLOAT",
+          "widget": {
+            "name": "cfg"
+          },
+          "link": 49
+        },
+        {
+          "name": "sampler_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "sampler_name"
+          },
+          "link": 51
+        },
+        {
+          "name": "scheduler",
+          "type": "COMBO",
+          "widget": {
+            "name": "scheduler"
+          },
+          "link": 53
+        },
+        {
+          "name": "denoise",
+          "type": "FLOAT",
+          "widget": {
+            "name": "denoise"
+          },
+          "link": 48
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        475987708754400,
+        "randomize",
+        16,
+        4,
+        "dpmpp_sde_gpu",
+        "karras",
+        1
+      ]
+    },
+    {
+      "id": 6,
+      "type": "CLIPTextEncode",
+      "pos": [
+        478,
+        -697
+      ],
+      "size": [
+        210.29940795898438,
+        88
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 3
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 46
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            96,
+            113
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "1girl"
+      ]
+    },
+    {
+      "id": 7,
+      "type": "CLIPTextEncode",
+      "pos": [
+        474,
+        -575
+      ],
+      "size": [
+        210.29940795898438,
+        88
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 5
+        },
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 47
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            97,
+            112
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "anime,text,watermark,bad anatomy, bad proportions, extra limbs, extra digit, extra legs, extra legs and arms, disfigured, missing arms, too many fingers, fused fingers, missing fingers, unclear eyes,watermark,username,furry\nhigh heels, (latex:1.2), boots, cleavage, zip, kneeling, sitting, pants, covered-thigh, covered-hips, cape, cloak, wrinkles, loose clothing, bare arm, (bare shoulder:2), (armpits:2)\nsky, window\n"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "Reroute",
+      "pos": [
+        -994,
+        -598
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 15,
+      "type": "Reroute",
+      "pos": [
+        -961,
+        -495
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "pos": [
+            37.5,
+            0
+          ],
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "VAE",
+          "slot_index": 0,
+          "links": [
+            20,
+            162,
+            271
+          ]
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": true
+      }
+    },
+    {
+      "id": 25,
+      "type": "PrimitiveNode",
+      "pos": [
+        -1495,
+        -1260
+      ],
+      "size": [
+        553.0159912109375,
+        249.00865173339844
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "slot_index": 0,
+          "links": [
+            46
+          ]
+        }
+      ],
+      "title": "#01. Pos Prompt",
+      "properties": {
+        "Run widget replace on values": false,
+        "sdppp_widgetable_title": "#01. Pos Prompt"
+      },
+      "widgets_values": [
+        "1girl"
+      ]
+    },
+    {
+      "id": 26,
+      "type": "PrimitiveNode",
+      "pos": [
+        -1507,
+        -952
+      ],
+      "size": [
+        593.264404296875,
+        132.1354522705078
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "slot_index": 0,
+          "links": [
+            47
+          ]
+        }
+      ],
+      "title": "#02. Neg Prompt",
+      "properties": {
+        "Run widget replace on values": false,
+        "sdppp_widgetable_title": "#02. Neg Prompt"
+      },
+      "widgets_values": [
+        "anime,text,watermark,bad anatomy, bad proportions, extra limbs, extra digit, extra legs, extra legs and arms, disfigured, missing arms, too many fingers, fused fingers, missing fingers, unclear eyes,watermark,username,furry\nhigh heels, (latex:1.2), boots, cleavage, zip, kneeling, sitting, pants, covered-thigh, covered-hips, cape, cloak, wrinkles, loose clothing, bare arm, (bare shoulder:2), (armpits:2)\nsky, window\n"
+      ]
+    },
+    {
+      "id": 27,
+      "type": "PrimitiveNode",
+      "pos": [
+        -1877,
+        -1422
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "widget": {
+            "name": "denoise"
+          },
+          "slot_index": 0,
+          "links": [
+            48
+          ]
+        }
+      ],
+      "title": "#04. Denoise",
+      "properties": {
+        "Run widget replace on values": false,
+        "sdppp_widgetable_title": "#04. Denoise"
+      },
+      "widgets_values": [
+        1,
+        "fixed"
+      ]
+    },
+    {
+      "id": 28,
+      "type": "PrimitiveNode",
+      "pos": [
+        -1194,
+        -1429
+      ],
+      "size": [
+        210,
+        106
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "COMBO",
+          "type": "COMBO",
+          "widget": {
+            "name": "sampler_name"
+          },
+          "slot_index": 0,
+          "links": [
+            51
+          ]
+        }
+      ],
+      "title": "#07. Sampler",
+      "properties": {
+        "Run widget replace on values": false,
+        "sdppp_widgetable_title": "#07. Sampler"
+      },
+      "widgets_values": [
+        "dpmpp_sde_gpu",
+        "fixed",
+        ""
+      ]
+    },
+    {
+      "id": 29,
+      "type": "PrimitiveNode",
+      "pos": [
+        -1653,
+        -1424
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "widget": {
+            "name": "cfg"
+          },
+          "slot_index": 0,
+          "links": [
+            49
+          ]
+        }
+      ],
+      "title": "#05. CFG",
+      "properties": {
+        "Run widget replace on values": false,
+        "sdppp_widgetable_title": "#05. CFG"
+      },
+      "widgets_values": [
+        4,
+        "fixed"
+      ]
+    },
+    {
+      "id": 30,
+      "type": "PrimitiveNode",
+      "pos": [
+        -1423,
+        -1425
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "widget": {
+            "name": "steps"
+          },
+          "slot_index": 0,
+          "links": [
+            52
+          ]
+        }
+      ],
+      "title": "#06. Steps",
+      "properties": {
+        "Run widget replace on values": false,
+        "sdppp_widgetable_title": "#06. Steps"
+      },
+      "widgets_values": [
+        16,
+        "fixed"
+      ]
+    },
+    {
+      "id": 31,
+      "type": "PrimitiveNode",
+      "pos": [
+        -978,
+        -1428
+      ],
+      "size": [
+        210,
+        106
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "COMBO",
+          "type": "COMBO",
+          "widget": {
+            "name": "scheduler"
+          },
+          "slot_index": 0,
+          "links": [
+            53
+          ]
+        }
+      ],
+      "title": "#08. Scheduler",
+      "properties": {
+        "Run widget replace on values": false,
+        "sdppp_widgetable_title": "#08. Scheduler"
+      },
+      "widgets_values": [
+        "karras",
+        "fixed",
+        "fixed"
+      ]
+    },
+    {
+      "id": 35,
+      "type": "PrimitiveNode",
+      "pos": [
+        -1895,
+        -942
+      ],
+      "size": [
+        317.9884033203125,
+        106
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "COMBO",
+          "type": "COMBO",
+          "widget": {
+            "name": "ckpt_name"
+          },
+          "slot_index": 0,
+          "links": [
+            57
+          ]
+        }
+      ],
+      "title": "#03. Model",
+      "properties": {
+        "Run widget replace on values": false,
+        "sdppp_widgetable_title": "#03. Model"
+      },
+      "widgets_values": [
+        "SDXL/atomixPony3DXL_v10.safetensors",
+        "fixed",
+        ""
+      ]
+    },
+    {
+      "id": 49,
+      "type": "EmptyLatentImage",
+      "pos": [
+        -272,
+        707
+      ],
+      "size": [
+        315,
+        126
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 283
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 284
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            93
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        512,
+        512,
+        1
+      ]
+    },
+    {
+      "id": 55,
+      "type": "ControlNetApplyAdvanced",
+      "pos": [
+        705,
+        -1162
+      ],
+      "size": [
+        315,
+        186
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 96
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 97
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 119
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 291
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": 166
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            114,
+            138,
+            265
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "slot_index": 1,
+          "links": [
+            115,
+            139
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "ControlNetApplyAdvanced"
+      },
+      "widgets_values": [
+        0.9,
+        0,
+        1
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 56,
+      "type": "ControlNetLoader",
+      "pos": [
+        29,
+        -1182
+      ],
+      "size": [
+        300.57501220703125,
+        58
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "slot_index": 0,
+          "links": [
+            119,
+            177
+          ]
+        }
+      ],
+      "title": "#21. ControlNet 1 Model",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "ControlNetLoader",
+        "sdppp_widgetable_title": "#21. ControlNet 1 Model"
+      },
+      "widgets_values": [
+        "SDXL/controlnet-canny-sdxl-1.0/diffusion_pytorch_model_V2.safetensors"
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 61,
+      "type": "Any Switch (rgthree)",
+      "pos": [
+        1012,
+        -788
+      ],
+      "size": [
+        173.033203125,
+        126
+      ],
+      "flags": {},
+      "order": 37,
+      "mode": 0,
+      "inputs": [
+        {
+          "dir": 3,
+          "name": "any_01",
+          "type": "CONDITIONING",
+          "link": 145
+        },
+        {
+          "dir": 3,
+          "name": "any_02",
+          "type": "CONDITIONING",
+          "link": 144
+        },
+        {
+          "dir": 3,
+          "name": "any_03",
+          "type": "CONDITIONING",
+          "link": 137
+        },
+        {
+          "dir": 3,
+          "name": "any_04",
+          "type": "CONDITIONING",
+          "link": 114
+        },
+        {
+          "dir": 3,
+          "name": "any_05",
+          "type": "CONDITIONING",
+          "link": 113
+        },
+        {
+          "name": "any_06",
+          "type": "CONDITIONING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "dir": 4,
+          "label": "CONDITIONING",
+          "name": "*",
+          "shape": 3,
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            105
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "rgthree-comfy",
+        "ver": "4c87142dda191ce0e1937c4a31ea3f82be2d5218"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 62,
+      "type": "Any Switch (rgthree)",
+      "pos": [
+        1003,
+        -606
+      ],
+      "size": [
+        173.033203125,
+        126
+      ],
+      "flags": {},
+      "order": 39,
+      "mode": 0,
+      "inputs": [
+        {
+          "dir": 3,
+          "name": "any_01",
+          "type": "CONDITIONING",
+          "link": 146
+        },
+        {
+          "dir": 3,
+          "name": "any_02",
+          "type": "CONDITIONING",
+          "link": 147
+        },
+        {
+          "dir": 3,
+          "name": "any_03",
+          "type": "CONDITIONING",
+          "link": 148
+        },
+        {
+          "dir": 3,
+          "name": "any_04",
+          "type": "CONDITIONING",
+          "link": 115
+        },
+        {
+          "dir": 3,
+          "name": "any_05",
+          "type": "CONDITIONING",
+          "link": 112
+        },
+        {
+          "name": "any_06",
+          "type": "CONDITIONING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "dir": 4,
+          "label": "CONDITIONING",
+          "name": "*",
+          "shape": 3,
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            108
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "rgthree-comfy",
+        "ver": "4c87142dda191ce0e1937c4a31ea3f82be2d5218"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 64,
+      "type": "ControlNetLoader",
+      "pos": [
+        46,
+        -1479
+      ],
+      "size": [
+        223.99295043945312,
+        60.174171447753906
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "slot_index": 0,
+          "links": [
+            183,
+            215
+          ]
+        }
+      ],
+      "title": "#25. ControlNet 2 Model",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "ControlNetLoader",
+        "sdppp_widgetable_title": "#25. ControlNet 2 Model"
+      },
+      "widgets_values": [
+        "SDXL/controlnet-canny-sdxl-1.0/diffusion_pytorch_model_V2.safetensors"
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 65,
+      "type": "ControlNetApplyAdvanced",
+      "pos": [
+        710,
+        -1447
+      ],
+      "size": [
+        315,
+        186
+      ],
+      "flags": {},
+      "order": 31,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 138
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 139
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 183
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 290
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": 165
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            137,
+            140,
+            264
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "slot_index": 1,
+          "links": [
+            141,
+            148
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "ControlNetApplyAdvanced"
+      },
+      "widgets_values": [
+        0.9,
+        0,
+        1
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 66,
+      "type": "ControlNetLoader",
+      "pos": [
+        39,
+        -1744
+      ],
+      "size": [
+        223.99295043945312,
+        60.174171447753906
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "slot_index": 0,
+          "links": [
+            129,
+            189
+          ]
+        }
+      ],
+      "title": "#29. ControlNet 3 Model",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "ControlNetLoader",
+        "sdppp_widgetable_title": "#29. ControlNet 3 Model"
+      },
+      "widgets_values": [
+        "SDXL/controlnet-canny-sdxl-1.0/diffusion_pytorch_model_V2.safetensors"
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 67,
+      "type": "ControlNetApplyAdvanced",
+      "pos": [
+        716,
+        -1735
+      ],
+      "size": [
+        315,
+        186
+      ],
+      "flags": {},
+      "order": 34,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 140
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 141
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 129
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 287
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": 164
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            142,
+            144,
+            266
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "slot_index": 1,
+          "links": [
+            143,
+            147
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "ControlNetApplyAdvanced"
+      },
+      "widgets_values": [
+        0.9,
+        0,
+        1
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 68,
+      "type": "ControlNetLoader",
+      "pos": [
+        25,
+        -2020
+      ],
+      "size": [
+        223.99295043945312,
+        60.174171447753906
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "slot_index": 0,
+          "links": [
+            130,
+            192
+          ]
+        }
+      ],
+      "title": "#32. ControlNet 4 Model",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "ControlNetLoader",
+        "sdppp_widgetable_title": "#32. ControlNet 4 Model"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 69,
+      "type": "ControlNetApplyAdvanced",
+      "pos": [
+        728,
+        -2001
+      ],
+      "size": [
+        315,
+        186
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 142
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 143
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 130
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 286
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": 163
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            145,
+            267
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "slot_index": 1,
+          "links": [
+            146
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "ControlNetApplyAdvanced"
+      },
+      "widgets_values": [
+        0.9,
+        0,
+        1
+      ],
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 74,
+      "type": "Reroute",
+      "pos": [
+        611,
+        -769
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 162
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "VAE",
+          "slot_index": 0,
+          "links": [
+            163,
+            164,
+            165,
+            166
+          ]
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 75,
+      "type": "PrimitiveNode",
+      "pos": [
+        -748,
+        -1414
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "slot_index": 0,
+          "links": [
+            169
+          ]
+        }
+      ],
+      "title": "#09. Seed",
+      "properties": {
+        "Run widget replace on values": false,
+        "sdppp_widgetable_title": "#09. Seed"
+      },
+      "widgets_values": [
+        475987708754400,
+        "randomize"
+      ]
+    },
+    {
+      "id": 81,
+      "type": "Mute / Bypass Repeater (rgthree)",
+      "pos": [
+        1142,
+        -1133
+      ],
+      "size": [
+        284.80096435546875,
+        126
+      ],
+      "flags": {},
+      "order": 48,
+      "mode": 2,
+      "inputs": [
+        {
+          "dir": 3,
+          "label": "",
+          "name": "#21. ControlNet 1 Model",
+          "type": "*",
+          "link": 177
+        },
+        {
+          "dir": 3,
+          "name": "#24. Enable ControlNet 2",
+          "type": "*",
+          "link": 197
+        },
+        {
+          "dir": 3,
+          "name": "Apply ControlNet",
+          "type": "*",
+          "link": 265
+        },
+        {
+          "dir": 3,
+          "name": "#30. ControlNet 3 Image",
+          "type": "*",
+          "link": 292
+        },
+        {
+          "dir": 3,
+          "name": "",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "color_off": "#a80",
+          "color_on": "#Fc0",
+          "dir": 4,
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "slot_index": 0,
+          "links": [
+            178
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 89,
+      "type": "Mute / Bypass Repeater (rgthree)",
+      "pos": [
+        1144,
+        -1715
+      ],
+      "size": [
+        284.80096435546875,
+        126
+      ],
+      "flags": {},
+      "order": 42,
+      "mode": 2,
+      "inputs": [
+        {
+          "dir": 3,
+          "label": "",
+          "name": "#29. ControlNet 3 Model",
+          "type": "*",
+          "link": 189
+        },
+        {
+          "dir": 3,
+          "name": "#30. ControlNet 3 Image",
+          "type": "*",
+          "link": 288
+        },
+        {
+          "dir": 3,
+          "name": "#32. Enable ControlNet 4",
+          "type": "*",
+          "link": 199
+        },
+        {
+          "dir": 3,
+          "name": "Apply ControlNet",
+          "type": "*",
+          "link": 266
+        },
+        {
+          "dir": 3,
+          "name": "",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "color_off": "#a80",
+          "color_on": "#Fc0",
+          "dir": 4,
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "slot_index": 0,
+          "links": [
+            191
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 101,
+      "type": "Mute / Bypass Repeater (rgthree)",
+      "pos": [
+        1144,
+        -1470
+      ],
+      "size": [
+        268.79998779296875,
+        126
+      ],
+      "flags": {},
+      "order": 46,
+      "mode": 2,
+      "inputs": [
+        {
+          "color_off": "#a80",
+          "color_on": "#FC0",
+          "dir": 3,
+          "name": "#25. ControlNet 2 Model",
+          "type": "*",
+          "link": 215
+        },
+        {
+          "dir": 3,
+          "name": "#30. ControlNet 3 Image",
+          "type": "*",
+          "link": 289
+        },
+        {
+          "dir": 3,
+          "name": "#28. Enable ControlNet 3",
+          "type": "*",
+          "link": 217
+        },
+        {
+          "dir": 3,
+          "name": "Apply ControlNet",
+          "type": "*",
+          "link": 264
+        },
+        {
+          "dir": 3,
+          "name": "",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "color_off": "#a80",
+          "color_on": "#Fc0",
+          "dir": 4,
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "slot_index": 0,
+          "links": [
+            218
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 117,
+      "type": "Mute / Bypass Repeater (rgthree)",
+      "pos": [
+        -97,
+        91
+      ],
+      "size": [
+        268.79998779296875,
+        106
+      ],
+      "flags": {},
+      "order": 33,
+      "mode": 2,
+      "inputs": [
+        {
+          "dir": 3,
+          "name": "VAE Encode",
+          "type": "*",
+          "link": 277
+        },
+        {
+          "dir": 3,
+          "name": "Set Latent Noise Mask",
+          "type": "*",
+          "link": 278
+        },
+        {
+          "dir": 3,
+          "name": "Load Image (as Mask)",
+          "type": "*",
+          "link": 281
+        },
+        {
+          "dir": 3,
+          "name": "Load Image",
+          "type": "*",
+          "link": 282
+        },
+        {
+          "dir": 3,
+          "name": "",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "color_off": "#a80",
+          "color_on": "#Fc0",
+          "dir": 4,
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "slot_index": 0,
+          "links": [
+            257
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 54,
+      "type": "Fast Muter (rgthree)",
+      "pos": [
+        213,
+        -111
+      ],
+      "size": [
+        309.85992431640625,
+        78
+      ],
+      "flags": {},
+      "order": 35,
+      "mode": 0,
+      "inputs": [
+        {
+          "dir": 3,
+          "name": "Mute / Bypass Repeater (rgthree)",
+          "type": "*",
+          "link": 257
+        },
+        {
+          "dir": 3,
+          "name": "",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "dir": 4,
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "slot_index": 0,
+          "links": null
+        }
+      ],
+      "title": "#10. Inpaint Selection",
+      "properties": {
+        "toggleRestriction": "default",
+        "sdppp_widgetable_title": "#10. Inpaint Selection"
+      }
+    },
+    {
+      "id": 53,
+      "type": "Any Switch (rgthree)",
+      "pos": [
+        550,
+        242
+      ],
+      "size": [
+        168,
+        106
+      ],
+      "flags": {},
+      "order": 32,
+      "mode": 0,
+      "inputs": [
+        {
+          "dir": 3,
+          "name": "any_01",
+          "type": "LATENT",
+          "link": null
+        },
+        {
+          "dir": 3,
+          "name": "any_02",
+          "type": "LATENT",
+          "link": 275
+        },
+        {
+          "dir": 3,
+          "name": "any_03",
+          "type": "LATENT",
+          "link": null
+        },
+        {
+          "dir": 3,
+          "name": "any_04",
+          "type": "LATENT",
+          "link": 93
+        },
+        {
+          "name": "any_05",
+          "type": "LATENT",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "dir": 4,
+          "label": "LATENT",
+          "name": "*",
+          "shape": 3,
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            89
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "rgthree-comfy",
+        "ver": "4c87142dda191ce0e1937c4a31ea3f82be2d5218"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 120,
+      "type": "VAEEncode",
+      "pos": [
+        -361.9066467285156,
+        233.59487915039062
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 279
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 271
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            276,
+            277
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "VAEEncode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 121,
+      "type": "SetLatentNoiseMask",
+      "pos": [
+        -133.05723571777344,
+        357.218994140625
+      ],
+      "size": [
+        264.5999755859375,
+        46
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 276
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 280
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            275,
+            278
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "SetLatentNoiseMask"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 124,
+      "type": "LoadImageMask",
+      "pos": [
+        -811.8969116210938,
+        271.8177795410156
+      ],
+      "size": [
+        315,
+        318
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "slot_index": 0,
+          "links": [
+            280,
+            281
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "LoadImageMask"
+      },
+      "widgets_values": [
+        "1.flac",
+        "alpha",
+        "image"
+      ]
+    },
+    {
+      "id": 123,
+      "type": "LoadImage",
+      "pos": [
+        -1162.1910400390625,
+        16.896085739135742
+      ],
+      "size": [
+        315,
+        314
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            279,
+            282
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "1.flac",
+        "image"
+      ]
+    },
+    {
+      "id": 125,
+      "type": "PrimitiveNode",
+      "pos": [
+        -1025.470947265625,
+        650.8255004882812
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "links": [
+            283
+          ]
+        }
+      ],
+      "title": "#00. Width",
+      "properties": {
+        "Run widget replace on values": false,
+        "sdppp_widgetable_title": "#00. Width"
+      },
+      "widgets_values": [
+        512,
+        "fixed"
+      ]
+    },
+    {
+      "id": 126,
+      "type": "PrimitiveNode",
+      "pos": [
+        -1033.10302734375,
+        772.2666015625
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "links": [
+            284
+          ]
+        }
+      ],
+      "title": "#00. Height",
+      "properties": {
+        "Run widget replace on values": false,
+        "sdppp_widgetable_title": "#00. Height"
+      },
+      "widgets_values": [
+        512,
+        "fixed"
+      ]
+    },
+    {
+      "id": 90,
+      "type": "Mute / Bypass Repeater (rgthree)",
+      "pos": [
+        1167.298583984375,
+        -2082.2216796875
+      ],
+      "size": [
+        284.80096435546875,
+        106
+      ],
+      "flags": {},
+      "order": 38,
+      "mode": 2,
+      "inputs": [
+        {
+          "dir": 3,
+          "label": "",
+          "name": "#32. ControlNet 4 Model",
+          "type": "*",
+          "link": 192
+        },
+        {
+          "dir": 3,
+          "name": "#33. ControlNet 4 Image",
+          "type": "*",
+          "link": 285
+        },
+        {
+          "dir": 3,
+          "name": "Apply ControlNet",
+          "type": "*",
+          "link": 267
+        },
+        {
+          "dir": 3,
+          "name": "",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "color_off": "#a80",
+          "color_on": "#Fc0",
+          "dir": 4,
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "slot_index": 0,
+          "links": [
+            194
+          ]
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "id": 127,
+      "type": "LoadImage",
+      "pos": [
+        288.06085205078125,
+        -2088.979248046875
+      ],
+      "size": [
+        315,
+        314
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            285,
+            286
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "#33. ControlNet 4 Image",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "LoadImage",
+        "sdppp_widgetable_title": "#33. ControlNet 4 Image"
+      },
+      "widgets_values": [
+        "1.png",
+        "image"
+      ]
+    },
+    {
+      "id": 128,
+      "type": "LoadImage",
+      "pos": [
+        300.19403076171875,
+        -1749.648193359375
+      ],
+      "size": [
+        315,
+        314
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            287,
+            288
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "#30. ControlNet 3 Image",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "LoadImage",
+        "sdppp_widgetable_title": "#30. ControlNet 3 Image"
+      },
+      "widgets_values": [
+        "1.png",
+        "image"
+      ]
+    },
+    {
+      "id": 129,
+      "type": "LoadImage",
+      "pos": [
+        271.656494140625,
+        -1421.0721435546875
+      ],
+      "size": [
+        315,
+        314
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            289,
+            290
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "#30. ControlNet 3 Image",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "LoadImage",
+        "sdppp_widgetable_title": "#30. ControlNet 3 Image"
+      },
+      "widgets_values": [
+        "1.png",
+        "image"
+      ]
+    },
+    {
+      "id": 130,
+      "type": "LoadImage",
+      "pos": [
+        260.5142517089844,
+        -1049.749755859375
+      ],
+      "size": [
+        315,
+        314
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            291,
+            292
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "#30. ControlNet 3 Image",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "LoadImage",
+        "sdppp_widgetable_title": "#30. ControlNet 3 Image"
+      },
+      "widgets_values": [
+        "1.png",
+        "image"
+      ]
+    },
+    {
+      "id": 72,
+      "type": "Fast Muter (rgthree)",
+      "pos": [
+        1557,
+        -2028
+      ],
+      "size": [
+        354.3999938964844,
+        78
+      ],
+      "flags": {},
+      "order": 40,
+      "mode": 2,
+      "inputs": [
+        {
+          "dir": 3,
+          "label": "",
+          "name": "Mute / Bypass Repeater (rgthree)",
+          "type": "*",
+          "link": 194
+        },
+        {
+          "dir": 3,
+          "name": "",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "dir": 4,
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "slot_index": 0,
+          "links": [
+            199
+          ]
+        }
+      ],
+      "title": "#32. Enable ControlNet 4",
+      "properties": {
+        "toggleRestriction": "default",
+        "sdppp_widgetable_title": "#32. Enable ControlNet 4"
+      },
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 71,
+      "type": "Fast Muter (rgthree)",
+      "pos": [
+        1522,
+        -1712
+      ],
+      "size": [
+        369.6395568847656,
+        78
+      ],
+      "flags": {},
+      "order": 44,
+      "mode": 2,
+      "inputs": [
+        {
+          "dir": 3,
+          "name": "Mute / Bypass Repeater (rgthree)",
+          "type": "*",
+          "link": 191
+        },
+        {
+          "dir": 3,
+          "name": "",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "dir": 4,
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "slot_index": 0,
+          "links": [
+            217
+          ]
+        }
+      ],
+      "title": "#28. Enable ControlNet 3",
+      "properties": {
+        "toggleRestriction": "default",
+        "sdppp_widgetable_title": "#28. Enable ControlNet 3"
+      },
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 78,
+      "type": "Fast Muter (rgthree)",
+      "pos": [
+        1519,
+        -1466
+      ],
+      "size": [
+        396.3999938964844,
+        78
+      ],
+      "flags": {},
+      "order": 47,
+      "mode": 2,
+      "inputs": [
+        {
+          "dir": 3,
+          "name": "Mute / Bypass Repeater (rgthree)",
+          "type": "*",
+          "link": 218
+        },
+        {
+          "dir": 3,
+          "name": "",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "dir": 4,
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "slot_index": 0,
+          "links": [
+            197
+          ]
+        }
+      ],
+      "title": "#24. Enable ControlNet 2",
+      "properties": {
+        "toggleRestriction": "default",
+        "sdppp_widgetable_title": "#24. Enable ControlNet 2"
+      }
+    },
+    {
+      "id": 63,
+      "type": "Fast Muter (rgthree)",
+      "pos": [
+        1526,
+        -1157
+      ],
+      "size": [
+        354.3999938964844,
+        78
+      ],
+      "flags": {},
+      "order": 49,
+      "mode": 0,
+      "inputs": [
+        {
+          "dir": 3,
+          "label": "",
+          "name": "Mute / Bypass Repeater (rgthree)",
+          "type": "*",
+          "link": 178
+        },
+        {
+          "dir": 3,
+          "name": "",
+          "type": "*",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "dir": 4,
+          "name": "OPT_CONNECTION",
+          "type": "*",
+          "slot_index": 0,
+          "links": null
+        }
+      ],
+      "title": "#20. Enable ControlNet 1",
+      "properties": {
+        "toggleRestriction": "default",
+        "sdppp_widgetable_title": "#20. Enable ControlNet 1"
+      },
+      "color": "#223",
+      "bgcolor": "#335"
+    },
+    {
+      "id": 131,
+      "type": "SaveImage",
+      "pos": [
+        1977.5831298828125,
+        -175.1420440673828
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 45,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 293
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.43",
+        "Node name for S&R": "SaveImage"
+      },
+      "widgets_values": [
+        "ComfyUI"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": [
+        1649.5867919921875,
+        -184.31008911132812
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 43,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 7
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            293
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 4,
+      "type": "CheckpointLoaderSimple",
+      "pos": [
+        -1496,
+        -700
+      ],
+      "size": [
+        315,
+        98
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "ckpt_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "ckpt_name"
+          },
+          "link": 57
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            11
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "slot_index": 1,
+          "links": [
+            3,
+            5
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "slot_index": 2,
+          "links": [
+            19
+          ]
+        }
+      ],
+      "title": ".Load Checkpoint",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.3.27",
+        "Node name for S&R": "CheckpointLoaderSimple",
+        "sdppp_widgetable_title": ".Load Checkpoint"
+      },
+      "widgets_values": [
+        "SDXL/atomixPony3DXL_v10.safetensors"
+      ]
+    }
+  ],
+  "links": [
+    [
+      3,
+      4,
+      1,
+      6,
+      0,
+      "CLIP"
+    ],
+    [
+      5,
+      4,
+      1,
+      7,
+      0,
+      "CLIP"
+    ],
+    [
+      7,
+      3,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      11,
+      4,
+      0,
+      11,
+      0,
+      "*"
+    ],
+    [
+      12,
+      11,
+      0,
+      3,
+      0,
+      "MODEL"
+    ],
+    [
+      19,
+      4,
+      2,
+      15,
+      0,
+      "*"
+    ],
+    [
+      20,
+      15,
+      0,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      46,
+      25,
+      0,
+      6,
+      1,
+      "STRING"
+    ],
+    [
+      47,
+      26,
+      0,
+      7,
+      1,
+      "STRING"
+    ],
+    [
+      48,
+      27,
+      0,
+      3,
+      9,
+      "FLOAT"
+    ],
+    [
+      49,
+      29,
+      0,
+      3,
+      6,
+      "FLOAT"
+    ],
+    [
+      51,
+      28,
+      0,
+      3,
+      7,
+      "COMBO"
+    ],
+    [
+      52,
+      30,
+      0,
+      3,
+      5,
+      "INT"
+    ],
+    [
+      53,
+      31,
+      0,
+      3,
+      8,
+      "COMBO"
+    ],
+    [
+      57,
+      35,
+      0,
+      4,
+      0,
+      "COMBO"
+    ],
+    [
+      89,
+      53,
+      0,
+      3,
+      3,
+      "LATENT"
+    ],
+    [
+      93,
+      49,
+      0,
+      53,
+      3,
+      "LATENT"
+    ],
+    [
+      96,
+      6,
+      0,
+      55,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      97,
+      7,
+      0,
+      55,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      105,
+      61,
+      0,
+      3,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      108,
+      62,
+      0,
+      3,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      112,
+      7,
+      0,
+      62,
+      4,
+      "CONDITIONING"
+    ],
+    [
+      113,
+      6,
+      0,
+      61,
+      4,
+      "CONDITIONING"
+    ],
+    [
+      114,
+      55,
+      0,
+      61,
+      3,
+      "CONDITIONING"
+    ],
+    [
+      115,
+      55,
+      1,
+      62,
+      3,
+      "CONDITIONING"
+    ],
+    [
+      119,
+      56,
+      0,
+      55,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      129,
+      66,
+      0,
+      67,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      130,
+      68,
+      0,
+      69,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      137,
+      65,
+      0,
+      61,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      138,
+      55,
+      0,
+      65,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      139,
+      55,
+      1,
+      65,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      140,
+      65,
+      0,
+      67,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      141,
+      65,
+      1,
+      67,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      142,
+      67,
+      0,
+      69,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      143,
+      67,
+      1,
+      69,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      144,
+      67,
+      0,
+      61,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      145,
+      69,
+      0,
+      61,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      146,
+      69,
+      1,
+      62,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      147,
+      67,
+      1,
+      62,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      148,
+      65,
+      1,
+      62,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      162,
+      15,
+      0,
+      74,
+      0,
+      "*"
+    ],
+    [
+      163,
+      74,
+      0,
+      69,
+      4,
+      "VAE"
+    ],
+    [
+      164,
+      74,
+      0,
+      67,
+      4,
+      "VAE"
+    ],
+    [
+      165,
+      74,
+      0,
+      65,
+      4,
+      "VAE"
+    ],
+    [
+      166,
+      74,
+      0,
+      55,
+      4,
+      "VAE"
+    ],
+    [
+      169,
+      75,
+      0,
+      3,
+      4,
+      "INT"
+    ],
+    [
+      177,
+      56,
+      0,
+      81,
+      0,
+      "*"
+    ],
+    [
+      178,
+      81,
+      0,
+      63,
+      0,
+      "*"
+    ],
+    [
+      183,
+      64,
+      0,
+      65,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      189,
+      66,
+      0,
+      89,
+      0,
+      "*"
+    ],
+    [
+      191,
+      89,
+      0,
+      71,
+      0,
+      "*"
+    ],
+    [
+      192,
+      68,
+      0,
+      90,
+      0,
+      "*"
+    ],
+    [
+      194,
+      90,
+      0,
+      72,
+      0,
+      "*"
+    ],
+    [
+      197,
+      78,
+      0,
+      81,
+      1,
+      "*"
+    ],
+    [
+      199,
+      72,
+      0,
+      89,
+      2,
+      "*"
+    ],
+    [
+      215,
+      64,
+      0,
+      101,
+      0,
+      "*"
+    ],
+    [
+      217,
+      71,
+      0,
+      101,
+      2,
+      "*"
+    ],
+    [
+      218,
+      101,
+      0,
+      78,
+      0,
+      "*"
+    ],
+    [
+      257,
+      117,
+      0,
+      54,
+      0,
+      "*"
+    ],
+    [
+      264,
+      65,
+      0,
+      101,
+      3,
+      "*"
+    ],
+    [
+      265,
+      55,
+      0,
+      81,
+      2,
+      "*"
+    ],
+    [
+      266,
+      67,
+      0,
+      89,
+      3,
+      "*"
+    ],
+    [
+      267,
+      69,
+      0,
+      90,
+      2,
+      "*"
+    ],
+    [
+      271,
+      15,
+      0,
+      120,
+      1,
+      "VAE"
+    ],
+    [
+      275,
+      121,
+      0,
+      53,
+      1,
+      "LATENT"
+    ],
+    [
+      276,
+      120,
+      0,
+      121,
+      0,
+      "LATENT"
+    ],
+    [
+      277,
+      120,
+      0,
+      117,
+      0,
+      "*"
+    ],
+    [
+      278,
+      121,
+      0,
+      117,
+      1,
+      "*"
+    ],
+    [
+      279,
+      123,
+      0,
+      120,
+      0,
+      "IMAGE"
+    ],
+    [
+      280,
+      124,
+      0,
+      121,
+      1,
+      "MASK"
+    ],
+    [
+      281,
+      124,
+      0,
+      117,
+      2,
+      "*"
+    ],
+    [
+      282,
+      123,
+      0,
+      117,
+      3,
+      "*"
+    ],
+    [
+      283,
+      125,
+      0,
+      49,
+      0,
+      "INT"
+    ],
+    [
+      284,
+      126,
+      0,
+      49,
+      1,
+      "INT"
+    ],
+    [
+      285,
+      127,
+      0,
+      90,
+      1,
+      "*"
+    ],
+    [
+      286,
+      127,
+      0,
+      69,
+      3,
+      "IMAGE"
+    ],
+    [
+      287,
+      128,
+      0,
+      67,
+      3,
+      "IMAGE"
+    ],
+    [
+      288,
+      128,
+      0,
+      89,
+      1,
+      "*"
+    ],
+    [
+      289,
+      129,
+      0,
+      101,
+      1,
+      "*"
+    ],
+    [
+      290,
+      129,
+      0,
+      65,
+      3,
+      "IMAGE"
+    ],
+    [
+      291,
+      130,
+      0,
+      55,
+      3,
+      "IMAGE"
+    ],
+    [
+      292,
+      130,
+      0,
+      81,
+      3,
+      "*"
+    ],
+    [
+      293,
+      8,
+      0,
+      131,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Inputs",
+      "bounding": [
+        -1896.1680908203125,
+        -1495.837890625,
+        1405.584228515625,
+        706.2962646484375
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Inpaint",
+      "bounding": [
+        -1165.12890625,
+        -5.715957164764404,
+        1311.8720703125,
+        442.9053955078125
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "T2I",
+      "bounding": [
+        -1141.5770263671875,
+        580.9961547851562,
+        1227.0020751953125,
+        260.29510498046875
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "ControlNet",
+      "bounding": [
+        19.7460994720459,
+        -2103.1904296875,
+        1471.4285888671875,
+        1142.792724609375
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.984973267580763,
+      "offset": [
+        1964.1597460378857,
+        1119.8417420730725
+      ]
+    },
+    "frontendVersion": "1.23.4"
+  },
+  "version": 0.4,
+  "api_prompt": {
+    "3": {
+      "inputs": {
+        "seed": 475987708754400,
+        "steps": 16,
+        "cfg": 4,
+        "sampler_name": "dpmpp_sde_gpu",
+        "scheduler": "karras",
+        "denoise": 1,
+        "model": [
+          "4",
+          0
+        ],
+        "positive": [
+          "61",
+          0
+        ],
+        "negative": [
+          "62",
+          0
+        ],
+        "latent_image": [
+          "53",
+          0
+        ]
+      },
+      "class_type": "KSampler",
+      "_meta": {
+        "title": "KSampler"
+      }
+    },
+    "4": {
+      "inputs": {
+        "ckpt_name": "SDXL/atomixPony3DXL_v10.safetensors"
+      },
+      "class_type": "CheckpointLoaderSimple",
+      "_meta": {
+        "title": ".Load Checkpoint"
+      }
+    },
+    "6": {
+      "inputs": {
+        "text": "1girl",
+        "clip": [
+          "4",
+          1
+        ]
+      },
+      "class_type": "CLIPTextEncode",
+      "_meta": {
+        "title": "CLIP Text Encode (Prompt)"
+      }
+    },
+    "7": {
+      "inputs": {
+        "text": "anime,text,watermark,bad anatomy, bad proportions, extra limbs, extra digit, extra legs, extra legs and arms, disfigured, missing arms, too many fingers, fused fingers, missing fingers, unclear eyes,watermark,username,furry\nhigh heels, (latex:1.2), boots, cleavage, zip, kneeling, sitting, pants, covered-thigh, covered-hips, cape, cloak, wrinkles, loose clothing, bare arm, (bare shoulder:2), (armpits:2)\nsky, window\n",
+        "clip": [
+          "4",
+          1
+        ]
+      },
+      "class_type": "CLIPTextEncode",
+      "_meta": {
+        "title": "CLIP Text Encode (Prompt)"
+      }
+    },
+    "8": {
+      "inputs": {
+        "samples": [
+          "3",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      },
+      "class_type": "VAEDecode",
+      "_meta": {
+        "title": "VAE Decode"
+      }
+    },
+    "49": {
+      "inputs": {
+        "width": 512,
+        "height": 512,
+        "batch_size": 1
+      },
+      "class_type": "EmptyLatentImage",
+      "_meta": {
+        "title": "Empty Latent Image"
+      }
+    },
+    "53": {
+      "inputs": {
+        "any_04": [
+          "49",
+          0
+        ]
+      },
+      "class_type": "Any Switch (rgthree)",
+      "_meta": {
+        "title": "Any Switch (rgthree)"
+      }
+    },
+    "61": {
+      "inputs": {
+        "any_05": [
+          "6",
+          0
+        ]
+      },
+      "class_type": "Any Switch (rgthree)",
+      "_meta": {
+        "title": "Any Switch (rgthree)"
+      }
+    },
+    "62": {
+      "inputs": {
+        "any_05": [
+          "7",
+          0
+        ]
+      },
+      "class_type": "Any Switch (rgthree)",
+      "_meta": {
+        "title": "Any Switch (rgthree)"
+      }
+    },
+    "131": {
+      "inputs": {
+        "filename_prefix": "ComfyUI",
+        "images": [
+          "8",
+          0
+        ]
+      },
+      "class_type": "SaveImage",
+      "_meta": {
+        "title": "Save Image"
+      }
+    }
+  }
+}

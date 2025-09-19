@@ -1,0 +1,129 @@
+{
+    "site": {
+        "en": {
+            "name": "Github",
+            "url": "https://github.com/zombieyang/sd-ppp"
+        },
+        "zhcn": {
+            "name": ">> SD-PPP 官方站",
+            "url": "https://sdppp.zombee.tech/"
+        }
+    },
+    "LICENSE": {
+        "name": "BSD3-Clause",
+        "url": {
+            "en": "https://github.com/zombieyang/sd-ppp/blob/main/LICENSE",
+            "zhcn": "https://gitee.com/zombieyang/sd-ppp/blob/main/LICENSE"
+        }
+    },
+    "sponsors": [
+        {
+            "name": "芽麦AI&刘锐",
+            "url": "https://v.douyin.com/cw4ba7Vn5-w/"
+        },
+        {
+            "name": "四喜AI",
+            "url": "https://v.douyin.com/hD2X7S717uw/"
+        },
+        {
+            "name": "灵绘AI",
+            "url": "https://v.douyin.com/Jssc9ysKic4/"
+        },
+        {
+            "name": "昭玺文化",
+            "url": "https://v.douyin.com/xZR_LKxE_z4/"
+        },
+        {
+            "name": "AIX",
+            "url": "https://v.douyin.com/hbtnVQ2A9G4/"
+        },
+        {
+            "name": "沐沐AI",
+            "url": "https://v.douyin.com/k6yKDEcVgP8/"
+        },
+        {
+            "name": "梨梨AI",
+            "url": "https://v.douyin.com/55KuUbZVGCM/"
+        },
+        {
+            "name": "星汇未来",
+            "url": "https://www.starfusion.cn/"
+        },
+        {
+            "name": "老袁AIGC",
+            "url": "https://v.douyin.com/dOlouy4GIo0/"
+        },
+        {
+            "name": "B站充电的小伙伴们",
+            "url": "https://space.bilibili.com/44908313"
+        }
+    ],
+    "links": [
+        {
+            "name": "猫咪老师Reimagined",
+            "url": "https://www.xiaohongshu.com/user/profile/59f1fcc411be101aba7f048f"
+        },
+        {
+            "name": "来真的",
+            "url": "https://space.bilibili.com/590784254"
+        },
+        {
+            "name": "哑狗Egao",
+            "url": "https://space.bilibili.com/284721975"
+        }
+    ],
+    "community": {
+        "en": [
+            {
+                "name": "Github",
+                "url": "https://github.com/zombieyang/sd-ppp"
+            },
+            {
+                "name": "Discord",
+                "url": "https://discord.gg/9HeGjDvEmn"
+            },
+            {
+                "name": "Youtube",
+                "url": "https://www.youtube.com/@Github-Zombeeyang/videos"
+            }
+        ],
+        "zhcn": [
+            {
+                "name": "Github",
+                "url": "https://github.com/zombieyang/sd-ppp"
+            },
+            {
+                "name": "微信群",
+                "url": "https://sdppp.zombee.tech/docs/category/sd-ppp%E5%90%84%E9%A2%86%E5%9F%9F%E8%AE%A8%E8%AE%BA%E7%BE%A4"
+            },
+            {
+                "name": "Bilibili",
+                "url": "https://space.bilibili.com/44908313"
+            }
+        ]
+    },
+    "cloud": {
+        "en": [
+        ],
+        "zhcn": [
+            {
+                "name": "晨羽智云",
+                "url": "https://www.chenyu.cn/console/login?invitationCode=BUD913",
+                "icon": "https://sdppp.zombee.tech/img/icons/chenyu.ico",
+                "color": "var(--uxp-host-text-color-secondary)"
+            },
+            {
+                "name": "仙宫云",
+                "url": "https://www.xiangongyun.com/register/NWF5AH",
+                "icon": "https://sdppp.zombee.tech/img/icons/xgc.ico",
+                "color": "var(--uxp-host-text-color-secondary)"
+            },
+            {
+                "name": "Cephalon",
+                "url": "https://cephalon.cloud/share/register-landing?invite_id=m95SDj",
+                "icon": "https://sdppp.zombee.tech/img/icons/cephalon.ico",
+                "color": "var(--uxp-host-text-color-secondary)"
+            }
+        ]
+    }
+}
