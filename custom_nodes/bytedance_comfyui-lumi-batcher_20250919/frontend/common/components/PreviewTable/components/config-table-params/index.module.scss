@@ -1,0 +1,48 @@
+.container {
+  max-width: unset !important;
+
+  :global(.arco-popover-content) {
+    padding: 16px;
+  }
+}
+
+.contentTitle {
+  color: var(---color-text-2, rgba(255, 255, 255, 0.7));
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.contentSelector {
+  width: 209px;
+
+  :global {
+    .arco-select-view:before {
+      -webkit-mask-composite: destination-out !important; /* 修改mask模式 */
+      mask-composite: exclude !important; /* 标准属性 */
+    }
+  }
+}
+
+.popoverBtn {
+  color: var(---color-text-1, rgba(255, 255, 255, 0.9));
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  will-change: color;
+  transition: color 0.3s;
+  // padding: 7px 8px;
+
+  svg {
+    will-change: transform;
+    transform: rotateZ(0deg);
+    transition: transform 0.3s;
+  }
+}
+
+.popoverOpen {
+  color: var(---color-text-1, #ffffffe6);
+
+  svg {
+    transform: rotateZ(180deg);
+  }
+}
