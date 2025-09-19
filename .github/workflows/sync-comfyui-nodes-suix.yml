@@ -38,6 +38,12 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
+          git remote add upstream https://github.com/comfyanonymous/ComfyUI.git
+          git fetch upstream
+          git checkout main
+          git merge upstream/main --ff-only
+          git push origin main
+
           export MANAGER_REPO_DIR=/tmp/ComfyUI-Manager
           git clone git@github.com:Comfy-Org/ComfyUI-Manager.git $MANAGER_REPO_DIR
 
@@ -50,5 +56,3 @@ jobs:
 
           chmod +x ./sync_comfyui_cust_nodes_suix.sh
           ./sync_comfyui_cust_nodes_suix.sh --clean
-
-
