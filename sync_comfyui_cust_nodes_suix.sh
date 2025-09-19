@@ -1,10 +1,7 @@
 #!/bin/bash
 
 # === 获取脚本所在目录 ===
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# === 配置路径（全部基于 SCRIPT_DIR，不再写死）===
-COMFYUI_REPO_DIR="$SCRIPT_DIR"
+export COMFYUI_REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CUSTOM_NODES_DIR="$COMFYUI_REPO_DIR/custom_nodes"
 
 # === 参数解析 ===
