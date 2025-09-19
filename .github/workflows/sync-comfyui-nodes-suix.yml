@@ -1,4 +1,4 @@
-name: 🔄 Sync ComfyUI Custom Nodes
+name: Sync ComfyUI Custom Nodes
 
 # 触发条件：每天 UTC 2:00（北京时间 10:00） + 手动触发
 on:
@@ -15,21 +15,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      # 1️⃣ 检出你的主仓库（suix-org-1/ComfyUI）
-      - name: 🧭 Checkout Your Repository
+      # 检出你的主仓库
+      - name: Checkout Your Repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT }}
           fetch-depth: 0
 
-      # 2️⃣ 设置 Python 环境
-      - name: 🐍 Setup Python 3.10
+      # 设置 Python 环境
+      - name: Setup Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      # 3️⃣ 配置 Git & SSH（用于无交互 clone）
-      - name: 🛠️ Setup Git & SSH
+      # 配置 Git & SSH（用于无交互 clone）
+      - name: Setup Git & SSH
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -38,37 +38,37 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      # ➕ 新增步骤：Clone ComfyUI-Manager 仓库
-      - name: ⬇️ Clone ComfyUI-Manager
+      # Clone ComfyUI-Manager 仓库
+      - name: Clone ComfyUI-Manager
         run: |
           git clone git@github.com:Comfy-Org/ComfyUI-Manager.git ./ComfyUI-Manager
           cd ./ComfyUI-Manager && git checkout main || git checkout master
 
-      # 4️⃣ 创建虚拟环境并安装依赖
-      - name: 🏗️ Create & Activate Virtual Environment
+      # 创建虚拟环境并安装依赖
+      - name: Create & Activate Virtual Environment
         run: |
           python -m venv venv
           source venv/bin/activate
           pip install --upgrade pip
           pip install requests
 
-      # 5️⃣ 确保 custom_nodes 目录存在（适配你的新结构）
-      - name: 📂 Prepare Custom Nodes Directory
-        run: mkdir -p custom_nodes  # 👈 因为你现在在根目录运行
+      # 确保 custom_nodes 目录存在
+      - name: Prepare Custom Nodes Directory
+        run: mkdir -p custom_nodes
 
-      # 6️⃣ 给 Shell 脚本添加执行权限
-      - name: ⚙️ Make Shell Script Executable
-        run: chmod +x sync_comfyui_cust_nodes.sh
+      # 给 Shell 脚本添加执行权限
+      - name: Make Shell Script Executable
+        run: chmod +x sync_comfyui_cust_nodes_suix.sh
 
-      # 7️⃣ 执行你的同步脚本（带 --clean 参数）
-      - name: 🚀 Run Sync Script
+      # 执行你的同步脚本（带 --clean 参数）
+      - name: Run Sync Script
         run: |
           source venv/bin/activate
-          ./sync_comfyui_cust_nodes.sh --clean
+          ./sync_comfyui_cust_nodes_suix.sh --clean
         continue-on-error: true
 
-      # 8️⃣ 最终提交和推送（删除 ComfyUI-Manager 避免提交）
-      - name: 📝 Final Commit & Push
+      # 最终提交和推送（删除 ComfyUI-Manager 避免提交）
+      - name: Final Commit & Push
         if: always()
         run: |
           # 删除 ComfyUI-Manager 目录，避免提交
