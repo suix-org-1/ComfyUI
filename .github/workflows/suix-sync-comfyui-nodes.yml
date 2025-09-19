@@ -15,12 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      # 1️⃣ 检出代码（使用 PAT 以支持 push）
-      - name: 🧭 Checkout Repository
+      # 1️⃣ 检出你的主仓库（suix-org-1/ComfyUI）
+      - name: 🧭 Checkout Your Repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT }}  # 👈 必须设置！用于 push
-          submodules: true           # 如果你用子模块管理 ComfyUI-Manager，设为 true
+          token: ${{ secrets.PAT }}
           fetch-depth: 0
 
       # 2️⃣ 设置 Python 环境
@@ -29,30 +28,33 @@ jobs:
         with:
           python-version: "3.10"
 
-      # 3️⃣ 配置 Git 和 SSH（用于无交互 clone）
+      # 3️⃣ 配置 Git & SSH（用于无交互 clone）
       - name: 🛠️ Setup Git & SSH
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-          # 注入 SSH 私钥（用于 git clone）
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      # 4️⃣ 创建虚拟环境并安装基础依赖
+      # ➕ 新增步骤：Clone ComfyUI-Manager 仓库
+      - name: ⬇️ Clone ComfyUI-Manager
+        run: |
+          git clone git@github.com:Comfy-Org/ComfyUI-Manager.git ./ComfyUI-Manager
+          cd ./ComfyUI-Manager && git checkout main || git checkout master
+
+      # 4️⃣ 创建虚拟环境并安装依赖
       - name: 🏗️ Create & Activate Virtual Environment
         run: |
           python -m venv venv
           source venv/bin/activate
           pip install --upgrade pip
-          pip install requests  # 如果你的 Python 脚本用到网络请求
+          pip install requests
 
-      # 5️⃣ 确保 custom_nodes 目录存在（适配你的 Python 脚本路径）
+      # 5️⃣ 确保 custom_nodes 目录存在（适配你的新结构）
       - name: 📂 Prepare Custom Nodes Directory
-        run: |
-          mkdir -p suix_comfyui/ComfyUI/custom_nodes
+        run: mkdir -p custom_nodes  # 👈 因为你现在在根目录运行
 
       # 6️⃣ 给 Shell 脚本添加执行权限
       - name: ⚙️ Make Shell Script Executable
@@ -63,13 +65,15 @@ jobs:
         run: |
           source venv/bin/activate
           ./sync_comfyui_cust_nodes.sh --clean
-        continue-on-error: true  # 即使失败也继续，尝试提交已有成果
+        continue-on-error: true
 
-      # 8️⃣ 最终提交和推送（即使前面失败，只要目录有变化就提交）
+      # 8️⃣ 最终提交和推送（删除 ComfyUI-Manager 避免提交）
       - name: 📝 Final Commit & Push
         if: always()
         run: |
-          cd suix_comfyui/ComfyUI || exit 1
+          # 删除 ComfyUI-Manager 目录，避免提交
+          rm -rf ./ComfyUI-Manager
+      
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
