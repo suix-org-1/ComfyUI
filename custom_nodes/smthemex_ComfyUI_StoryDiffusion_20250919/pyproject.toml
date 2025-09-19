@@ -1,0 +1,15 @@
+[project]
+name = "comfyui_storydiffusion"
+description = "you can using sotry-diffusion and lot's of ID reservation methods in comfyui"
+version = "2.0.0"
+license = { file = "LICENSE" }
+dependencies = ["diffusers", "peft","opencv-python","omegaconf","spaces"]
+
+[project.urls]
+Repository = "https://github.com/smthemex/ComfyUI_StoryDiffusion"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = "smthemex"
+DisplayName = "ComfyUI_StoryDiffusion"
+Icon = ""
