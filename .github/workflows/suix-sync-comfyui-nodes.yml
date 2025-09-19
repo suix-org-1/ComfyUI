@@ -1,0 +1,82 @@
+name: 🔄 Sync ComfyUI Custom Nodes
+
+# 触发条件：每天 UTC 2:00（北京时间 10:00） + 手动触发
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+# 授予 push 权限
+permissions:
+  contents: write
+
+jobs:
+  sync-nodes:
+    runs-on: ubuntu-latest
+    steps:
+
+      # 1️⃣ 检出代码（使用 PAT 以支持 push）
+      - name: 🧭 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT }}  # 👈 必须设置！用于 push
+          submodules: true           # 如果你用子模块管理 ComfyUI-Manager，设为 true
+          fetch-depth: 0
+
+      # 2️⃣ 设置 Python 环境
+      - name: 🐍 Setup Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      # 3️⃣ 配置 Git 和 SSH（用于无交互 clone）
+      - name: 🛠️ Setup Git & SSH
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+          # 注入 SSH 私钥（用于 git clone）
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      # 4️⃣ 创建虚拟环境并安装基础依赖
+      - name: 🏗️ Create & Activate Virtual Environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install requests  # 如果你的 Python 脚本用到网络请求
+
+      # 5️⃣ 确保 custom_nodes 目录存在（适配你的 Python 脚本路径）
+      - name: 📂 Prepare Custom Nodes Directory
+        run: |
+          mkdir -p suix_comfyui/ComfyUI/custom_nodes
+
+      # 6️⃣ 给 Shell 脚本添加执行权限
+      - name: ⚙️ Make Shell Script Executable
+        run: chmod +x sync_comfyui_cust_nodes.sh
+
+      # 7️⃣ 执行你的同步脚本（带 --clean 参数）
+      - name: 🚀 Run Sync Script
+        run: |
+          source venv/bin/activate
+          ./sync_comfyui_cust_nodes.sh --clean
+        continue-on-error: true  # 即使失败也继续，尝试提交已有成果
+
+      # 8️⃣ 最终提交和推送（即使前面失败，只要目录有变化就提交）
+      - name: 📝 Final Commit & Push
+        if: always()
+        run: |
+          cd suix_comfyui/ComfyUI || exit 1
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git status --porcelain | grep -q .; then
+            git commit -m "🤖 Auto-sync custom nodes $(date +'%Y-%m-%d')"
+            git push origin main
+            echo "✅ Changes pushed successfully"
+          else
+            echo "📭 No changes to commit"
+          fi
