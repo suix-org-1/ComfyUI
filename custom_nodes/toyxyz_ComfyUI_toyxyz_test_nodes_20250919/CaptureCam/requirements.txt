@@ -1,0 +1,11 @@
+opencv-python
+pywin32
+pillow
+mttkinter
+mss
+pywin32
+FreeSimpleGUI
+pygrabber
+keyboard
+pygetwindow
+numpy
