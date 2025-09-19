@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      # 检出你的主仓库
+      # 检出主仓库
       - name: Checkout Your Repository
         uses: actions/checkout@v4
         with:
@@ -28,8 +28,8 @@ jobs:
         with:
           python-version: "3.10"
 
-      # 配置 Git & SSH（用于无交互 clone）
-      - name: Setup Git & SSH
+      # 执行脚本
+      - name: Run script
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -38,49 +38,17 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      # Clone ComfyUI-Manager 仓库
-      - name: Clone ComfyUI-Manager
-        run: |
           git clone git@github.com:Comfy-Org/ComfyUI-Manager.git ./ComfyUI-Manager
           cd ./ComfyUI-Manager && git checkout main || git checkout master
 
-      # 创建虚拟环境并安装依赖
-      - name: Create & Activate Virtual Environment
-        run: |
           python -m venv venv
           source venv/bin/activate
           pip install --upgrade pip
           pip install requests
 
-      # 确保 custom_nodes 目录存在
-      - name: Prepare Custom Nodes Directory
-        run: mkdir -p custom_nodes
+          mkdir -p custom_nodes
 
-      # 给 Shell 脚本添加执行权限
-      - name: Make Shell Script Executable
-        run: chmod +x sync_comfyui_cust_nodes_suix.sh
-
-      # 执行你的同步脚本（带 --clean 参数）
-      - name: Run Sync Script
-        run: |
           source venv/bin/activate
           ./sync_comfyui_cust_nodes_suix.sh --clean
-        continue-on-error: true
 
-      # 最终提交和推送（删除 ComfyUI-Manager 避免提交）
-      - name: Final Commit & Push
-        if: always()
-        run: |
-          # 删除 ComfyUI-Manager 目录，避免提交
-          rm -rf ./ComfyUI-Manager
-      
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          if git status --porcelain | grep -q .; then
-            git commit -m "🤖 Auto-sync custom nodes $(date +'%Y-%m-%d')"
-            git push origin main
-            echo "✅ Changes pushed successfully"
-          else
-            echo "📭 No changes to commit"
-          fi
+
