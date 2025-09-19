@@ -221,26 +221,31 @@ def clone_repo(url, author, repo):
 
 
 def git_commit_and_push(message):
-    """提交并推送 Git 仓库（静默模式，不打印文件列表）"""
+    """提交并推送 Git 仓库 —— 仅提交 custom_nodes 目录，强制绕过 .gitignore"""
     original_dir = os.getcwd()
     try:
         os.chdir(COMFYUI_REPO_DIR)
-        result = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
-        if not result.stdout.strip():
-            print("📭 无更改，跳过提交")
+
+        # 只强制添加 custom_nodes 目录
+        subprocess.run(["git", "add", "-f", CUSTOM_NODES_DIR], check=True)
+
+        # 检查暂存区是否有变更（在 add 之后！）
+        result = subprocess.run(
+            ["git", "diff", "--cached", "--quiet", "--", CUSTOM_NODES_DIR],
+            capture_output=True
+        )
+        if result.returncode == 0:
+            print("📭 custom_nodes 目录无实际变更，跳过提交")
             return True
 
-        # 静默添加所有文件（不输出文件列表）
-        subprocess.run(["git", "add", "."], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
-
-        # 静默提交（--quiet 隐藏文件列表）
+        # 有变更 → 提交
         subprocess.run(["git", "commit", "-m", message, "--quiet"], check=True)
 
-        # 静默推送（只在失败时输出）
+        # 推送
         push_result = subprocess.run(
             ["git", "push"],
             stdout=subprocess.DEVNULL,
-            stderr=subprocess.PIPE,  # 捕获错误便于打印
+            stderr=subprocess.PIPE,
             env={**os.environ, "GIT_LFS_SKIP_PUSH": "1"},
             text=True
         )
