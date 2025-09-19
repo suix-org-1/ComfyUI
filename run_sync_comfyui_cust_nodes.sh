@@ -1,10 +1,12 @@
 #!/bin/bash
 
-# === 配置路径 ===
-MANAGER_REPO_DIR="/Users/suixmeng/suix/suix-project/ComfyUI-Manager"
-COMFYUI_REPO_DIR="/Users/suixmeng/suix/suix-project/suix_comfyui/ComfyUI"
+# === 获取脚本所在目录（兼容 GitHub Actions 和本地）===
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# === 配置路径（全部基于 SCRIPT_DIR，不再写死 macOS 路径）===
+MANAGER_REPO_DIR="$SCRIPT_DIR/ComfyUI-Manager"
+COMFYUI_REPO_DIR="$SCRIPT_DIR/suix_comfyui/ComfyUI"
 CUSTOM_NODES_DIR="$COMFYUI_REPO_DIR/custom_nodes"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"  # 获取当前脚本所在目录
 
 # === 参数解析 ===
 CLEAN_NODES=false
@@ -63,7 +65,7 @@ if [ "$CLEAN_NODES" = true ]; then
     echo "🧹 正在清空 custom_nodes 目录..."
     if [ -d "$CUSTOM_NODES_DIR" ]; then
         # 使用 find 更安全地删除所有内容（包括隐藏文件），完全静音
-        find "$CUSTOM_NODES_DIR" -mindepth 1 -delete &>/dev/null || true
+        find "$CUSTOM_NODES_DIR" -mindepth 1 -maxdepth 1 -delete &>/dev/null || true
         echo "✅ custom_nodes 目录已清空"
     else
         echo "❌ custom_nodes 目录不存在: $CUSTOM_NODES_DIR"
