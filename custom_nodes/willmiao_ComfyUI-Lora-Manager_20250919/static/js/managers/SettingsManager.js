@@ -1,0 +1,1396 @@
+import { modalManager } from './ModalManager.js';
+import { showToast } from '../utils/uiHelpers.js';
+import { state } from '../state/index.js';
+import { resetAndReload } from '../api/modelApiFactory.js';
+import { setStorageItem, getStorageItem } from '../utils/storageHelpers.js';
+import { DOWNLOAD_PATH_TEMPLATES, MAPPABLE_BASE_MODELS, PATH_TEMPLATE_PLACEHOLDERS, DEFAULT_PATH_TEMPLATES } from '../utils/constants.js';
+import { translate } from '../utils/i18nHelpers.js';
+
+export class SettingsManager {
+    constructor() {
+        this.initialized = false;
+        this.isOpen = false;
+        this.initializationPromise = null;
+        
+        // Add initialization to sync with modal state
+        this.currentPage = document.body.dataset.page || 'loras';
+        
+        // Start initialization but don't await here to avoid blocking constructor
+        this.initializationPromise = this.initializeSettings();
+
+        this.initialize();
+    }
+
+    // Add method to wait for initialization to complete
+    async waitForInitialization() {
+        if (this.initializationPromise) {
+            await this.initializationPromise;
+        }
+    }
+
+    async initializeSettings() {
+        // Load frontend-only settings from localStorage
+        this.loadFrontendSettingsFromStorage();
+        
+        // Sync settings from backend to frontend
+        await this.syncSettingsFromBackend();
+    }
+
+    loadFrontendSettingsFromStorage() {
+        // Get saved settings from localStorage
+        const savedSettings = getStorageItem('settings');
+
+        // Frontend-only settings that should be stored in localStorage
+        const frontendOnlyKeys = [
+            'blurMatureContent',
+            'autoplayOnHover',
+            'displayDensity',
+            'cardInfoDisplay',
+            'includeTriggerWords'
+        ];
+
+        // Apply saved frontend settings to state if available
+        if (savedSettings) {
+            const frontendSettings = {};
+            frontendOnlyKeys.forEach(key => {
+                if (savedSettings[key] !== undefined) {
+                    frontendSettings[key] = savedSettings[key];
+                }
+            });
+            state.global.settings = { ...state.global.settings, ...frontendSettings };
+        }
+
+        // Initialize default values for frontend settings if they don't exist
+        if (state.global.settings.blurMatureContent === undefined) {
+            state.global.settings.blurMatureContent = true;
+        }
+
+        if (state.global.settings.show_only_sfw === undefined) {
+            state.global.settings.show_only_sfw = false;
+        }
+
+        if (state.global.settings.autoplayOnHover === undefined) {
+            state.global.settings.autoplayOnHover = false;
+        }
+
+        if (state.global.settings.cardInfoDisplay === undefined) {
+            state.global.settings.cardInfoDisplay = 'always';
+        }
+
+        if (state.global.settings.displayDensity === undefined) {
+            // Migrate legacy compactMode if it exists
+            if (state.global.settings.compactMode === true) {
+                state.global.settings.displayDensity = 'compact';
+            } else {
+                state.global.settings.displayDensity = 'default';
+            }
+        }
+
+        if (state.global.settings.includeTriggerWords === undefined) {
+            state.global.settings.includeTriggerWords = false;
+        }
+
+        // Save updated frontend settings to localStorage
+        this.saveFrontendSettingsToStorage();
+    }
+
+    async syncSettingsFromBackend() {
+        try {
+            const response = await fetch('/api/lm/settings');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            if (data.success && data.settings) {
+                // Merge backend settings with current state
+                state.global.settings = { ...state.global.settings, ...data.settings };
+                
+                // Set defaults for backend settings if they're null/undefined
+                this.setBackendSettingDefaults();
+                
+                console.log('Settings synced from backend');
+            } else {
+                console.error('Failed to sync settings from backend:', data.error);
+            }
+        } catch (error) {
+            console.error('Failed to sync settings from backend:', error);
+            // Set defaults if backend sync fails
+            this.setBackendSettingDefaults();
+        }
+    }
+
+    setBackendSettingDefaults() {
+        // Set defaults for backend settings
+        const backendDefaults = {
+            civitai_api_key: '',
+            default_lora_root: '',
+            default_checkpoint_root: '',
+            default_embedding_root: '',
+            base_model_path_mappings: {},
+            download_path_templates: { ...DEFAULT_PATH_TEMPLATES },
+            enable_metadata_archive_db: false,
+            language: 'en',
+            show_only_sfw: false,
+            proxy_enabled: false,
+            proxy_type: 'http',
+            proxy_host: '',
+            proxy_port: '',
+            proxy_username: '',
+            proxy_password: '',
+            example_images_path: '',
+            optimizeExampleImages: true,
+            autoDownloadExampleImages: false
+        };
+
+        Object.keys(backendDefaults).forEach(key => {
+            if (state.global.settings[key] === undefined || state.global.settings[key] === null) {
+                state.global.settings[key] = backendDefaults[key];
+            }
+        });
+
+        // Ensure all model types have templates
+        Object.keys(DEFAULT_PATH_TEMPLATES).forEach(modelType => {
+            if (!state.global.settings.download_path_templates[modelType]) {
+                state.global.settings.download_path_templates[modelType] = DEFAULT_PATH_TEMPLATES[modelType];
+            }
+        });
+    }
+
+    saveFrontendSettingsToStorage() {
+        // Save only frontend-specific settings to localStorage
+        const frontendOnlyKeys = [
+            'blurMatureContent',
+            'autoplayOnHover', 
+            'displayDensity',
+            'cardInfoDisplay',
+            'includeTriggerWords'
+        ];
+
+        const frontendSettings = {};
+        frontendOnlyKeys.forEach(key => {
+            if (state.global.settings[key] !== undefined) {
+                frontendSettings[key] = state.global.settings[key];
+            }
+        });
+
+        setStorageItem('settings', frontendSettings);
+    }
+
+    // Helper method to determine if a setting should be saved to backend
+    isBackendSetting(settingKey) {
+        const backendKeys = [
+            'civitai_api_key',
+            'default_lora_root',
+            'default_checkpoint_root', 
+            'default_embedding_root',
+            'base_model_path_mappings',
+            'download_path_templates',
+            'enable_metadata_archive_db',
+            'language',
+            'show_only_sfw',
+            'proxy_enabled',
+            'proxy_type',
+            'proxy_host',
+            'proxy_port',
+            'proxy_username',
+            'proxy_password',
+            'example_images_path',
+            'optimizeExampleImages',
+            'autoDownloadExampleImages'
+        ];
+        return backendKeys.includes(settingKey);
+    }
+
+    // Helper method to save setting based on whether it's frontend or backend
+    async saveSetting(settingKey, value) {
+        // Update state
+        state.global.settings[settingKey] = value;
+
+        if (this.isBackendSetting(settingKey)) {
+            // Save to backend
+            try {
+                const payload = {};
+                payload[settingKey] = value;
+
+                const response = await fetch('/api/lm/settings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save setting to backend');
+                }
+
+                // Parse response and check for success
+                const data = await response.json();
+                if (data.success === false) {
+                    throw new Error(data.error || 'Failed to save setting to backend');
+                }
+            } catch (error) {
+                console.error(`Failed to save backend setting ${settingKey}:`, error);
+                throw error;
+            }
+        } else {
+            // Save frontend settings to localStorage
+            this.saveFrontendSettingsToStorage();
+        }
+    }
+
+    initialize() {
+        if (this.initialized) return;
+        
+        // Add event listener to sync state when modal is closed via other means (like Escape key)
+        const settingsModal = document.getElementById('settingsModal');
+        if (settingsModal) {
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                        this.isOpen = settingsModal.style.display === 'block';
+                        
+                        // When modal is opened, update checkbox state from current settings
+                        if (this.isOpen) {
+                            this.loadSettingsToUI();
+                        }
+                    }
+                });
+            });
+            
+            observer.observe(settingsModal, { attributes: true });
+        }
+        
+        // Add event listeners for all toggle-visibility buttons
+        document.querySelectorAll('.toggle-visibility').forEach(button => {
+            button.addEventListener('click', () => this.toggleInputVisibility(button));
+        });
+
+        ['lora', 'checkpoint', 'embedding'].forEach(modelType => {
+            const customInput = document.getElementById(`${modelType}CustomTemplate`);
+            if (customInput) {
+                customInput.addEventListener('input', (e) => {
+                    const template = e.target.value;
+                    settingsManager.validateTemplate(modelType, template);
+                    settingsManager.updateTemplatePreview(modelType, template);
+                });
+                
+                customInput.addEventListener('blur', (e) => {
+                    const template = e.target.value;
+                    if (settingsManager.validateTemplate(modelType, template)) {
+                        settingsManager.updateTemplate(modelType, template);
+                    }
+                });
+                
+                customInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.target.blur();
+                    }
+                });
+            }
+        });
+        
+        this.initialized = true;
+    }
+
+    async loadSettingsToUI() {
+        // Set frontend settings from state
+        const blurMatureContentCheckbox = document.getElementById('blurMatureContent');
+        if (blurMatureContentCheckbox) {
+            blurMatureContentCheckbox.checked = state.global.settings.blurMatureContent;
+        }
+        
+        const showOnlySFWCheckbox = document.getElementById('showOnlySFW');
+        if (showOnlySFWCheckbox) {
+            // Sync with state (backend will set this via template)
+            state.global.settings.show_only_sfw = showOnlySFWCheckbox.checked;
+        }
+        
+        // Set video autoplay on hover setting
+        const autoplayOnHoverCheckbox = document.getElementById('autoplayOnHover');
+        if (autoplayOnHoverCheckbox) {
+            autoplayOnHoverCheckbox.checked = state.global.settings.autoplayOnHover || false;
+        }
+        
+        // Set display density setting
+        const displayDensitySelect = document.getElementById('displayDensity');
+        if (displayDensitySelect) {
+            displayDensitySelect.value = state.global.settings.displayDensity || 'default';
+        }
+        
+        // Set card info display setting
+        const cardInfoDisplaySelect = document.getElementById('cardInfoDisplay');
+        if (cardInfoDisplaySelect) {
+            cardInfoDisplaySelect.value = state.global.settings.cardInfoDisplay || 'always';
+        }
+
+        // Set optimize example images setting
+        const optimizeExampleImagesCheckbox = document.getElementById('optimizeExampleImages');
+        if (optimizeExampleImagesCheckbox) {
+            optimizeExampleImagesCheckbox.checked = state.global.settings.optimizeExampleImages || false;
+        }
+
+        // Set auto download example images setting
+        const autoDownloadExampleImagesCheckbox = document.getElementById('autoDownloadExampleImages');
+        if (autoDownloadExampleImagesCheckbox) {
+            autoDownloadExampleImagesCheckbox.checked = state.global.settings.autoDownloadExampleImages || false;
+        }
+
+        // Load download path templates
+        this.loadDownloadPathTemplates();
+
+        // Set include trigger words setting
+        const includeTriggerWordsCheckbox = document.getElementById('includeTriggerWords');
+        if (includeTriggerWordsCheckbox) {
+            includeTriggerWordsCheckbox.checked = state.global.settings.includeTriggerWords || false;
+        }
+
+        // Load metadata archive settings
+        await this.loadMetadataArchiveSettings();
+
+        // Load base model path mappings
+        this.loadBaseModelMappings();
+
+        // Load default lora root
+        await this.loadLoraRoots();
+        
+        // Load default checkpoint root
+        await this.loadCheckpointRoots();
+
+        // Load default embedding root
+        await this.loadEmbeddingRoots();
+
+        // Load language setting
+        const languageSelect = document.getElementById('languageSelect');
+        if (languageSelect) {
+            const currentLanguage = state.global.settings.language || 'en';
+            languageSelect.value = currentLanguage;
+        }
+
+        this.loadProxySettings();
+    }
+
+    loadProxySettings() {
+        // Load proxy enabled setting
+        const proxyEnabledCheckbox = document.getElementById('proxyEnabled');
+        if (proxyEnabledCheckbox) {
+            proxyEnabledCheckbox.checked = state.global.settings.proxy_enabled || false;
+            
+            // Add event listener for toggling proxy settings group visibility
+            proxyEnabledCheckbox.addEventListener('change', () => {
+                const proxySettingsGroup = document.getElementById('proxySettingsGroup');
+                if (proxySettingsGroup) {
+                    proxySettingsGroup.style.display = proxyEnabledCheckbox.checked ? 'block' : 'none';
+                }
+            });
+            
+            // Set initial visibility
+            const proxySettingsGroup = document.getElementById('proxySettingsGroup');
+            if (proxySettingsGroup) {
+                proxySettingsGroup.style.display = proxyEnabledCheckbox.checked ? 'block' : 'none';
+            }
+        }
+
+        // Load proxy type
+        const proxyTypeSelect = document.getElementById('proxyType');
+        if (proxyTypeSelect) {
+            proxyTypeSelect.value = state.global.settings.proxy_type || 'http';
+        }
+
+        // Load proxy host
+        const proxyHostInput = document.getElementById('proxyHost');
+        if (proxyHostInput) {
+            proxyHostInput.value = state.global.settings.proxy_host || '';
+        }
+
+        // Load proxy port
+        const proxyPortInput = document.getElementById('proxyPort');
+        if (proxyPortInput) {
+            proxyPortInput.value = state.global.settings.proxy_port || '';
+        }
+
+        // Load proxy username
+        const proxyUsernameInput = document.getElementById('proxyUsername');
+        if (proxyUsernameInput) {
+            proxyUsernameInput.value = state.global.settings.proxy_username || '';
+        }
+
+        // Load proxy password
+        const proxyPasswordInput = document.getElementById('proxyPassword');
+        if (proxyPasswordInput) {
+            proxyPasswordInput.value = state.global.settings.proxy_password || '';
+        }
+    }
+
+    async loadLoraRoots() {
+        try {
+            const defaultLoraRootSelect = document.getElementById('defaultLoraRoot');
+            if (!defaultLoraRootSelect) return;
+            
+            // Fetch lora roots
+            const response = await fetch('/api/lm/loras/roots');
+            if (!response.ok) {
+                throw new Error('Failed to fetch LoRA roots');
+            }
+            
+            const data = await response.json();
+            if (!data.roots || data.roots.length === 0) {
+                throw new Error('No LoRA roots found');
+            }
+            
+            // Clear existing options except the first one (No Default)
+            const noDefaultOption = defaultLoraRootSelect.querySelector('option[value=""]');
+            defaultLoraRootSelect.innerHTML = '';
+            defaultLoraRootSelect.appendChild(noDefaultOption);
+            
+            // Add options for each root
+            data.roots.forEach(root => {
+                const option = document.createElement('option');
+                option.value = root;
+                option.textContent = root;
+                defaultLoraRootSelect.appendChild(option);
+            });
+            
+            // Set selected value from settings
+            const defaultRoot = state.global.settings.default_lora_root || '';
+            defaultLoraRootSelect.value = defaultRoot;
+            
+        } catch (error) {
+            console.error('Error loading LoRA roots:', error);
+            showToast('toast.settings.loraRootsFailed', { message: error.message }, 'error');
+        }
+    }
+
+    async loadCheckpointRoots() {
+        try {
+            const defaultCheckpointRootSelect = document.getElementById('defaultCheckpointRoot');
+            if (!defaultCheckpointRootSelect) return;
+            
+            // Fetch checkpoint roots
+            const response = await fetch('/api/lm/checkpoints/roots');
+            if (!response.ok) {
+                throw new Error('Failed to fetch checkpoint roots');
+            }
+            
+            const data = await response.json();
+            if (!data.roots || data.roots.length === 0) {
+                throw new Error('No checkpoint roots found');
+            }
+            
+            // Clear existing options except the first one (No Default)
+            const noDefaultOption = defaultCheckpointRootSelect.querySelector('option[value=""]');
+            defaultCheckpointRootSelect.innerHTML = '';
+            defaultCheckpointRootSelect.appendChild(noDefaultOption);
+            
+            // Add options for each root
+            data.roots.forEach(root => {
+                const option = document.createElement('option');
+                option.value = root;
+                option.textContent = root;
+                defaultCheckpointRootSelect.appendChild(option);
+            });
+            
+            // Set selected value from settings
+            const defaultRoot = state.global.settings.default_checkpoint_root || '';
+            defaultCheckpointRootSelect.value = defaultRoot;
+            
+        } catch (error) {
+            console.error('Error loading checkpoint roots:', error);
+            showToast('toast.settings.checkpointRootsFailed', { message: error.message }, 'error');
+        }
+    }
+
+    async loadEmbeddingRoots() {
+        try {
+            const defaultEmbeddingRootSelect = document.getElementById('defaultEmbeddingRoot');
+            if (!defaultEmbeddingRootSelect) return;
+
+            // Fetch embedding roots
+            const response = await fetch('/api/lm/embeddings/roots');
+            if (!response.ok) {
+                throw new Error('Failed to fetch embedding roots');
+            }
+
+            const data = await response.json();
+            if (!data.roots || data.roots.length === 0) {
+                throw new Error('No embedding roots found');
+            }
+
+            // Clear existing options except the first one (No Default)
+            const noDefaultOption = defaultEmbeddingRootSelect.querySelector('option[value=""]');
+            defaultEmbeddingRootSelect.innerHTML = '';
+            defaultEmbeddingRootSelect.appendChild(noDefaultOption);
+
+            // Add options for each root
+            data.roots.forEach(root => {
+                const option = document.createElement('option');
+                option.value = root;
+                option.textContent = root;
+                defaultEmbeddingRootSelect.appendChild(option);
+            });
+
+            // Set selected value from settings
+            const defaultRoot = state.global.settings.default_embedding_root || '';
+            defaultEmbeddingRootSelect.value = defaultRoot;
+
+        } catch (error) {
+            console.error('Error loading embedding roots:', error);
+            showToast('toast.settings.embeddingRootsFailed', { message: error.message }, 'error');
+        }
+    }
+
+    loadBaseModelMappings() {
+        const mappingsContainer = document.getElementById('baseModelMappingsContainer');
+        if (!mappingsContainer) return;
+
+        const mappings = state.global.settings.base_model_path_mappings || {};
+        
+        // Clear existing mappings
+        mappingsContainer.innerHTML = '';
+
+        // Add existing mappings
+        Object.entries(mappings).forEach(([baseModel, pathValue]) => {
+            this.addMappingRow(baseModel, pathValue);
+        });
+
+        // Add empty row for new mappings if none exist
+        if (Object.keys(mappings).length === 0) {
+            this.addMappingRow('', '');
+        }
+    }
+
+    addMappingRow(baseModel = '', pathValue = '') {
+        const mappingsContainer = document.getElementById('baseModelMappingsContainer');
+        if (!mappingsContainer) return;
+
+        const row = document.createElement('div');
+        row.className = 'mapping-row';
+        
+        const availableModels = MAPPABLE_BASE_MODELS.filter(model => {
+            const existingMappings = state.global.settings.base_model_path_mappings || {};
+            return !existingMappings.hasOwnProperty(model) || model === baseModel;
+        });
+
+        row.innerHTML = `
+            <div class="mapping-controls">
+                <select class="base-model-select">
+                    <option value="">${translate('settings.downloadPathTemplates.selectBaseModel', {}, 'Select Base Model')}</option>
+                    ${availableModels.map(model => 
+                        `<option value="${model}" ${model === baseModel ? 'selected' : ''}>${model}</option>`
+                    ).join('')}
+                </select>
+                <input type="text" class="path-value-input" placeholder="${translate('settings.downloadPathTemplates.customPathPlaceholder', {}, 'Custom path (e.g., flux)')}" value="${pathValue}">
+                <button type="button" class="remove-mapping-btn" title="${translate('settings.downloadPathTemplates.removeMapping', {}, 'Remove mapping')}">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+
+        // Add event listeners
+        const baseModelSelect = row.querySelector('.base-model-select');
+        const pathValueInput = row.querySelector('.path-value-input');
+        const removeBtn = row.querySelector('.remove-mapping-btn');
+
+        // Save on select change immediately
+        baseModelSelect.addEventListener('change', () => this.updateBaseModelMappings());
+        
+        // Save on input blur or Enter key
+        pathValueInput.addEventListener('blur', () => this.updateBaseModelMappings());
+        pathValueInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.target.blur();
+            }
+        });
+        
+        removeBtn.addEventListener('click', () => {
+            row.remove();
+            this.updateBaseModelMappings();
+        });
+
+        mappingsContainer.appendChild(row);
+    }
+
+    updateBaseModelMappings() {
+        const mappingsContainer = document.getElementById('baseModelMappingsContainer');
+        if (!mappingsContainer) return;
+
+        const rows = mappingsContainer.querySelectorAll('.mapping-row');
+        const newMappings = {};
+        let hasValidMapping = false;
+
+        rows.forEach(row => {
+            const baseModelSelect = row.querySelector('.base-model-select');
+            const pathValueInput = row.querySelector('.path-value-input');
+            
+            const baseModel = baseModelSelect.value.trim();
+            const pathValue = pathValueInput.value.trim();
+            
+            if (baseModel && pathValue) {
+                newMappings[baseModel] = pathValue;
+                hasValidMapping = true;
+            }
+        });
+
+        // Check if mappings have actually changed
+        const currentMappings = state.global.settings.base_model_path_mappings || {};
+        const mappingsChanged = JSON.stringify(currentMappings) !== JSON.stringify(newMappings);
+
+        if (mappingsChanged) {
+            // Update state and save
+            state.global.settings.base_model_path_mappings = newMappings;
+            this.saveBaseModelMappings();
+        }
+
+        // Add empty row if no valid mappings exist
+        const hasEmptyRow = Array.from(rows).some(row => {
+            const baseModelSelect = row.querySelector('.base-model-select');
+            const pathValueInput = row.querySelector('.path-value-input');
+            return !baseModelSelect.value && !pathValueInput.value;
+        });
+
+        if (!hasEmptyRow) {
+            this.addMappingRow('', '');
+        }
+
+        // Update available options in all selects
+        this.updateAvailableBaseModels();
+    }
+
+    updateAvailableBaseModels() {
+        const mappingsContainer = document.getElementById('baseModelMappingsContainer');
+        if (!mappingsContainer) return;
+
+        const existingMappings = state.global.settings.base_model_path_mappings || {};
+        const rows = mappingsContainer.querySelectorAll('.mapping-row');
+
+        rows.forEach(row => {
+            const select = row.querySelector('.base-model-select');
+            const currentValue = select.value;
+            
+            // Get available models (not already mapped, except current)
+            const availableModels = MAPPABLE_BASE_MODELS.filter(model => 
+                !existingMappings.hasOwnProperty(model) || model === currentValue
+            );
+
+            // Rebuild options
+            select.innerHTML = `<option value="">${translate('settings.downloadPathTemplates.selectBaseModel', {}, 'Select Base Model')}</option>` +
+                availableModels.map(model => 
+                    `<option value="${model}" ${model === currentValue ? 'selected' : ''}>${model}</option>`
+                ).join('');
+        });
+    }
+
+    async saveBaseModelMappings() {
+        try {
+            // Save to backend using universal save method
+            await this.saveSetting('base_model_path_mappings', state.global.settings.base_model_path_mappings);
+
+            // Show success toast
+            const mappingCount = Object.keys(state.global.settings.base_model_path_mappings).length;
+            if (mappingCount > 0) {
+                showToast('toast.settings.mappingsUpdated', { 
+                    count: mappingCount,
+                    plural: mappingCount !== 1 ? 's' : ''
+                }, 'success');
+            } else {
+                showToast('toast.settings.mappingsCleared', {}, 'success');
+            }
+
+        } catch (error) {
+            console.error('Error saving base model mappings:', error);
+            showToast('toast.settings.mappingSaveFailed', { message: error.message }, 'error');
+        }
+    }
+
+    loadDownloadPathTemplates() {
+        const templates = state.global.settings.download_path_templates || DEFAULT_PATH_TEMPLATES;
+        
+        Object.keys(templates).forEach(modelType => {
+            this.loadTemplateForModelType(modelType, templates[modelType]);
+        });
+    }
+
+    loadTemplateForModelType(modelType, template) {
+        const presetSelect = document.getElementById(`${modelType}TemplatePreset`);
+        const customRow = document.getElementById(`${modelType}CustomRow`);
+        const customInput = document.getElementById(`${modelType}CustomTemplate`);
+        
+        if (!presetSelect) return;
+
+        // Find matching preset
+        const matchingPreset = this.findMatchingPreset(template);
+        
+        if (matchingPreset !== null) {
+            presetSelect.value = matchingPreset;
+            if (customRow) customRow.style.display = 'none';
+        } else {
+            // Custom template
+            presetSelect.value = 'custom';
+            if (customRow) customRow.style.display = 'block';
+            if (customInput) {
+                customInput.value = template;
+                this.validateTemplate(modelType, template);
+            }
+        }
+        
+        this.updateTemplatePreview(modelType, template);
+    }
+
+    findMatchingPreset(template) {
+        const presetValues = Object.values(DOWNLOAD_PATH_TEMPLATES)
+            .map(t => t.value)
+            .filter(v => v !== 'custom');
+        
+        return presetValues.includes(template) ? template : null;
+    }
+
+    updateTemplatePreset(modelType, value) {
+        const customRow = document.getElementById(`${modelType}CustomRow`);
+        const customInput = document.getElementById(`${modelType}CustomTemplate`);
+        
+        if (value === 'custom') {
+            if (customRow) customRow.style.display = 'block';
+            if (customInput) customInput.focus();
+            return;
+        } else {
+            if (customRow) customRow.style.display = 'none';
+        }
+        
+        // Update template
+        this.updateTemplate(modelType, value);
+    }
+
+    updateTemplate(modelType, template) {
+        // Validate template if it's custom
+        if (document.getElementById(`${modelType}TemplatePreset`).value === 'custom') {
+            if (!this.validateTemplate(modelType, template)) {
+                return; // Don't save invalid templates
+            }
+        }
+        
+        // Update state
+        if (!state.global.settings.download_path_templates) {
+            state.global.settings.download_path_templates = { ...DEFAULT_PATH_TEMPLATES };
+        }
+        state.global.settings.download_path_templates[modelType] = template;
+        
+        // Update preview
+        this.updateTemplatePreview(modelType, template);
+        
+        // Save settings
+        this.saveDownloadPathTemplates();
+    }
+
+    validateTemplate(modelType, template) {
+        const validationElement = document.getElementById(`${modelType}Validation`);
+        if (!validationElement) return true;
+        
+        // Reset validation state
+        validationElement.innerHTML = '';
+        validationElement.className = 'template-validation';
+        
+        if (!template) {
+            validationElement.innerHTML = `<i class="fas fa-check"></i> ${translate('settings.downloadPathTemplates.validation.validFlat', {}, 'Valid (flat structure)')}`;
+            validationElement.classList.add('valid');
+            return true;
+        }
+        
+        // Check for invalid characters
+        const invalidChars = /[<>:"|?*]/;
+        if (invalidChars.test(template)) {
+            validationElement.innerHTML = `<i class="fas fa-times"></i> ${translate('settings.downloadPathTemplates.validation.invalidChars', {}, 'Invalid characters detected')}`;
+            validationElement.classList.add('invalid');
+            return false;
+        }
+        
+        // Check for double slashes
+        if (template.includes('//')) {
+            validationElement.innerHTML = `<i class="fas fa-times"></i> ${translate('settings.downloadPathTemplates.validation.doubleSlashes', {}, 'Double slashes not allowed')}`;
+            validationElement.classList.add('invalid');
+            return false;
+        }
+        
+        // Check if it starts or ends with slash
+        if (template.startsWith('/') || template.endsWith('/')) {
+            validationElement.innerHTML = `<i class="fas fa-times"></i> ${translate('settings.downloadPathTemplates.validation.leadingTrailingSlash', {}, 'Cannot start or end with slash')}`;
+            validationElement.classList.add('invalid');
+            return false;
+        }
+        
+        // Extract placeholders
+        const placeholderRegex = /\{([^}]+)\}/g;
+        const matches = template.match(placeholderRegex) || [];
+        
+        // Check for invalid placeholders
+        const invalidPlaceholders = matches.filter(match => 
+            !PATH_TEMPLATE_PLACEHOLDERS.includes(match)
+        );
+        
+        if (invalidPlaceholders.length > 0) {
+            validationElement.innerHTML = `<i class="fas fa-times"></i> ${translate('settings.downloadPathTemplates.validation.invalidPlaceholder', { placeholder: invalidPlaceholders[0] }, `Invalid placeholder: ${invalidPlaceholders[0]}`)}`;
+            validationElement.classList.add('invalid');
+            return false;
+        }
+        
+        // Template is valid
+        validationElement.innerHTML = `<i class="fas fa-check"></i> ${translate('settings.downloadPathTemplates.validation.validTemplate', {}, 'Valid template')}`;
+        validationElement.classList.add('valid');
+        return true;
+    }
+
+    updateTemplatePreview(modelType, template) {
+        const previewElement = document.getElementById(`${modelType}Preview`);
+        if (!previewElement) return;
+        
+        if (!template) {
+            previewElement.textContent = 'model-name.safetensors';
+        } else {
+            // Generate example preview
+            const exampleTemplate = template
+                .replace('{base_model}', 'Flux.1 D')
+                .replace('{author}', 'authorname')
+                .replace('{first_tag}', 'style');
+            previewElement.textContent = `${exampleTemplate}/model-name.safetensors`;
+        }
+        previewElement.style.display = 'block';
+    }
+
+    async saveDownloadPathTemplates() {
+        try {
+            // Save to backend using universal save method
+            await this.saveSetting('download_path_templates', state.global.settings.download_path_templates);
+
+            showToast('toast.settings.downloadTemplatesUpdated', {}, 'success');
+
+        } catch (error) {
+            console.error('Error saving download path templates:', error);
+            showToast('toast.settings.downloadTemplatesFailed', { message: error.message }, 'error');
+        }
+    }
+
+    toggleSettings() {
+        if (this.isOpen) {
+            modalManager.closeModal('settingsModal');
+        } else {
+            modalManager.showModal('settingsModal');
+        }
+        this.isOpen = !this.isOpen;
+    }
+
+    async saveToggleSetting(elementId, settingKey) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
+        const value = element.checked;
+        
+        try {
+            // Update frontend state with mapped keys
+            if (settingKey === 'blur_mature_content') {
+                await this.saveSetting('blurMatureContent', value);
+            } else if (settingKey === 'show_only_sfw') {
+                await this.saveSetting('show_only_sfw', value);
+            } else if (settingKey === 'autoplay_on_hover') {
+                await this.saveSetting('autoplayOnHover', value);
+            } else if (settingKey === 'optimize_example_images') {
+                await this.saveSetting('optimizeExampleImages', value);
+            } else if (settingKey === 'auto_download_example_images') {
+                await this.saveSetting('autoDownloadExampleImages', value);
+            } else if (settingKey === 'compact_mode') {
+                await this.saveSetting('compactMode', value);
+            } else if (settingKey === 'include_trigger_words') {
+                await this.saveSetting('includeTriggerWords', value);
+            } else if (settingKey === 'enable_metadata_archive_db') {
+                await this.saveSetting('enable_metadata_archive_db', value);
+            } else if (settingKey === 'proxy_enabled') {
+                await this.saveSetting('proxy_enabled', value);
+                
+                // Toggle visibility of proxy settings group
+                const proxySettingsGroup = document.getElementById('proxySettingsGroup');
+                if (proxySettingsGroup) {
+                    proxySettingsGroup.style.display = value ? 'block' : 'none';
+                }
+            } else {
+                // For any other settings that might be added in the future
+                await this.saveSetting(settingKey, value);
+            }
+            
+            // Refresh metadata archive status when enable setting changes
+            if (settingKey === 'enable_metadata_archive_db') {
+                await this.updateMetadataArchiveStatus();
+            }
+                
+            showToast('toast.settings.settingsUpdated', { setting: settingKey.replace(/_/g, ' ') }, 'success');
+            
+            // Apply frontend settings immediately
+            this.applyFrontendSettings();
+            
+            // Trigger auto download setup/teardown when setting changes
+            if (settingKey === 'auto_download_example_images' && window.exampleImagesManager) {
+                if (value) {
+                    window.exampleImagesManager.setupAutoDownload();
+                } else {
+                    window.exampleImagesManager.clearAutoDownload();
+                }
+            }
+            
+            if (settingKey === 'show_only_sfw' || settingKey === 'blur_mature_content') {
+                this.reloadContent();
+            }
+            
+            // Recalculate layout when compact mode changes
+            if (settingKey === 'compact_mode' && state.virtualScroller) {
+                state.virtualScroller.calculateLayout();
+                showToast('toast.settings.compactModeToggled', { 
+                    state: value ? 'toast.settings.compactModeEnabled' : 'toast.settings.compactModeDisabled' 
+                }, 'success');
+            }
+
+            // Special handling for metadata archive settings
+            if (settingKey === 'enable_metadata_archive_db') {
+                await this.updateMetadataArchiveStatus();
+            }
+            
+        } catch (error) {
+            showToast('toast.settings.settingSaveFailed', { message: error.message }, 'error');
+        }
+    }
+    
+    async saveSelectSetting(elementId, settingKey) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
+        const value = element.value;
+        
+        try {
+            // Update frontend state with mapped keys
+            if (settingKey === 'default_lora_root') {
+                await this.saveSetting('default_lora_root', value);
+            } else if (settingKey === 'default_checkpoint_root') {
+                await this.saveSetting('default_checkpoint_root', value);
+            } else if (settingKey === 'default_embedding_root') {
+                await this.saveSetting('default_embedding_root', value);
+            } else if (settingKey === 'display_density') {
+                await this.saveSetting('displayDensity', value);
+            } else if (settingKey === 'card_info_display') {
+                await this.saveSetting('cardInfoDisplay', value);
+            } else if (settingKey === 'proxy_type') {
+                await this.saveSetting('proxy_type', value);
+            } else {
+                // For any other settings that might be added in the future
+                await this.saveSetting(settingKey, value);
+            }
+            
+            // Apply frontend settings immediately
+            this.applyFrontendSettings();
+            
+            // Recalculate layout when display density changes
+            if (settingKey === 'display_density' && state.virtualScroller) {
+                state.virtualScroller.calculateLayout();
+                
+                let densityName = "Default";
+                if (value === 'medium') densityName = "Medium";
+                if (value === 'compact') densityName = "Compact";
+                
+                showToast('toast.settings.displayDensitySet', { density: densityName }, 'success');
+                return;
+            }
+            
+            showToast('toast.settings.settingsUpdated', { setting: settingKey.replace(/_/g, ' ') }, 'success');
+        } catch (error) {
+            showToast('toast.settings.settingSaveFailed', { message: error.message }, 'error');
+        }
+    }
+
+    async loadMetadataArchiveSettings() {
+        try {
+            // Load current settings from state
+            const enableMetadataArchiveCheckbox = document.getElementById('enableMetadataArchive');
+            if (enableMetadataArchiveCheckbox) {
+                enableMetadataArchiveCheckbox.checked = state.global.settings.enable_metadata_archive_db || false;
+            }
+
+            // Load status
+            await this.updateMetadataArchiveStatus();
+        } catch (error) {
+            console.error('Error loading metadata archive settings:', error);
+        }
+    }
+
+    async updateMetadataArchiveStatus() {
+        try {
+            const response = await fetch('/api/lm/metadata-archive-status');
+            const data = await response.json();
+
+            const statusContainer = document.getElementById('metadataArchiveStatus');
+            if (statusContainer && data.success) {
+                const status = data;
+                const sizeText = status.databaseSize > 0 ? ` (${this.formatFileSize(status.databaseSize)})` : '';
+                
+                statusContainer.innerHTML = `
+                    <div class="archive-status-item">
+                        <span class="archive-status-label">${translate('settings.metadataArchive.status')}:</span>
+                        <span class="archive-status-value status-${status.isAvailable ? 'available' : 'unavailable'}">
+                            ${status.isAvailable ? translate('settings.metadataArchive.statusAvailable') : translate('settings.metadataArchive.statusUnavailable')}
+                            ${sizeText}
+                        </span>
+                    </div>
+                    <div class="archive-status-item">
+                        <span class="archive-status-label">${translate('settings.metadataArchive.enabled')}:</span>
+                        <span class="archive-status-value status-${status.isEnabled ? 'enabled' : 'disabled'}">
+                            ${status.isEnabled ? translate('common.status.enabled') : translate('common.status.disabled')}
+                        </span>
+                    </div>
+                `;
+
+                // Update button states
+                const downloadBtn = document.getElementById('downloadMetadataArchiveBtn');
+                const removeBtn = document.getElementById('removeMetadataArchiveBtn');
+                
+                if (downloadBtn) {
+                    downloadBtn.disabled = status.isAvailable;
+                    downloadBtn.textContent = status.isAvailable ? 
+                        translate('settings.metadataArchive.downloadedButton') : 
+                        translate('settings.metadataArchive.downloadButton');
+                }
+                
+                if (removeBtn) {
+                    removeBtn.disabled = !status.isAvailable;
+                }
+            }
+        } catch (error) {
+            console.error('Error updating metadata archive status:', error);
+        }
+    }
+
+    formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    async downloadMetadataArchive() {
+        try {
+            const downloadBtn = document.getElementById('downloadMetadataArchiveBtn');
+            
+            if (downloadBtn) {
+                downloadBtn.disabled = true;
+                downloadBtn.textContent = translate('settings.metadataArchive.downloadingButton');
+            }
+            
+            // Show loading with enhanced progress
+            const progressUpdater = state.loadingManager.showEnhancedProgress(translate('settings.metadataArchive.preparing'));
+
+            // Set up WebSocket for progress updates
+            const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+            const downloadId = `metadata_archive_${Date.now()}`;
+            const ws = new WebSocket(`${wsProtocol}${window.location.host}/ws/download-progress?id=${downloadId}`);
+            
+            let wsConnected = false;
+            let actualDownloadId = downloadId; // Will be updated when WebSocket confirms the ID
+            
+            // Promise to wait for WebSocket connection and ID confirmation
+            const wsReady = new Promise((resolve) => {
+                ws.onopen = () => {
+                    wsConnected = true;
+                    console.log('Connected to metadata archive download progress WebSocket');
+                };
+                
+                ws.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    
+                    // Handle download ID confirmation
+                    if (data.type === 'download_id') {
+                        actualDownloadId = data.download_id;
+                        console.log(`Connected to metadata archive download progress with ID: ${data.download_id}`);
+                        resolve(data.download_id);
+                        return;
+                    }
+                    
+                    // Handle metadata archive download progress
+                    if (data.type === 'metadata_archive_download') {
+                        const message = data.message || '';
+                        
+                        // Update progress bar based on stage
+                        let progressPercent = 0;
+                        if (data.stage === 'download') {
+                            // Extract percentage from message if available
+                            const percentMatch = data.message.match(/(\d+\.?\d*)%/);
+                            if (percentMatch) {
+                                progressPercent = Math.min(parseFloat(percentMatch[1]), 90); // Cap at 90% for download
+                            } else {
+                                progressPercent = 0; // Default download progress
+                            }
+                        } else if (data.stage === 'extract') {
+                            progressPercent = 95; // Near completion for extraction
+                        }
+                        
+                        // Update loading manager progress
+                        progressUpdater.updateProgress(progressPercent, '', `${message}`);
+                    }
+                };
+                
+                ws.onerror = (error) => {
+                    console.error('WebSocket error:', error);
+                    resolve(downloadId); // Fallback to original ID
+                };
+                
+                // Timeout fallback
+                setTimeout(() => resolve(downloadId), 5000);
+            });
+            
+            ws.onclose = () => {
+                console.log('WebSocket connection closed');
+            };
+
+            // Wait for WebSocket to be ready
+            await wsReady;
+
+            const response = await fetch(`/api/lm/download-metadata-archive?download_id=${encodeURIComponent(actualDownloadId)}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            // Close WebSocket
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.close();
+            }
+
+            if (data.success) {
+                // Complete progress
+                await progressUpdater.complete(translate('settings.metadataArchive.downloadComplete'));
+                
+                showToast('settings.metadataArchive.downloadSuccess', 'success');
+                
+                // Update settings using universal save method
+                await this.saveSetting('enable_metadata_archive_db', true);
+                
+                // Update UI
+                const enableCheckbox = document.getElementById('enableMetadataArchive');
+                if (enableCheckbox) {
+                    enableCheckbox.checked = true;
+                }
+                
+                await this.updateMetadataArchiveStatus();
+            } else {
+                // Hide loading on error
+                state.loadingManager.hide();
+                showToast('settings.metadataArchive.downloadError' + ': ' + data.error, 'error');
+            }
+        } catch (error) {
+            console.error('Error downloading metadata archive:', error);
+            
+            // Hide loading on error
+            state.loadingManager.hide();
+
+            showToast('settings.metadataArchive.downloadError' + ': ' + error.message, 'error');
+        } finally {
+            const downloadBtn = document.getElementById('downloadMetadataArchiveBtn');
+            if (downloadBtn) {
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = translate('settings.metadataArchive.downloadButton');
+            }
+        }
+    }
+
+    async removeMetadataArchive() {
+        if (!confirm(translate('settings.metadataArchive.removeConfirm'))) {
+            return;
+        }
+
+        try {
+            const removeBtn = document.getElementById('removeMetadataArchiveBtn');
+            if (removeBtn) {
+                removeBtn.disabled = true;
+                removeBtn.textContent = translate('settings.metadataArchive.removingButton');
+            }
+
+            const response = await fetch('/api/lm/remove-metadata-archive', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showToast('settings.metadataArchive.removeSuccess', 'success');
+
+                // Update settings using universal save method
+                await this.saveSetting('enable_metadata_archive_db', false);
+                
+                // Update UI
+                const enableCheckbox = document.getElementById('enableMetadataArchive');
+                if (enableCheckbox) {
+                    enableCheckbox.checked = false;
+                }
+                
+                await this.updateMetadataArchiveStatus();
+            } else {
+                showToast('settings.metadataArchive.removeError' + ': ' + data.error, 'error');
+            }
+        } catch (error) {
+            console.error('Error removing metadata archive:', error);
+            showToast('settings.metadataArchive.removeError' + ': ' + error.message, 'error');
+        } finally {
+            const removeBtn = document.getElementById('removeMetadataArchiveBtn');
+            if (removeBtn) {
+                removeBtn.disabled = false;
+                removeBtn.textContent = translate('settings.metadataArchive.removeButton');
+            }
+        }
+    }
+    
+    async saveInputSetting(elementId, settingKey) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
+        const value = element.value.trim(); // Trim whitespace
+        
+        try {
+            // Check if value has changed from existing value
+            const currentValue = state.global.settings[settingKey] || '';
+            if (value === currentValue) {
+                return; // No change, exit early
+            }
+            
+            // For username and password, handle empty values specially
+            if ((settingKey === 'proxy_username' || settingKey === 'proxy_password') && value === '') {
+                // Remove from state instead of setting to empty string
+                delete state.global.settings[settingKey];
+                
+                // Send delete flag to backend
+                const payload = {};
+                payload[settingKey] = '__DELETE__';
+                
+                const response = await fetch('/api/lm/settings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete setting');
+                }
+            } else {
+                // Use the universal save method
+                await this.saveSetting(settingKey, value);
+            }
+            
+            showToast('toast.settings.settingsUpdated', { setting: settingKey.replace(/_/g, ' ') }, 'success');
+            
+        } catch (error) {
+            showToast('toast.settings.settingSaveFailed', { message: error.message }, 'error');
+        }
+    }
+
+    async saveLanguageSetting() {
+        const element = document.getElementById('languageSelect');
+        if (!element) return;
+        
+        const selectedLanguage = element.value;
+        
+        try {
+            // Use the universal save method for language (frontend-only setting)
+            await this.saveSetting('language', selectedLanguage);
+            
+            // Reload the page to apply the new language
+            window.location.reload();
+
+        } catch (error) {
+            showToast('toast.settings.languageChangeFailed', { message: error.message }, 'error');
+        }
+    }
+
+    toggleInputVisibility(button) {
+        const input = button.parentElement.querySelector('input');
+        const icon = button.querySelector('i');
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.className = 'fas fa-eye-slash';
+        } else {
+            input.type = 'password';
+            icon.className = 'fas fa-eye';
+        }
+    }
+
+    confirmClearCache() {
+        // Show confirmation modal
+        modalManager.showModal('clearCacheModal');
+    }
+
+    async reloadContent() {
+        if (this.currentPage === 'loras') {
+            // Reload the loras without updating folders
+            await resetAndReload(false);
+        } else if (this.currentPage === 'recipes') {
+            // Reload the recipes without updating folders
+            await window.recipeManager.loadRecipes();
+        } else if (this.currentPage === 'checkpoints') {
+            // Reload the checkpoints without updating folders
+            await resetAndReload(false);
+        } else if (this.currentPage === 'embeddings') {
+            // Reload the embeddings without updating folders
+            await resetAndReload(false);
+        }
+    }
+
+    applyFrontendSettings() {
+        // Apply autoplay setting to existing videos in card previews
+        const autoplayOnHover = state.global.settings.autoplayOnHover;
+        document.querySelectorAll('.card-preview video').forEach(video => {
+            // Remove previous event listeners by cloning and replacing the element
+            const videoParent = video.parentElement;
+            const videoClone = video.cloneNode(true);
+            
+            if (autoplayOnHover) {
+                // Pause video initially and set up mouse events for hover playback
+                videoClone.removeAttribute('autoplay');
+                videoClone.pause();
+                
+                // Add mouse events to the parent element
+                videoParent.onmouseenter = () => videoClone.play();
+                videoParent.onmouseleave = () => {
+                    videoClone.pause();
+                    videoClone.currentTime = 0;
+                };
+            } else {
+                // Use default autoplay behavior
+                videoClone.setAttribute('autoplay', '');
+                videoParent.onmouseenter = null;
+                videoParent.onmouseleave = null;
+            }
+            
+            videoParent.replaceChild(videoClone, video);
+        });
+        
+        // Apply display density class to grid
+        const grid = document.querySelector('.card-grid');
+        if (grid) {
+            const density = state.global.settings.displayDensity || 'default';
+            
+            // Remove all density classes first
+            grid.classList.remove('default-density', 'medium-density', 'compact-density');
+            
+            // Add the appropriate density class
+            grid.classList.add(`${density}-density`);
+        }
+        
+        // Apply card info display setting
+        const cardInfoDisplay = state.global.settings.cardInfoDisplay || 'always';
+        document.body.classList.toggle('hover-reveal', cardInfoDisplay === 'hover');
+    }
+}
+
+// Create singleton instance
+export const settingsManager = new SettingsManager();
