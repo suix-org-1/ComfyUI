@@ -38,8 +38,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-          git clone git@github.com:Comfy-Org/ComfyUI-Manager.git ./ComfyUI-Manager
-          cd ./ComfyUI-Manager && git checkout main || git checkout master
+          git clone git@github.com:Comfy-Org/ComfyUI-Manager.git /tmp/ComfyUI-Manager
 
           python -m venv venv
           source venv/bin/activate
