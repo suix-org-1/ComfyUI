@@ -1,0 +1,21 @@
+[project]
+name = "index-tts"
+description = "NODES: An industrial-grade zero-shot text-to-speech synthesis system with a ComfyUI interface."
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["torch>=1.12.0", "numpy>=1.20.0", "scipy>=1.7.0", "librosa>=0.8.0", "soundfile>=0.10.0", "PyYAML>=6.0", "pynini==2.1.5; platform_system!=\"Windows\"", "WeTextProcessing>=1.0.3; platform_system!=\"Windows\"", "modelscope"]
+
+[project.urls]
+Repository = "https://github.com/chenpipi0807/ComfyUI-Index-TTS"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+ # NOTE: Leaving PublisherId blank is fine for normal Git pushes.
+ # When you really want to publish to Comfy Registry, fill it with your real Publisher ID.
+ PublisherId = ""
+ # Machine name (slug). Optional but recommended by registry.
+ Name = "comfyui-index-tts"
+ # Human-readable display name.
+ DisplayName = "ComfyUI-Index-TTS"
+ # Icon can be a URL or a relative path in the repo. Placeholder keeps checks relaxed.
+ Icon = "assets/icon.png"
