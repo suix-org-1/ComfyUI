@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os
 import json
 import subprocess
@@ -5,10 +6,13 @@ import shutil
 import math
 from datetime import datetime
 
-# === 配置 ===
-GITHUB_STATS_FILE = "/Users/suixmeng/suix/suix-project/ComfyUI-Manager/github-stats.json"
-CUSTOM_NODES_DIR = "/Users/suixmeng/suix/suix-project/suix_comfyui/ComfyUI/custom_nodes"
-GIT_REPO_DIR = "/Users/suixmeng/suix/suix-project/suix_comfyui/ComfyUI"
+# === 配置（全部使用相对路径，适配 GitHub Actions）===
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+GITHUB_STATS_FILE = os.path.join(SCRIPT_DIR, "github-stats.json")
+CUSTOM_NODES_DIR = os.path.join(SCRIPT_DIR, "suix_comfyui", "ComfyUI", "custom_nodes")
+GIT_REPO_DIR = os.path.join(SCRIPT_DIR, "suix_comfyui", "ComfyUI")
+
+# 修复：统一去除空格，避免匹配失败
 SKIP_REPOS = {
     "https://github.com/comfyanonymous/ComfyUI",
     "https://github.com/AIDC-AI/ComfyUI-Copilot",
@@ -18,11 +22,12 @@ SKIP_REPOS = {
     "https://github.com/justUmen/Bjornulf_custom_nodes",
     "https://github.com/suix-org-1/ComfyUI",
 }
+
 DATE_SUFFIX = datetime.now().strftime("%Y%m%d")
 
 
 def convert_to_ssh_url(url):
-    """将 GitHub HTTPS URL 转换为 SSH URL"""
+    """将 GitHub HTTPS URL 转换为 SSH URL（修复原版空格 bug）"""
     url = url.strip()
     if url.startswith("https://github.com/"):
         path = url[len("https://github.com/"):].rstrip("/")
@@ -34,9 +39,10 @@ def convert_to_ssh_url(url):
 
 
 def should_skip_repo(url):
-    """判断是否应跳过该仓库"""
+    """判断是否应跳过该仓库（增强健壮性：strip + replace）"""
     clean_url = url.strip().rstrip("/").replace(".git", "")
-    return clean_url in SKIP_REPOS
+    # 对 SKIP_REPOS 也做 strip 处理，避免因空格导致漏匹配
+    return clean_url in {r.strip() for r in SKIP_REPOS}
 
 
 def extract_repo_info(url):
@@ -52,7 +58,7 @@ def extract_repo_info(url):
             parts = path.split("/")[:2]
             if len(parts) < 2:
                 raise ValueError("路径格式错误")
-            author, repo = parts[0].strip(), parts[1].strip()  # 👈 修复：去除空格
+            author, repo = parts[0].strip(), parts[1].strip()
             return author, repo
     except Exception:
         pass
@@ -165,21 +171,22 @@ def load_sorted_repos(json_path, top_n=100):
 
 def clone_repo(url, author, repo):
     """克隆仓库并清理 .git（修复路径空格，不使用标记文件）"""
-    # 👇 修复：清理空格，替换为下划线，避免路径歧义
+    # 修复：清理空格，替换为下划线，避免路径歧义
     author = author.strip().replace(" ", "_")
     repo = repo.strip().replace(" ", "_")
     folder_name = f"{author}_{repo}_{DATE_SUFFIX}"
     target_path = os.path.join(CUSTOM_NODES_DIR, folder_name)
 
     # 删除旧版本（不同日期）
-    for item in os.listdir(CUSTOM_NODES_DIR):
-        if item.startswith(f"{author}_{repo}_") and item != folder_name:
-            old_path = os.path.join(CUSTOM_NODES_DIR, item)
-            try:
-                shutil.rmtree(old_path)
-                print(f"🗑️  删除旧版本: {item}")
-            except Exception as e:
-                print(f"⚠️  删除旧版本失败: {item} - {e}")
+    if os.path.exists(CUSTOM_NODES_DIR):
+        for item in os.listdir(CUSTOM_NODES_DIR):
+            if item.startswith(f"{author}_{repo}_") and item != folder_name:
+                old_path = os.path.join(CUSTOM_NODES_DIR, item)
+                try:
+                    shutil.rmtree(old_path)
+                    print(f"🗑️  删除旧版本: {item}")
+                except Exception as e:
+                    print(f"⚠️  删除旧版本失败: {item} - {e}")
 
     # 👇 调试日志：打印实际检查的路径
     print(f"🔍 检查路径: {target_path}")
@@ -253,6 +260,9 @@ def git_commit_and_push(message):
 
 
 def main():
+    # 确保 custom_nodes 目录存在
+    os.makedirs(CUSTOM_NODES_DIR, exist_ok=True)
+
     repos = load_sorted_repos(GITHUB_STATS_FILE)
     cloned_count = 0
 
