@@ -1,9 +1,8 @@
 name: 同步ComfyUI自定义节点
 
-# 每小时跑一次
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 3 * * *'
   workflow_dispatch:
 
 # 授予 push 权限
